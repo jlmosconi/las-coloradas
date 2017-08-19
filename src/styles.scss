@@ -1,0 +1,18 @@
+$bg-color: #FAFAFA;
+$primary: #f44336;
+
+body, html {
+    background: $bg-color;
+}
+
+body {
+    padding-top: 4rem;
+
+    @media (max-width:600px) {
+        padding-top: 3.5rem;
+    }
+}
+
+* {
+    outline: none!important;
+}

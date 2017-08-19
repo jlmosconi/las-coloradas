@@ -19,7 +19,13 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles.css"
+        "assets/css/bootstrap-reboot.min.css",
+        "assets/css/bootstrap-grid.min.css",
+        "assets/css/bootstrap-flexbox.min.css",
+        "assets/css/bootstrap-utilities.min.css",
+        "assets/css/las-coloradas.scss",
+        "assets/css/swiper.min.css",
+        "styles.scss"
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",
