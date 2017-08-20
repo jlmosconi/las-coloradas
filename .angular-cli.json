@@ -19,12 +19,12 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "assets/css/bootstrap-reboot.min.css",
-        "assets/css/bootstrap-grid.min.css",
-        "assets/css/bootstrap-flexbox.min.css",
-        "assets/css/bootstrap-utilities.min.css",
-        "assets/css/las-coloradas.scss",
-        "assets/css/swiper.min.css",
+        "assets/styles/bootstrap-reboot.min.css",
+        "assets/styles/bootstrap-grid.min.css",
+        "assets/styles/bootstrap-flexbox.min.css",
+        "assets/styles/bootstrap-utilities.min.css",
+        "assets/styles/las-coloradas.scss",
+        "assets/styles/swiper.min.css",
         "styles.scss"
       ],
       "scripts": [],
