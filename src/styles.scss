@@ -1,5 +1,4 @@
-$bg-color: #FAFAFA;
-$primary: #f44336;
+@import './assets/css/_variables';
 
 body, html {
     background: $bg-color;

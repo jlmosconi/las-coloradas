@@ -9,6 +9,33 @@ import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
 				<div class="swiper-slide">
 					<app-product-card></app-product-card>
 				</div>
+				<div class="swiper-slide">
+				<app-product-card></app-product-card>
+			</div>
+			<div class="swiper-slide">
+			<app-product-card></app-product-card>
+		</div>
+		<div class="swiper-slide">
+		<app-product-card></app-product-card>
+	</div>
+	<div class="swiper-slide">
+	<app-product-card></app-product-card>
+</div>
+<div class="swiper-slide">
+<app-product-card></app-product-card>
+</div>
+<div class="swiper-slide">
+<app-product-card></app-product-card>
+</div>
+<div class="swiper-slide">
+<app-product-card></app-product-card>
+</div>
+<div class="swiper-slide">
+<app-product-card></app-product-card>
+</div>
+<div class="swiper-slide">
+<app-product-card></app-product-card>
+</div>
 			</div>
 			<!-- Controls -->
 			<div [hidden]="config.scrollbar != '.swiper-scrollbar'" class="swiper-scrollbar"></div>

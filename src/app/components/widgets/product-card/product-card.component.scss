@@ -1,3 +1,5 @@
+@import '../../../../assets/css/_variables';
+
 .product {
     overflow: hidden;
 
@@ -32,7 +34,7 @@
         .product-price {
             margin-bottom: .5rem;
             font-size: 25px;
-            color: #f44336;
+            color: $primary-color;
         }
 
         .product-name {
