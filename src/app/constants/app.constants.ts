@@ -1,0 +1,1 @@
+export const noImageProduct = 'https://firebasestorage.googleapis.com/v0/b/las-coloradas-f30ce.appspot.com/o/no-image.jpg?alt=media&token=e35c4952-7531-48ac-b51b-9ff62690b62c';
