@@ -19,7 +19,7 @@ import { noImageProduct } from "../../../constants/app.constants";
 				<div class="product-description mb-2">
 					<p>{{ product.description }}</p>
 				</div>
-				<div class="product-links py-3 d-flex justify-content-between">
+				<div class="product-links py-3">
 					<button md-raised-button color="accent" class="text-white">
 						Ver
 					</button>
