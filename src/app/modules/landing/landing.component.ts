@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
+import { Store } from '@ngrx/store';
+import { FirebaseListObservable } from 'angularfire2/database';
 import { ProductsQueries } from "../../services/products/queries";
+import { ActionTypes, GetHighlights } from "../../actions/products";
+import { onStateChangeObservable } from '../../utils/store';
 
 @Component({
 	selector: 'app-landing',
@@ -20,17 +23,18 @@ import { ProductsQueries } from "../../services/products/queries";
 
 	<div class="my-5">
 		<h2 class="page-heading">Destacados</h2>
-		<app-product-list [products]="list | async"></app-product-list>
+		<app-product-list [products]="list$ | async"></app-product-list>
 	</div>
 	`,
 	styleUrls: ['./landing.component.scss']
 })
 
 export class LandingContainerComponent implements OnInit {
-	list: FirebaseListObservable<any[]>;
-	constructor(private db: AngularFireDatabase, private productsQueries: ProductsQueries) {
-		this.list = productsQueries.getHighlightProducts();
-	}
+	list$: FirebaseListObservable<any[]>;
+	constructor(private store: Store<any>) {}
 
-	ngOnInit() { }
+	ngOnInit() {
+		this.store.dispatch(new GetHighlights({}));
+		this.list$ = onStateChangeObservable(this.store, 'products.highlights');
+	 }
 }

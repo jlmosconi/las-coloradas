@@ -4,7 +4,7 @@ import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
 @Component({
 	selector: 'app-product-list',
 	template: `
-		<div [swiper]="config" class="swiper-container" *ngIf="products">
+		<div [swiper]="config" class="swiper-container" *ngIf="products && products.length">
 			<div class="swiper-wrapper">
 				<div class="swiper-slide" *ngFor="let product of products">
 					<app-product-card [product]="product"></app-product-card>
@@ -18,7 +18,7 @@ import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
 			<div [hidden]="config.prevButton != '.swiper-button-prev'" class="swiper-button-prev"></div>
 		</div>
 
-		<div [swiper]="config" class="swiper-container" *ngIf="!products">
+		<div [swiper]="config" class="swiper-container" *ngIf="!products.length">
 			<div class="swiper-wrapper">
 				<div class="swiper-slide" *ngFor="let item of items">
 					<app-product-card-loader></app-product-card-loader>  
