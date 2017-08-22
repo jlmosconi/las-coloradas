@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { FirebaseListObservable } from 'angularfire2/database';
 import { ProductsQueries } from "../../services/products/queries";
-import { ActionTypes, GetHighlights } from "../../actions/products";
+import { GetHighlights } from "../../actions/products";
 import { onStateChangeObservable } from '../../utils/store';
 
 @Component({

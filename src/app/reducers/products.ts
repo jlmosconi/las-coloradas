@@ -19,11 +19,22 @@ reducers[ActionTypes.GET_HIGHLIGHTS_SUCCESS] = (state, payload) => {
   });
 };
 
-
 reducers[ActionTypes.GET_HIGHLIGHTS_FAILURE] = (state, payload) => {
   return Object.assign({}, state, {
     highlights: [],
     loading: false
+  });
+};
+
+reducers[ActionTypes.GET_DETAIL_SUCCESS] = (state, payload) => {
+  return Object.assign({}, state, {
+    selectedProduct: payload
+  });
+};
+
+reducers[ActionTypes.GET_DETAIL_FAILURE] = (state, payload) => {
+  return Object.assign({}, state, {
+    selectedProduct: {}
   });
 };
 

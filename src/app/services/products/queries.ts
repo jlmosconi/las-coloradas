@@ -6,11 +6,15 @@ export class ProductsQueries {
     constructor(private db: AngularFireDatabase) { }
 
     getHighlightProducts() {
-        return this.db.list('/products/published', {
-			query: {
-			  orderByChild: 'highlight',
-			  equalTo: true
-			}
-		  });
-    }
+			return this.db.list('/products/published', {
+				query: {
+					orderByChild: 'highlight',
+					equalTo: true
+				}
+			});
+		}
+		
+		getDetail(id) {
+			return this.db.object(`/products/published/${id}`)
+		}
 }
