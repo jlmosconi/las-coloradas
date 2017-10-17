@@ -3,7 +3,6 @@ import { ActivatedRoute , Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { GetDetail } from "../../actions/products";
-import { FirebaseListObservable } from 'angularfire2/database';
 import { onStateChangeObservable } from '../../utils/store';
 
 @Component({
@@ -17,7 +16,7 @@ import { onStateChangeObservable } from '../../utils/store';
 })
 
 export class ProductComponent implements OnInit {
-	product$: FirebaseListObservable<any[]>;
+	product$: Observable<any>;
 	constructor(
 		private router: Router,
 		private activatedRoute: ActivatedRoute,

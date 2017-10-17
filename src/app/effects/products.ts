@@ -25,28 +25,47 @@ export class ProductsEffects {
   @Effect()
   GetHighlights$: Observable<{}> = this.action$
     .ofType(ActionTypes.GET_HIGHLIGHTS)
-    .switchMap(() => {
-      return this.productsQueries.getHighlightProducts()
-        .map((result) => {
-          return new GetHighlightsSuccess(
-            result
-          );
-        })
-        .catch((err) => {
-          console.log(err);
-          return of({ type: ActionTypes.GET_HIGHLIGHTS_FAILURE, payload: err });
-        });
+    .switchMap(payload => {
+      return this.productsQueries.getHighlightProducts();
+    })
+    .map(result => {
+        return new GetHighlightsSuccess(result);
+    })
+    .catch(err => {
+      return of({ type: ActionTypes.GET_HIGHLIGHTS_FAILURE, payload: err });
     });
+    // .switchMap(() => {
+    //   return this.productsQueries.getHighlightProducts()
+    //     .map((result) => {
+    //       return new GetHighlightsSuccess(
+    //         result
+    //       );
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //       return of({ type: ActionTypes.GET_HIGHLIGHTS_FAILURE, payload: err });
+    //     });
+    // });
 
-    @Effect() GetProductDetail$: Observable<Action> = this.action$.ofType(ActionTypes.GET_DETAIL)
+  @Effect() GetProductDetail$: Observable<Action> = this.action$
+    .ofType(ActionTypes.GET_DETAIL)
     .map(toPayload)
-    .mergeMap(payload => {
-      return this.productsQueries.getDetail(payload)
-      .map((result) => {
-          return new GetDetailSuccess(
-            result
-          )
-        })
-        .catch(() => of({ type: ActionTypes.GET_DETAIL_FAILURE }))
+    .switchMap(payload => {
+      return this.productsQueries.getDetail(payload);
+    })
+    .map(result => {
+        return new GetDetailSuccess(result);
+    })
+    .catch(err => {
+      return of({ type: ActionTypes.GET_DETAIL_FAILURE });
     });
+    // .mergeMap(payload => {
+    //   return this.productsQueries.getDetail(payload)
+    //   .map((result) => {
+    //       return new GetDetailSuccess(
+    //         result
+    //       )
+    //     })
+    //     .catch(() => of({ type: ActionTypes.GET_DETAIL_FAILURE }))
+    // });
 }

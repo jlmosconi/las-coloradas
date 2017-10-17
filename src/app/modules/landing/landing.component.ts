@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { FirebaseListObservable } from 'angularfire2/database';
 import { ProductsQueries } from "../../services/products/queries";
 import { GetHighlights } from "../../actions/products";
+import { Observable } from 'rxjs/Observable';
 import { onStateChangeObservable } from '../../utils/store';
 
 @Component({
@@ -30,7 +30,7 @@ import { onStateChangeObservable } from '../../utils/store';
 })
 
 export class LandingContainerComponent implements OnInit {
-	list$: FirebaseListObservable<any[]>;
+	list$: Observable<any>;
 	constructor(private store: Store<any>) {}
 
 	ngOnInit() {

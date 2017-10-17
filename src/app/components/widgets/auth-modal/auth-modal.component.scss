@@ -1,0 +1,43 @@
+.modal-container {
+    padding: 0.875rem;
+    padding-top: 0;
+
+    .mat-button {
+        font-size: 1rem;
+        padding: 0.3125rem;
+        border: 2px solid transparent;
+    
+        &.btn-facebook {
+            color: white;
+            background: #4568b2;
+        }
+    
+        &.btn-google {
+            border-color: rgba(0,0,0,.67);
+        }
+    }
+
+    .or {
+        position: relative;
+        padding: 1rem;
+        color: rgba(0,0,0,.67);
+
+        &:before {
+            content: '';
+            position: absolute;
+            border-bottom: 1px solid #e4e4e4;
+            top: 50%;
+            right: 100%;
+            width: 5000px;
+        }
+
+        &:after {
+            content: '';
+            position: absolute;
+            border-bottom: 1px solid #e4e4e4;
+            top: 50%;
+            left: 100%;
+            width: 5000px;
+        }
+    }
+}

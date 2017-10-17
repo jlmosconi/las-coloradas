@@ -2,17 +2,17 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule }   from '@angular/router';
 import { ToolbarComponent } from './toolbar.component';
-import { MdToolbarModule, MdIconModule, MdMenuModule, MdButtonModule } from "@angular/material";
+import { MatToolbarModule, MatIconModule, MatMenuModule, MatButtonModule } from "@angular/material";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
     imports: [
         CommonModule,
         RouterModule,
-        MdToolbarModule,
-        MdIconModule,
-        MdMenuModule,
-        MdButtonModule,
+        MatToolbarModule,
+        MatIconModule,
+        MatMenuModule,
+        MatButtonModule,
         FormsModule,
         ReactiveFormsModule
     ],

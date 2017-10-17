@@ -20,11 +20,11 @@ import { noImageProduct } from "../../../constants/app.constants";
 					<p>{{ product.description }}</p>
 				</div>
 				<div class="product-links py-3 d-flex">
-					<button md-raised-button color="accent" class="text-white mr-1" [routerLink]="['/producto', product.id]">
+					<button mat-raised-button color="accent" class="text-white mr-1" [routerLink]="['/producto', product.id]">
 						Ver
 					</button>
 					
-					<button md-raised-button color="primary">
+					<button mat-raised-button color="primary">
 						Añadir al carrito
 					</button>
 				</div>

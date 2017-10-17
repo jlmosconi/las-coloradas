@@ -1,4 +1,4 @@
-<md-toolbar class="mat-elevation-z4 fixed-top">
+<mat-toolbar class="mat-elevation-z4 fixed-top">
     <div class="d-flex w-100 justify-content-between align-items-center">
         <div class="company-name"><span>LAS<span class="color ml-1">COLORADAS</span></span></div>
 
@@ -6,50 +6,50 @@
             <div>
                 <i class="material-icons searchBarSearchIcon noUserSelect">search</i>
                 <input type="text" name="header-search" value="" id="searchBarInput" placeholder="Buscar..." formControlName="search">
-                <button md-icon-button class="clearSearchBarField" (click)="clear();">
-                    <md-icon>clear</md-icon> 
+                <button mat-icon-button class="clearSearchBarField" (click)="clear();">
+                    <mat-icon>clear</mat-icon> 
                 </button>
             </div>
         </form>
 
         <span>
-            <button md-icon-button class="hidden-md-up" (click)="toggleSearchBar();">
-                <md-icon>search</md-icon>
+            <button mat-icon-button class="hidden-mat-up" (click)="toggleSearchBar();">
+                <mat-icon>search</mat-icon>
             </button>
-            <button md-icon-button [mdMenuTriggerFor]="menu" color="primary" class="mr-2">
-                <md-icon>shopping_cart</md-icon>
+            <button mat-icon-button [matMenuTriggerFor]="menu" color="primary" class="mr-2">
+                <mat-icon>shopping_cart</mat-icon>
             </button>
-            <md-menu #menu="mdMenu">
-                <button md-menu-item>
-                    <md-icon>dialpad</md-icon>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item>
+                    <mat-icon>dialpad</mat-icon>
                     <span>Redial</span>
                 </button>
-                <button md-menu-item disabled>
-                    <md-icon>voicemail</md-icon>
+                <button mat-menu-item disabled>
+                    <mat-icon>voicemail</mat-icon>
                     <span>Check voicemail</span>
                 </button>
-                <button md-menu-item>
-                    <md-icon>notifications_off</md-icon>
+                <button mat-menu-item>
+                    <mat-icon>notifications_off</mat-icon>
                     <span>Disable alerts</span>
                 </button>
-            </md-menu>
-            <button md-icon-button [mdMenuTriggerFor]="userMenu">
-                <img alt="User avatar" class="rounded-circle avatar-sm" [mdMenuTriggerFor]="userMenu" src="https://lh5.googleusercontent.com/-cSY3k8Emgds/AAAAAAAAAAI/AAAAAAAAABU/j5hcVTL-CfU/photo.jpg">
+            </mat-menu>
+            <button mat-icon-button [matMenuTriggerFor]="userMenu">
+                <img alt="User avatar" class="rounded-circle avatar-sm" [matMenuTriggerFor]="userMenu" src="https://lh5.googleusercontent.com/-cSY3k8Emgds/AAAAAAAAAAI/AAAAAAAAABU/j5hcVTL-CfU/photo.jpg">
             </button>
-            <md-menu #userMenu="mdMenu">
-                <button md-menu-item>
-                    <md-icon>dialpad</md-icon>
+            <mat-menu #userMenu="matMenu">
+                <button mat-menu-item>
+                    <mat-icon>dialpad</mat-icon>
                     <span>Redial</span>
                 </button>
-                <button md-menu-item disabled>
-                    <md-icon>voicemail</md-icon>
+                <button mat-menu-item disabled>
+                    <mat-icon>voicemail</mat-icon>
                     <span>Check voicemail</span>
                 </button>
-                <button md-menu-item>
-                    <md-icon>notifications_off</md-icon>
+                <button mat-menu-item>
+                    <mat-icon>notifications_off</mat-icon>
                     <span>Disable alerts</span>
                 </button>
-            </md-menu>
+            </mat-menu>
         </span>
     </div>
-</md-toolbar>
+</mat-toolbar>
