@@ -6,16 +6,16 @@ export class ProductsQueries {
     constructor(private db: AngularFireDatabase) { }
 
     getHighlightProducts() {
-		// return this.db.list('/products/published', {
-		// 	query: {
-		// 		orderByChild: 'highlight',
-		// 		equalTo: true
-		// 	}
-		// });
+		return this.db.list('/products/published', ref => ref.orderByChild('highlight').equalTo(true)).snapshotChanges().map(products => {
+			let productsArr = [];
 
-		return this.db.list('/products/published', ref => ref.orderByChild('highlight').equalTo(true)).snapshotChanges().map(test => {
-			console.warn(test);
-			return test
+			products.map(product => {
+				let $key = product.payload.key;
+				let data = { $key, ...product.payload.val() };
+				productsArr.push(data);
+			})
+			
+			return productsArr;
 		})
 	}
 		

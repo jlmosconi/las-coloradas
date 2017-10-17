@@ -1,12 +1,23 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { noImageProduct } from "../../../constants/app.constants";
+// import { noImageProduct } from "../../../constants/app.constants";
 
 @Component({
 	selector: 'app-product-card',
 	template: 
 	`
-		<div class="product w-100">
-			<a [routerLink]="['/producto', product.id]" class="product-img">
+		<article class="product w-100">
+			<div class="product-img">
+				<img [src]="product.photoUrl" [alt]="product.title" *ngIf="product.photoUrl">
+				<!--<app-no-image type="product" *ngIf="!product.photoUrl"></app-no-image>-->
+				<div class="favorite d-flex align-items-center">
+					<span class="heart" aria-hidden="true"><mat-icon>favorite_border</mat-icon></span>
+				</div>
+				<div class="mepo"></div>
+				<a [routerLink]="['/producto', product.id]" title="{{ product.title }}">
+					<div class="see"></div>
+				</a>
+			</div>
+			<!--<a [routerLink]="['/producto', product.id]" class="product-img">
 				<div class="img" [ngStyle]="{'background-image': 'url(' + photo + ')'}"></div>
 			</a>
 			<div class="product-info">
@@ -28,20 +39,20 @@ import { noImageProduct } from "../../../constants/app.constants";
 						Añadir al carrito
 					</button>
 				</div>
-			</div>
-		</div>	
+			</div>-->
+		</article>	
 	`,
 	styleUrls: ['./product-card.component.scss']
 })
 
 export class ProductCardComponent implements OnInit {
 	@Input() product;
-	private noImageProduct = noImageProduct;
+	// private noImageProduct = noImageProduct;
 	constructor() { }
 
 	ngOnInit() { }
 
-	get photo() {
-		return this.product && this.product.photoUrl ? this.product.photoUrl : noImageProduct;
-	}
+	// get photo() {
+	// 	return this.product && this.product.photoUrl ? this.product.photoUrl : noImageProduct;
+	// }
 }

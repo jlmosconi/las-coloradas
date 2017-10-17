@@ -34,18 +34,6 @@ export class ProductsEffects {
     .catch(err => {
       return of({ type: ActionTypes.GET_HIGHLIGHTS_FAILURE, payload: err });
     });
-    // .switchMap(() => {
-    //   return this.productsQueries.getHighlightProducts()
-    //     .map((result) => {
-    //       return new GetHighlightsSuccess(
-    //         result
-    //       );
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //       return of({ type: ActionTypes.GET_HIGHLIGHTS_FAILURE, payload: err });
-    //     });
-    // });
 
   @Effect() GetProductDetail$: Observable<Action> = this.action$
     .ofType(ActionTypes.GET_DETAIL)
@@ -59,13 +47,4 @@ export class ProductsEffects {
     .catch(err => {
       return of({ type: ActionTypes.GET_DETAIL_FAILURE });
     });
-    // .mergeMap(payload => {
-    //   return this.productsQueries.getDetail(payload)
-    //   .map((result) => {
-    //       return new GetDetailSuccess(
-    //         result
-    //       )
-    //     })
-    //     .catch(() => of({ type: ActionTypes.GET_DETAIL_FAILURE }))
-    // });
 }
