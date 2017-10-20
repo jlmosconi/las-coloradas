@@ -2,13 +2,13 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LandingContainerComponent } from './landing.component';
 import { routing } from './landing.routes';
-import { ProductListModule } from "../../components/products/product-list/product-list.module";
+import { ProductCarouselModule } from "../../components/products/product-carousel/product-carousel.module";
 
 @NgModule({
   imports: [
     CommonModule,
     routing,
-    ProductListModule
+    ProductCarouselModule
   ],
   declarations: [
     LandingContainerComponent

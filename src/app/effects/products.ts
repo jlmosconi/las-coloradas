@@ -3,6 +3,7 @@ import { Action } from '@ngrx/store';
 import { Actions, Effect, toPayload } from '@ngrx/effects';
 import {
   ActionTypes, GetHighlights, GetHighlightsFailure, GetHighlightsSuccess,
+  GetLatest, GetLatestFailure, GetLatestSuccess,
   GetDetail, GetDetailFailure, GetDetailSuccess
 } from '../actions/products';
 import { ProductsQueries } from '../services/products/queries';
@@ -22,8 +23,7 @@ export class ProductsEffects {
     private productsQueries: ProductsQueries
   ) {}
 
-  @Effect()
-  GetHighlights$: Observable<{}> = this.action$
+  @Effect() GetHighlights$: Observable<{}> = this.action$
     .ofType(ActionTypes.GET_HIGHLIGHTS)
     .switchMap(payload => {
       return this.productsQueries.getHighlightProducts();
@@ -33,6 +33,18 @@ export class ProductsEffects {
     })
     .catch(err => {
       return of({ type: ActionTypes.GET_HIGHLIGHTS_FAILURE, payload: err });
+    });
+
+  @Effect() GetLatest$: Observable<{}> = this.action$
+    .ofType(ActionTypes.GET_LATEST)
+    .switchMap(payload => {
+      return this.productsQueries.getLatestProducts();
+    })
+    .map(result => {
+        return new GetLatestSuccess(result);
+    })
+    .catch(err => {
+      return of({ type: ActionTypes.GET_LATEST_FAILURE, payload: err });
     });
 
   @Effect() GetProductDetail$: Observable<Action> = this.action$

@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-// import { noImageProduct } from "../../../constants/app.constants";
 
 @Component({
 	selector: 'app-product-card',
@@ -9,17 +8,16 @@ import { Component, OnInit, Input } from '@angular/core';
 			<div class="product-img">
 				<img [src]="product.photoUrl" [alt]="product.title" *ngIf="product.photoUrl">
 				<!--<app-no-image type="product" *ngIf="!product.photoUrl"></app-no-image>-->
-				<div class="favorite d-flex align-items-center">
-					<span class="heart" aria-hidden="true"><mat-icon>favorite_border</mat-icon></span>
+				<div class="favorite d-flex">
+					<button mat-mini-fab color="primary" class="d-flex align-items-center justify-content-center">
+						<mat-icon class="d-flex align-items-center justify-content-center">favorite_border</mat-icon>
+					</button>
 				</div>
-				<div class="mepo"></div>
+
 				<a [routerLink]="['/producto', product.id]" title="{{ product.title }}">
 					<div class="see"></div>
 				</a>
 			</div>
-			<!--<a [routerLink]="['/producto', product.id]" class="product-img">
-				<div class="img" [ngStyle]="{'background-image': 'url(' + photo + ')'}"></div>
-			</a>
 			<div class="product-info">
 				<div class="product-price">
 					<span class="money">$ {{ product.cost }}</span>
@@ -27,10 +25,10 @@ import { Component, OnInit, Input } from '@angular/core';
 				<div class="product-name">
 					<a [routerLink]="['/producto', product.id]" title="{{ product.title }}">{{ product.title }}</a>
 				</div>
-				<div class="product-description mb-2">
+				<div class="product-description mb-4">
 					<p>{{ product.description }}</p>
 				</div>
-				<div class="product-links py-3 d-flex">
+				<div class="product-links pb-3 d-flex">
 					<button mat-raised-button color="accent" class="text-white mr-1" [routerLink]="['/producto', product.id]">
 						Ver
 					</button>
@@ -39,7 +37,7 @@ import { Component, OnInit, Input } from '@angular/core';
 						Añadir al carrito
 					</button>
 				</div>
-			</div>-->
+			</div>
 		</article>	
 	`,
 	styleUrls: ['./product-card.component.scss']
@@ -47,12 +45,7 @@ import { Component, OnInit, Input } from '@angular/core';
 
 export class ProductCardComponent implements OnInit {
 	@Input() product;
-	// private noImageProduct = noImageProduct;
 	constructor() { }
 
 	ngOnInit() { }
-
-	// get photo() {
-	// 	return this.product && this.product.photoUrl ? this.product.photoUrl : noImageProduct;
-	// }
 }

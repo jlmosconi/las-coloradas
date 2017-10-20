@@ -6,20 +6,30 @@ export class ProductsQueries {
     constructor(private db: AngularFireDatabase) { }
 
     getHighlightProducts() {
-		return this.db.list('/products/published', ref => ref.orderByChild('highlight').equalTo(true)).snapshotChanges().map(products => {
-			let productsArr = [];
+		return this.db.list('/products/published', ref => ref.orderByChild('highlight').equalTo(true).limitToLast(12)).snapshotChanges().map(products => {
+			return this.processSnapshots(products).reverse();
+		})
+	}
 
-			products.map(product => {
-				let $key = product.payload.key;
-				let data = { $key, ...product.payload.val() };
-				productsArr.push(data);
-			})
-			
-			return productsArr;
+    getLatestProducts() {
+		return this.db.list('/products/published', ref => ref.limitToLast(12)).snapshotChanges().map(products => {
+			return this.processSnapshots(products).reverse();
 		})
 	}
 		
 	getDetail(id) {
 		return this.db.object(`/products/published/${id}`).valueChanges();
+	}
+
+	processSnapshots(snapshots) {
+		let snapshostArr = [];
+		
+		snapshots.map(snapshot => {
+			let $key = snapshot.payload.key;
+			let data = { $key, ...snapshot.payload.val() };
+			snapshostArr.push(data);
+		})
+					
+		return snapshostArr;
 	}
 }
