@@ -1,0 +1,55 @@
+@import '../../../../assets/styles/_variables';
+
+.header {
+    min-height: 4rem;
+    position: fixed;
+    //background: #fff;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+    top: 0;
+    right: 0;
+    left: 0;
+    padding: 0 16px;
+    z-index: 1000;
+    -webkit-transform: translate3d(0, 0, 0);
+    -o-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+
+    @media (max-width:600px) {
+        min-height: 3.5rem;
+    }
+
+    .company-name {
+        color: $primary-color;
+        text-transform: uppercase;
+        //letter-spacing: 0.125rem;
+        font: 500 18px/30px Roboto, "Helvetica Neue", sans-serif;
+
+        @media (max-width:600px) {
+            letter-spacing: 0px;
+        }
+    }
+}
+
+.swiper-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 4rem;
+
+    @media (max-width:600px) {
+        top: 3.5rem;
+    }
+
+    .swiper-slide {
+        height: auto;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+    &:hover {
+        .swiper-scrollbar {
+            opacity: 1!important;
+        }
+    }
+}

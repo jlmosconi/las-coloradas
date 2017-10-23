@@ -1,13 +1,65 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
+import { MatSidenav } from '@angular/material';
+import { Observable } from 'rxjs/Observable';
+import { onStateChangeObservable } from './utils/store';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-root',
   template: `
-    <app-toolbar></app-toolbar>
-    <router-outlet></router-outlet>
-    <app-footer></app-footer>
+    <app-toolbar (openSidenav)="openSidenav();" (logOut)="logOut();" [user]="user$ | async"></app-toolbar>
+    <mat-sidenav-container>
+      <mat-sidenav #sidenav mode="over">
+        <app-sidenav (closeSidenav)="closeSidenav();" [genres]="genres$ | async"></app-sidenav>
+      </mat-sidenav>
+    </mat-sidenav-container>
+    <div>
+        <router-outlet></router-outlet>
+        <app-footer></app-footer>
+    </div>
   `
 })
 export class AppComponent {
-  title = 'app';
+  @ViewChild('sidenav') sidenav: MatSidenav;
+  user$: Observable<any>;
+
+  constructor(
+    private router: Router, 
+    private store: Store<any>
+  ) {
+    this.router.events.subscribe((evt) => {
+      if (!(evt instanceof NavigationEnd)) {
+          return;
+      }
+
+      window.scrollTo(0, 0);
+      if(this.sidenav.opened) this.closeSidenav();
+    });
+
+    this.user$ = onStateChangeObservable(store, 'user.userData');
+  }
+
+  openSidenav() {
+    this.sidenav.open();
+  }
+
+  closeSidenav() {
+    this.sidenav.close();
+  }
+
+  logOut() {
+    //this.store.dispatch(new Logout());
+  }
+
+  ngOnInit() {
+    let html = document.getElementsByTagName("html")[0];
+    this.sidenav.onOpen.subscribe(_ => {
+      document.body.classList.add("o-hidden");
+    })
+
+    this.sidenav.onClose.subscribe(_ => {
+      document.body.classList.remove("o-hidden");
+    })
+  }
 }

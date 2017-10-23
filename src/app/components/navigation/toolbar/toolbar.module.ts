@@ -4,6 +4,7 @@ import { RouterModule }   from '@angular/router';
 import { ToolbarComponent } from './toolbar.component';
 import { MatToolbarModule, MatIconModule, MatMenuModule, MatButtonModule } from "@angular/material";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { LogoModule } from "../../widgets/logo/logo.module";
 
 @NgModule({
     imports: [
@@ -14,7 +15,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
         MatMenuModule,
         MatButtonModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        LogoModule
     ],
     declarations: [
         ToolbarComponent

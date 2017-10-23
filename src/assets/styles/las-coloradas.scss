@@ -18,6 +18,53 @@ $candy-app-warn:    mat-palette($mat-red);
 // Create the theme object (a Sass map containing all of the palettes).
 $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-app-warn);
 
+@mixin mat-sidenav-theme($theme) {
+    .mat-sidenav-container {
+        position: fixed!important;
+        z-index: 1000!important;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        visibility: hidden;
+        
+        .mat-sidenav {
+            width: 240px;
+            background-color: #fbfbfb;
+            overflow: hidden;
+
+            .mat-subheader {
+                padding: 1rem 1rem 0px 1rem;
+                height: auto;
+            }
+        
+            .mat-list, .mat-nav-list {
+                padding-bottom: .5rem;
+            }
+        
+            .mat-divider {
+                //border-top-color: hsla(0, 100%, 100%, .08);
+            }
+        
+            .mat-list .mat-subheader, .mat-nav-list .mat-subheader {
+                //color: hsla(0, 0%, 100%, .6)
+            }
+        
+            .mat-list .mat-list-item, .mat-nav-list .mat-list-item {
+                font-size: 0.875rem;
+            }
+        
+            .mat-nav-list .mat-list-item:hover, .mat-nav-list .mat-list-item.mat-list-item-focus {
+                //background: rgba(25, 25, 25, 0.88);
+            }
+        }
+
+        .mat-drawer-backdrop.mat-drawer-shown {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+    }
+}
+
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.

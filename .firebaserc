@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "las-coloradas-f30ce"
+    "default": "las-coloradas-f30ce",
+    "development": "las-coloradas-development"
   }
 }

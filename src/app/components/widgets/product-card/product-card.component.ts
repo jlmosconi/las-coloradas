@@ -9,9 +9,7 @@ import { Component, OnInit, Input } from '@angular/core';
 				<img [src]="product.photoUrl" [alt]="product.title" *ngIf="product.photoUrl">
 				<!--<app-no-image type="product" *ngIf="!product.photoUrl"></app-no-image>-->
 				<div class="favorite d-flex">
-					<button mat-mini-fab color="primary" class="d-flex align-items-center justify-content-center">
-						<mat-icon class="d-flex align-items-center justify-content-center">favorite_border</mat-icon>
-					</button>
+					<app-favorite-button [id]="product.id"></app-favorite-button>
 				</div>
 
 				<a [routerLink]="['/producto', product.id]" title="{{ product.title }}">

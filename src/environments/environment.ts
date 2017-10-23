@@ -6,11 +6,11 @@
 export const environment = {
   production: false,
     firebase: {
-      apiKey: "AIzaSyCx33xtruxi5clc_ETLdJLUrJEVmkgh5VM",
-      authDomain: "las-coloradas-f30ce.firebaseapp.com",
-      databaseURL: "https://las-coloradas-f30ce.firebaseio.com",
-      projectId: "las-coloradas-f30ce",
-      storageBucket: "las-coloradas-f30ce.appspot.com",
-      messagingSenderId: "47731001570"
+      apiKey: "AIzaSyBm0-rrjHY3_B1aFQzMvntBSmO15S9ebdw",
+      authDomain: "las-coloradas-development.firebaseapp.com",
+      databaseURL: "https://las-coloradas-development.firebaseio.com",
+      projectId: "las-coloradas-development",
+      storageBucket: "las-coloradas-development.appspot.com",
+      messagingSenderId: "70963654048"
     }
 };

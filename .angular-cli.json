@@ -23,8 +23,8 @@
         "assets/styles/bootstrap-grid.min.css",
         "assets/styles/bootstrap-flexbox.min.css",
         "assets/styles/bootstrap-utilities.min.css",
-        "assets/styles/las-coloradas.scss",
         "assets/styles/swiper.min.css",
+        "assets/styles/las-coloradas.scss",
         "styles.scss"
       ],
       "scripts": [],
