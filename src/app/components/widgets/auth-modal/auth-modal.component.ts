@@ -35,15 +35,17 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 			<div>
 				<form novalidate [formGroup]="auth" (ngSubmit)="dialogRef.close(loginWithEmail());">
+
+				
 					<mat-form-field class="w-100">
-						<input type="email" mdInput placeholder="Direacción de correo electrónico" formControlName="email">
-						<mat-icon mdSuffix>mail_outline</mat-icon>
+						<input matInput type="email" mdInput placeholder="Direacción de correo electrónico" formControlName="email">
+						<mat-icon matSuffix>mail_outline</mat-icon>
 						<mat-error *ngIf="auth.controls.email.invalid">{{getEmailErrorMessage()}}</mat-error>
 					</mat-form-field>
 
 					<mat-form-field class="w-100">
-						<input type="password" mdInput placeholder="Constraseña" formControlName="password">
-						<mat-icon mdSuffix>lock_outline</mat-icon>
+						<input matInput type="password" mdInput placeholder="Constraseña" formControlName="password">
+						<mat-icon matSuffix>lock_outline</mat-icon>
 						<mat-error *ngIf="auth.controls.password.invalid">{{getPasswordErrorMessage()}}</mat-error>
 					</mat-form-field>
 
@@ -59,13 +61,13 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 			<mat-form-field class="w-100">
 				<input type="email" mdInput placeholder="Direacción de correo electrónico" formControlName="email">
-				<mat-icon mdSuffix>mail_outline</mat-icon>
+				<mat-icon matSuffix>mail_outline</mat-icon>
 				<mat-error *ngIf="auth.controls.email.invalid">{{getEmailErrorMessage()}}</mat-error>
 			</mat-form-field>
 
 			<mat-form-field class="w-100">
 				<input type="password" mdInput placeholder="Constraseña" formControlName="password">
-				<mat-icon mdSuffix>lock_outline</mat-icon>
+				<mat-icon matSuffix>lock_outline</mat-icon>
 				<mat-error *ngIf="auth.controls.password.invalid">{{getPasswordErrorMessage()}}</mat-error>
 			</mat-form-field>
 

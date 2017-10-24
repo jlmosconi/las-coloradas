@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { MatSidenav } from '@angular/material';
+import { GetUser, Logout } from "./actions/user";
 import { Observable } from 'rxjs/Observable';
 import { onStateChangeObservable } from './utils/store';
 import { Store } from '@ngrx/store';
@@ -35,6 +36,7 @@ export class AppComponent {
 
       window.scrollTo(0, 0);
       if(this.sidenav.opened) this.closeSidenav();
+      store.dispatch(new GetUser());
     });
 
     this.user$ = onStateChangeObservable(store, 'user.userData');
@@ -49,7 +51,7 @@ export class AppComponent {
   }
 
   logOut() {
-    //this.store.dispatch(new Logout());
+    this.store.dispatch(new Logout());
   }
 
   ngOnInit() {

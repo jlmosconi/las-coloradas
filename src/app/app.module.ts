@@ -20,7 +20,10 @@ import { AuthModalModule } from './components/widgets/auth-modal/auth-modal.modu
 import { services as SERVICES } from './services';
 import { navigation as NAVIGATION } from "./components/navigation/";
 
+import { LayoutEffects } from "./effects/layout";
 import { ProductsEffects } from "./effects/products";
+import { UserEffects } from "./effects/user";
+
 import { MatSidenavModule } from "@angular/material";
 
 import 'hammerjs';
@@ -42,7 +45,9 @@ import 'hammerjs';
       maxAge: 5
     }),
     EffectsModule.forRoot([
-      ProductsEffects
+      LayoutEffects,
+      ProductsEffects,
+      UserEffects
     ]),
     MatSidenavModule,
     AuthModalModule,

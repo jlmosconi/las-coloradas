@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { ISubscription } from "rxjs/Subscription";
 import { onStateChangeObservable } from '../../../utils/store';
-// import { OpenLogin } from '../../../actions/layout';
+import { OpenLogin } from '../../../actions/layout';
 // import { QuickSearchMovies, ClearQuickSearchMovies } from "../../../actions/movies";
 
 @Component({
@@ -55,7 +55,7 @@ export class ToolbarComponent implements OnInit {
 	}
 
 	openLogin() {
-		//this.store.dispatch(new OpenLogin({type: 'login'}));
+		this.store.dispatch(new OpenLogin({type: 'login'}));
 	}
 
 	logout() {
