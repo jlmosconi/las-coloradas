@@ -2,44 +2,24 @@
     <div class="d-flex w-100 h-100 justify-content-between align-items-center">
         <!-- <div class="company-name"><span>LAS<span class="color ml-1">COLORADAS</span></span></div> -->
         <span class="d-flex align-items-center">
-            <button mat-icon-button color="accent" class="mr-md-3 mr-2" (click)="openSideNav()">
+            <button mat-icon-button color="accent" class="mr-mat-3 mr-2" (click)="openSideNav()">
                 <mat-icon>menu</mat-icon>
             </button>
         
             <app-logo class="d-flex h-100 align-items-center"></app-logo>
         </span>
 
-        <form novalidate [formGroup]="searchForm" class="searchBarMain hidden-sm-down" id="searchBar">
-            <div>
-                <i class="material-icons searchBarSearchIcon noUserSelect">search</i>
-                <input type="text" name="header-search" value="" id="searchBarInput" placeholder="Buscar..." formControlName="search">
-                <button mat-icon-button class="clearSearchBarField" (click)="clear();">
-                    <mat-icon>clear</mat-icon> 
-                </button>
-            </div>
-        </form>
+        <div class="search-bar-content">
+            <app-search-bar [parent]="searchForm" (search)="goToSearch($event)" (clear)="clear();" [setFull]="setFull" [searchResult]="[]" [loading]="quickSearchLoading$ | async"></app-search-bar>
+        </div>
 
-        <span>
-            <button mat-icon-button class="hidden-mat-up" (click)="toggleSearchBar();">
+        <!--<span>
+            <button mat-icon-button class="hidden-mat-up">
                 <mat-icon>search</mat-icon>
             </button>
-            <button mat-icon-button [matMenuTriggerFor]="menu" color="primary" class="mr-2">
+            <button mat-icon-button color="primary" class="mr-2">
                 <mat-icon>shopping_cart</mat-icon>
             </button>
-            <mat-menu #menu="matMenu">
-                <button mat-menu-item>
-                    <mat-icon>dialpad</mat-icon>
-                    <span>Redial</span>
-                </button>
-                <button mat-menu-item disabled>
-                    <mat-icon>voicemail</mat-icon>
-                    <span>Check voicemail</span>
-                </button>
-                <button mat-menu-item>
-                    <mat-icon>notifications_off</mat-icon>
-                    <span>Disable alerts</span>
-                </button>
-            </mat-menu>
             <button mat-icon-button [matMenuTriggerFor]="userMenu">
                 <img alt="User avatar" class="rounded-circle avatar-sm" [matMenuTriggerFor]="userMenu" src="https://lh5.googleusercontent.com/-cSY3k8Emgds/AAAAAAAAAAI/AAAAAAAAABU/j5hcVTL-CfU/photo.jpg">
             </button>
@@ -57,6 +37,28 @@
                     <span>Disable alerts</span>
                 </button>
             </mat-menu>
-        </span>
+        </span>-->
+            <span class="d-flex align-items-center">
+                <button mat-icon-button color="accent" class="hidden-md-up" (click)="setFullSearchBar()">
+                    <mat-icon>search</mat-icon>
+                </button>
+                <button mat-icon-button color="primary" class="mr-2">
+                    <mat-icon>shopping_cart</mat-icon>
+                </button>
+                <div *ngIf="user">
+                    <button mat-icon-button [matMenuTriggerFor]="menu" class="user-avatar">
+                        <img alt="User avatar" class="rounded-circle avatar-sm" [src]="user.photoURL" *ngIf="user.photoURL">
+                        <!--<app-no-image type="person" class="rounded-circle avatar-sm o-hidden" *ngIf="!user.photoURL"></app-no-image>-->
+                    </button>
+                    <mat-menu #menu="matMenu">
+                        <button mat-menu-item (click)="logout();">
+                            <mat-icon>highlight_off</mat-icon>
+                            <span>Salir</span>
+                        </button>
+                    </mat-menu>
+                </div>
+    
+                <button type="button" mat-button color="accent" class="text-uppercase color" (click)="openLogin()" *ngIf="!user">Acceder</button>
+            </span>
     </div>
 </mat-toolbar>

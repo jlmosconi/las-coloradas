@@ -11,7 +11,7 @@ import { Store } from '@ngrx/store';
     <app-toolbar (openSidenav)="openSidenav();" (logOut)="logOut();" [user]="user$ | async"></app-toolbar>
     <mat-sidenav-container>
       <mat-sidenav #sidenav mode="over">
-        <app-sidenav (closeSidenav)="closeSidenav();" [genres]="genres$ | async"></app-sidenav>
+        <app-sidenav (closeSidenav)="closeSidenav();"></app-sidenav>
       </mat-sidenav>
     </mat-sidenav-container>
     <div>

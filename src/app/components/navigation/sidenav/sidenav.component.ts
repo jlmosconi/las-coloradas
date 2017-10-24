@@ -23,12 +23,29 @@ import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
 								<mat-icon mat-list-icon color="accent">home</mat-icon> 
 								<h4 mat-line>Inicio</h4>
 							</mat-list-item>
+
+							<mat-list-item routerLink="/">
+								<mat-icon mat-list-icon color="accent">help</mat-icon> 
+								<h4 mat-line>Quienes somos</h4>
+							</mat-list-item>
+
+							<mat-list-item routerLink="/">
+								<mat-icon mat-list-icon color="accent">contact_phone</mat-icon> 
+								<h4 mat-line>Contacto</h4>
+							</mat-list-item>
+						</mat-nav-list>
+
+						<mat-divider></mat-divider>
+						
+						<mat-nav-list>
 							<mat-list-item routerLink="/">
 								<mat-icon mat-list-icon color="accent">favorite</mat-icon> 
 								<h4 mat-line>Favoritos</h4>
 							</mat-list-item>
 						</mat-nav-list>
+
 						<mat-divider></mat-divider>
+
 						<mat-list>
 							<h3 mat-subheader class="text-uppercase">CATEGORÍAS</h3>
 							<mat-nav-list>

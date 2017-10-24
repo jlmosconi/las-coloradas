@@ -1,0 +1,110 @@
+.searchBarMain {
+    position: relative;
+	background: #EFEFEF;
+	height: 2.625rem;
+	border-radius: 2px;
+	-webkit-transition: all 0.2s ease-in-out;
+	-moz-transition: all 0.2s ease-in-out;
+	-ms-transition: all 0.2s ease-in-out;
+	-o-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
+
+    @media (max-width:767px) {
+        position: absolute;
+        top: -4rem;
+        right: 0;
+        width: 100%;
+        height: 4rem;
+        background: #fff;
+        visibility: hidden;
+        opacity: 0;
+        border-radius: 0;
+        z-index: 9999;
+    }
+
+    @media (max-width:600px) {
+        height: 3.5rem;
+    }
+
+    &.suggestions-show {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    &.full {
+        top: 0;        
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .searchBarSearchIcon {
+        color: #999;
+    }
+
+    input#searchBarInput {
+        height: 2.625rem;
+        padding: 0;
+        margin: 0;
+        border: 0;
+        background: transparent;
+        width: calc(100% - 52px);
+        padding-right: 2rem;
+        font-size: 1rem;
+        color: #666666;
+   }
+
+    .mat-spinner {
+        height: 24px;
+        width: 24px;
+    }
+
+    .suggestions {
+        position: absolute;
+        background-color: rgba(250, 250, 250, 0.99);
+        line-height: 2rem;
+        box-shadow: rgba(0,0,0,0.8) 0 4px 14px 0;
+        overflow: hidden;
+        padding: 0px;
+        z-index: 99999;
+        border-radius: 0 0 2px 2px;
+        font-size: 13px;
+        visibility: visible;
+        opacity: 1;
+        transition: opacity .1s linear;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        overflow-y: auto;
+
+        @media (max-width:767px) {
+            max-height: calc(100vh - 4rem);
+        }
+
+        @media (max-width:600px) {
+            max-height: calc(100vh - 3.5rem);
+        }
+
+        &.suggestions-hidde {
+            visibility: hidden;
+            opacity: 0;
+        }
+
+        ul {
+            margin: 0;
+            padding: .5rem 0;
+            list-style: none;
+
+            li {
+                padding: .5rem 1rem;
+
+                &:hover {
+                    background-color: rgba(25, 25, 25, .8);
+                }
+
+                &:last-child {
+                    margin-bottom: 0;
+                }
+            }
+            
+        }
+    }
+}

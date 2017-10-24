@@ -5,25 +5,23 @@
     position: relative;
 
     .letter {
-        width: 42px;
-        height: 42px;
+        width: 34px;
+        height: 34px;
         display: inline-block;
         position: relative;
     }
 
     .l {
         display: block;
-        height: 42px;
+        height: 34px;
 
         &:after {
-            height: 42px;
-            width: 50px;
             position: absolute;
             content: "";
             left: 0;
             background-color: rgba($accent-color, 0.5);
-            height: 42px;
-            width: 21px;
+            height: 34px;
+            width: 17px;
         }
 
         &:before {
@@ -31,21 +29,21 @@
             content: "";
             bottom: 0;
             background-color: rgba($accent-color, 0.8);
-            height: 11px;
-            width: 42px;
+            height: 10px;
+            width: 34px;
         }
     }
 
     .c {
         display: block;
-        height: 42px;
+        height: 34px;
 
         &:after {
             position: absolute;
             content: "";
-            height: 42px;
-            width: 22px;
-            top: -6px;
+            height: 34px;
+            width: 17px;
+            top: -5px;
             border-radius: 0 50px 50px 0px;
             background-color: rgba($primary-color, 0.5);
             -webkit-transform: rotate(210deg);
@@ -55,13 +53,52 @@
         &:before {
             position: absolute;
             content: "";
-            height: 42px;
-            width: 22px;
-            top: 6px;
+            height: 34px;
+            width: 17px;
+            top: 5px;
             border-radius: 0 50px 50px 0px;
             background-color: rgba($primary-color, 0.8);
             -webkit-transform: rotate(140deg);
             transform: rotate(140deg);
+        }
+    }
+}
+
+@media (max-width:600px) {
+    :host {
+        .letter {
+            width: 30px;
+            height: 30px;
+        }
+
+        .l {
+            height: 30px;
+
+            &:after {
+                height: 30px;
+                width: 15px;
+            }
+
+            &:before {
+                // height: 8px;
+                width: 30px;
+            }
+        }
+
+        .c {
+            height: 30px;
+
+            &:after {
+                height: 30px;
+                width: 15px;
+                top: -5px;
+            }
+
+            &:before {
+                height: 30px;
+                width: 15px;
+                top: 5px;
+            }
         }
     }
 }

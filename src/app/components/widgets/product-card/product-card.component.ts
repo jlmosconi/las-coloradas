@@ -9,10 +9,10 @@ import { Component, OnInit, Input } from '@angular/core';
 				<img [src]="product.photoUrl" [alt]="product.title" *ngIf="product.photoUrl">
 				<!--<app-no-image type="product" *ngIf="!product.photoUrl"></app-no-image>-->
 				<div class="favorite d-flex">
-					<app-favorite-button [id]="product.id"></app-favorite-button>
+					<app-favorite-button [id]="product.$key"></app-favorite-button>
 				</div>
 
-				<a [routerLink]="['/producto', product.id]" title="{{ product.title }}">
+				<a [routerLink]="['/producto', product.$key]" title="{{ product.title }}">
 					<div class="see"></div>
 				</a>
 			</div>
@@ -21,13 +21,13 @@ import { Component, OnInit, Input } from '@angular/core';
 					<span class="money">$ {{ product.cost }}</span>
 				</div>
 				<div class="product-name">
-					<a [routerLink]="['/producto', product.id]" title="{{ product.title }}">{{ product.title }}</a>
+					<a [routerLink]="['/producto', product.$key]" title="{{ product.title }}">{{ product.title }}</a>
 				</div>
 				<div class="product-description mb-4">
 					<p>{{ product.description }}</p>
 				</div>
 				<div class="product-links pb-3 d-flex">
-					<button mat-raised-button color="accent" class="text-white mr-1" [routerLink]="['/producto', product.id]">
+					<button mat-raised-button color="accent" class="text-white mr-1" [routerLink]="['/producto', product.$key]">
 						Ver
 					</button>
 					
