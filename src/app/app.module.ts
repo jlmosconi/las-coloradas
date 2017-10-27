@@ -25,6 +25,7 @@ import { ProductsEffects } from "./effects/products";
 import { UserEffects } from "./effects/user";
 
 import { MatSidenavModule } from "@angular/material";
+import { AgmCoreModule } from '@agm/core';
 
 import 'hammerjs';
 
@@ -49,6 +50,9 @@ import 'hammerjs';
       ProductsEffects,
       UserEffects
     ]),
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyDFHjz1Y0E5cyM77FGGH3gnEZag9pWBPcY'
+    }),
     MatSidenavModule,
     AuthModalModule,
     AngularFireAuthModule

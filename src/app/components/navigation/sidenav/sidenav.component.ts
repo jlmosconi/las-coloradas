@@ -24,13 +24,13 @@ import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
 								<h4 mat-line>Inicio</h4>
 							</mat-list-item>
 
-							<mat-list-item routerLink="/">
-								<mat-icon mat-list-icon color="accent">help</mat-icon> 
+							<mat-list-item routerLink="/sobre-nosotros">
+								<mat-icon mat-list-icon color="accent">account_balance</mat-icon> 
 								<h4 mat-line>Quienes somos</h4>
 							</mat-list-item>
 
-							<mat-list-item routerLink="/">
-								<mat-icon mat-list-icon color="accent">contact_phone</mat-icon> 
+							<mat-list-item routerLink="/contacto">
+								<mat-icon mat-list-icon color="accent">location_on</mat-icon> 
 								<h4 mat-line>Contacto</h4>
 							</mat-list-item>
 						</mat-nav-list>
