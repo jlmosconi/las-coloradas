@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { ProductsQueries } from "../../services/products/queries";
 import { GetHighlights, GetLatest } from "../../actions/products";
 import { Observable } from 'rxjs/Observable';
 import { onStateChangeObservable } from '../../utils/store';

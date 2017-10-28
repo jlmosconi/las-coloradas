@@ -1,8 +1,10 @@
 import { combineReducers } from '@ngrx/store';
+import contactReducer from "./contact";
 import productsReducer from './products';
 import userReducer from "./user";
 
 const reducers = {
+  contact: contactReducer,
   products: productsReducer,
   user: userReducer
 };

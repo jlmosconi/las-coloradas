@@ -20,6 +20,7 @@ import { AuthModalModule } from './components/widgets/auth-modal/auth-modal.modu
 import { services as SERVICES } from './services';
 import { navigation as NAVIGATION } from "./components/navigation/";
 
+import { ContactEffects } from "./effects/contact";
 import { LayoutEffects } from "./effects/layout";
 import { ProductsEffects } from "./effects/products";
 import { UserEffects } from "./effects/user";
@@ -46,6 +47,7 @@ import 'hammerjs';
       maxAge: 5
     }),
     EffectsModule.forRoot([
+      ContactEffects,
       LayoutEffects,
       ProductsEffects,
       UserEffects

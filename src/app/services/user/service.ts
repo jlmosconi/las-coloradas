@@ -4,7 +4,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase';
 
 @Injectable()
-export class UserQueries {
+export class UserService {
     constructor(private db: AngularFireDatabase, private afAuth: AngularFireAuth) { }
 
     getUserState() {
@@ -110,13 +110,12 @@ export class UserQueries {
                 displayName: user.displayName,
                 photoURL: user.photoURL
             }
-            let email = userData.email.split('.').join("");
 
-            firebase.database().ref('/users/' + email).once('value')
+            firebase.database().ref('/users/' + user.uid).once('value')
                 .then((snapshot) => {
                     let value = snapshot.val();
                     if(!value) {
-                        this.db.object(`users/${email}`).set(userData)
+                        this.db.object(`users/${user.uid}`).set(userData)
                             .then(_ => {
                                 resolve(userData);
                             })

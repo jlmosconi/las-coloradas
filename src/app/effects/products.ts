@@ -6,7 +6,7 @@ import {
   GetLatest, GetLatestFailure, GetLatestSuccess,
   GetDetail, GetDetailFailure, GetDetailSuccess
 } from '../actions/products';
-import { ProductsQueries } from '../services/products/queries';
+import { ProductsService } from '../services/products/service';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import 'rxjs/add/operator/toArray';
@@ -20,13 +20,13 @@ import 'rxjs/add/operator/map';
 export class ProductsEffects {
   constructor(
     private action$: Actions,
-    private productsQueries: ProductsQueries
+    private productsService: ProductsService
   ) {}
 
   @Effect() GetHighlights$: Observable<{}> = this.action$
     .ofType(ActionTypes.GET_HIGHLIGHTS)
     .switchMap(payload => {
-      return this.productsQueries.getHighlightProducts();
+      return this.productsService.getHighlightProducts();
     })
     .map(result => {
         return new GetHighlightsSuccess(result);
@@ -38,7 +38,7 @@ export class ProductsEffects {
   @Effect() GetLatest$: Observable<{}> = this.action$
     .ofType(ActionTypes.GET_LATEST)
     .switchMap(payload => {
-      return this.productsQueries.getLatestProducts();
+      return this.productsService.getLatestProducts();
     })
     .map(result => {
         return new GetLatestSuccess(result);
@@ -51,7 +51,7 @@ export class ProductsEffects {
     .ofType(ActionTypes.GET_DETAIL)
     .map(toPayload)
     .switchMap(payload => {
-      return this.productsQueries.getDetail(payload);
+      return this.productsService.getDetail(payload);
     })
     .map(result => {
         return new GetDetailSuccess(result);

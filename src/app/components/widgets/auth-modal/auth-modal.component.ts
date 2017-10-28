@@ -71,7 +71,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 				<mat-error *ngIf="auth.controls.password.invalid">{{getPasswordErrorMessage()}}</mat-error>
 			</mat-form-field>
 
-			<button type="submit" mat-button mat-raised-button class="w-100" color="primary" [disabled]="auth.invalid || loading">
+			<button type="submit" mat-raised-button color="primary" class="w-100" [disabled]="auth.invalid || loading">
 				Acceder
 			</button>
 		</form>

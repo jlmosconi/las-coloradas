@@ -7,7 +7,7 @@ import {
 import {
   OpenLogin
 } from '../actions/layout';
-import { UserQueries } from '../services/user/queries';
+import { UserService } from '../services/user/service';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import 'rxjs/add/observable/fromPromise';
@@ -22,13 +22,13 @@ import 'rxjs/add/operator/map';
 export class UserEffects {
   constructor(
     private action$: Actions,
-    private userQueries: UserQueries
+    private userService: UserService
   ) {}
 
     @Effect() 
       GetUser$: Observable<Action> = this.action$
       .ofType(ActionTypes.GET_USER)
-      .switchMap(payload => this.userQueries.getUserState())
+      .switchMap(payload => this.userService.getUserState())
       .map(authData => {
         if (authData) {
             /// User logged in
@@ -52,7 +52,7 @@ export class UserEffects {
           .ofType(ActionTypes.SOCIAL_LOGIN)
           .map(toPayload)
           .switchMap(payload => {
-            return Observable.fromPromise(this.userQueries.socialLogin(payload));
+            return Observable.fromPromise(this.userService.socialLogin(payload));
           })
           .map( credential => {
               return new GetUser();
@@ -71,7 +71,7 @@ export class UserEffects {
           .ofType(ActionTypes.EMAIL_LOGIN)
           .map(toPayload)
           .switchMap(payload => {
-            return Observable.fromPromise(this.userQueries.emailLogin(payload));
+            return Observable.fromPromise(this.userService.emailLogin(payload));
           })
           .map( credential => {
               // successful login
@@ -86,7 +86,7 @@ export class UserEffects {
           .ofType(ActionTypes.SET_PASSWORD)
           .map(toPayload)
           .switchMap(payload => {
-            return Observable.fromPromise(this.userQueries.linkAccountWithEmailAndPassword(payload));
+            return Observable.fromPromise(this.userService.linkAccountWithEmailAndPassword(payload));
           })
           .map( credential => {
               // successful login
@@ -99,7 +99,7 @@ export class UserEffects {
       @Effect()
         logout: Observable<Action> = this.action$.ofType(ActionTypes.LOGOUT)
           .switchMap(payload => {
-            return Observable.fromPromise(this.userQueries.logOut());
+            return Observable.fromPromise(this.userService.logOut());
           })
           .map(authData => {
             return new NotAuthenticated();
