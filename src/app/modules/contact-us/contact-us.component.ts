@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { FormBuilder, Validators } from '@angular/forms';
 import { SendMessage } from "../../actions/contact";
+import { ISubscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 import { onStateChangeObservable } from '../../utils/store';
 
@@ -113,14 +114,28 @@ export class ContactUsContainerComponent implements OnInit {
 		message: ['', [Validators.required]]
 	});
 	loading$: Observable<any>;
+	sendSuccess$: Observable<any>;
+	private subscriptionLoading: ISubscription;
+	private subscriptionSendSuccess: ISubscription;
 
 	constructor(private store: Store<any>, private fb: FormBuilder) {
 		this.loading$ = onStateChangeObservable(store, 'contact.loading');
+		this.sendSuccess$ = onStateChangeObservable(store, 'contact.sendSuccess');
+
+		this.subscriptionLoading = this.loading$.subscribe();
+		this.subscriptionSendSuccess = this.sendSuccess$.subscribe(success => {
+			if(success) this.contact.reset();
+		})
 	 }
 
 	ngOnInit() { }
 
 	submit() {
 		this.store.dispatch(new SendMessage(this.contact.value));
+	}
+
+	ngOnDestroy() {
+		this.subscriptionLoading.unsubscribe();
+		this.subscriptionSendSuccess.unsubscribe();
 	}
 }

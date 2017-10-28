@@ -23,9 +23,10 @@ import { navigation as NAVIGATION } from "./components/navigation/";
 import { ContactEffects } from "./effects/contact";
 import { LayoutEffects } from "./effects/layout";
 import { ProductsEffects } from "./effects/products";
+import { ToastrEffects } from "./effects/toastr";
 import { UserEffects } from "./effects/user";
 
-import { MatSidenavModule } from "@angular/material";
+import { MatSidenavModule, MatSnackBarModule } from "@angular/material";
 import { AgmCoreModule } from '@agm/core';
 
 import 'hammerjs';
@@ -50,12 +51,14 @@ import 'hammerjs';
       ContactEffects,
       LayoutEffects,
       ProductsEffects,
+      ToastrEffects,
       UserEffects
     ]),
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyDFHjz1Y0E5cyM77FGGH3gnEZag9pWBPcY'
     }),
     MatSidenavModule,
+    MatSnackBarModule,
     AuthModalModule,
     AngularFireAuthModule
   ],

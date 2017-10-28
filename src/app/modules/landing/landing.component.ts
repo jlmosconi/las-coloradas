@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { GetHighlights, GetLatest } from "../../actions/products";
+import { GetHighlights, GetLatest, GetLatestSuccess, GetHighlightsSuccess } from "../../actions/products";
+import { ISubscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 import { onStateChangeObservable } from '../../utils/store';
 
@@ -34,12 +35,24 @@ import { onStateChangeObservable } from '../../utils/store';
 export class LandingContainerComponent implements OnInit {
 	latest$: Observable<any>;
 	highlights$: Observable<any>;
+	private subscriptionLatest: ISubscription;
+	private subscriptionHighlights: ISubscription;
 	constructor(private store: Store<any>) {
 		store.dispatch(new GetLatest({}));
 		store.dispatch(new GetHighlights({}));
 		this.latest$ = onStateChangeObservable(store, 'products.latest');
 		this.highlights$ = onStateChangeObservable(store, 'products.highlights');
+
+		this.subscriptionLatest = this.latest$.subscribe();
+		this.subscriptionHighlights = this.highlights$.subscribe();
 	}
 
 	ngOnInit() {}
+
+	ngOnDestroy() {
+		this.subscriptionLatest.unsubscribe();
+		this.subscriptionHighlights.unsubscribe();
+		this.store.dispatch(new GetLatestSuccess([]));
+		this.store.dispatch(new GetHighlightsSuccess([]));
+	}
 }
