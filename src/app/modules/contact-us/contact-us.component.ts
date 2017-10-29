@@ -33,11 +33,13 @@ import { onStateChangeObservable } from '../../utils/store';
 							<mat-form-field class="w-100">
 								<input matInput placeholder="Nombre" type="text" formControlName="name" required>
 								<span matSuffix> <mat-icon>person_outline</mat-icon> </span>
+								<mat-error *ngIf="contact.controls.name.invalid">{{getEmailErrorMessage()}}</mat-error>
 							</mat-form-field>
 
 							<mat-form-field class="w-100">
 								<input matInput placeholder="Email" type="email" formControlName="email" required>
 								<span matSuffix> <mat-icon>mail_outline</mat-icon> </span>
+								<mat-error *ngIf="contact.controls.email.invalid">{{getEmailErrorMessage()}}</mat-error>
 							</mat-form-field>
 
 							<mat-form-field class="w-100">
@@ -47,10 +49,11 @@ import { onStateChangeObservable } from '../../utils/store';
 
 							<mat-form-field class="w-100">
 								<textarea matInput placeholder="Mensaje" formControlName="message" required></textarea>
+								<mat-error *ngIf="contact.controls.message.invalid">{{getMessageErrorMessage()}}</mat-error>
 							</mat-form-field>
 							
 							<div class="text-center text-md-left">
-								<button type="submit" class="mb-3 mb-md-0" mat-raised-button color="primary" [disabled]="contact.invalid || (loading$ | async)">
+								<button type="submit" class="mt-1 mb-3 mb-md-0" mat-raised-button color="primary" [disabled]="contact.invalid || (loading$ | async)">
 									Enviar
 								</button>
 							</div>
@@ -137,5 +140,24 @@ export class ContactUsContainerComponent implements OnInit {
 	ngOnDestroy() {
 		this.subscriptionLoading.unsubscribe();
 		this.subscriptionSendSuccess.unsubscribe();
+	}
+
+	getNameErrorMessage() {
+		let name = this.contact.controls.name;
+    	return name.hasError('required') ? 'Campo requerido' : '';
+	}
+
+	getEmailErrorMessage() {
+		let email = this.contact.controls.email;
+    	return email.hasError('required') ? 'Campo requerido' :
+			email.hasError('email') ? 'No es un correo electrónico válido' :
+		'';
+	}
+
+	getMessageErrorMessage() {
+		let message = this.contact.controls.message;
+    	return message.hasError('required') ? 'Campo requerido' :
+			message.hasError('email') ? 'No es un correo electrónico válido' :
+		'';
 	}
 }
