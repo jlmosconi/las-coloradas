@@ -53,7 +53,7 @@ import { onStateChangeObservable } from '../../utils/store';
 							</mat-form-field>
 							
 							<div class="text-center text-md-left">
-								<button type="submit" class="mt-1 mb-3 mb-md-0" mat-raised-button color="primary" [disabled]="contact.invalid || (loading$ | async)">
+								<button type="submit" class="mt-2 mb-3 mb-md-0" mat-raised-button color="primary" [disabled]="contact.invalid || (loading$ | async)">
 									Enviar
 								</button>
 							</div>
@@ -65,7 +65,7 @@ import { onStateChangeObservable } from '../../utils/store';
 								<mat-icon>pin_drop</mat-icon>
 							</div>
 							<div class="o-hidden">
-								<h4 class="info-title">Encontranos en la oficina</h4>
+								<h4 class="info-title">Encontranos en nuestro local</h4>
 								<p class="description">Calle 43 433<br>
 									La Plata<br>
 									Buenos Aires‎

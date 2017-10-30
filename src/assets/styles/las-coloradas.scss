@@ -69,11 +69,15 @@ $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-
     .mat-snack-bar-container {
         //margin-top: 5rem!important;
         color: #fff;
+        opacity: .95;
+        filter: alpha(opacity=95);
 
         &.success {
             background:#4CAF50;
-            opacity: .95;
-            filter: alpha(opacity=95);
+        }
+
+        &.danger {
+            background: #F44336;
         }
     }
 

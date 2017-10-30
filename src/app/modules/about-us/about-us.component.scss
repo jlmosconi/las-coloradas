@@ -1,0 +1,50 @@
+.images {
+    height: 500px;
+
+    .image {
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: cover;
+
+        // animation: floatBubble 5s infinite normal linear;
+        // animation-fill-mode: forwards;
+    }
+
+    @media (max-width: 767px) {
+        height: 400px;
+    }
+}
+
+
+.scroller {
+    height: 100%;
+    
+    @media (max-width: 767px) {
+        height: 500px;
+    }
+
+    .swiper-container {
+        width: 100%;
+        height: 100%;
+      }
+      .swiper-slide {
+        height: auto;
+        padding-right: 15px;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+      }
+}
+
+// @keyframes floatBubble {
+//     0%{
+//         background-position: center bottom;
+//     }
+  
+//     50% {
+//         background-position: center center;
+//     }
+  
+//     100% {
+//         background-position: center top;
+//      }
+//   }

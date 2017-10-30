@@ -66,7 +66,7 @@ import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
 export class SidenavComponent implements OnInit {
 	@Input() genres;
 	@Output() closeSidenav: EventEmitter<any> = new EventEmitter();
-	public config: SwiperConfigInterface = {
+	config: SwiperConfigInterface = {
 		scrollbar: '.swiper-scrollbar',
 		direction: 'vertical',
         slidesPerView: 'auto',
