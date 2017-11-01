@@ -59,4 +59,17 @@ export class ProductsEffects {
     .catch(err => {
       return of({ type: ActionTypes.GET_DETAIL_FAILURE });
     });
+
+    // @Effect() addToFavorites$: Observable<Action> = this.action$
+    //   .ofType(ActionTypes.ADD_TO_FAVORITES)
+    //   .map(toPayload)
+    //   .switchMap(payload => {
+    //     return this.productsService.getDetail(payload);
+    //   })
+    //   .map(result => {
+    //       return new GetDetailSuccess(result);
+    //   })
+    //   .catch(err => {
+    //     return of({ type: ActionTypes.GET_DETAIL_FAILURE });
+    //   });
 }

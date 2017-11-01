@@ -6,7 +6,6 @@ import { AgmCoreModule } from '@agm/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
     MatButtonModule,
-    MatDialogModule,
     MatIconModule,
     MatInputModule
     } from '@angular/material';
@@ -19,7 +18,6 @@ import {
         FormsModule,
         ReactiveFormsModule,
         MatButtonModule,
-        MatDialogModule,
         MatIconModule,
         MatInputModule
     ],

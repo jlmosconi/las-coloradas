@@ -21,12 +21,64 @@ import { onStateChangeObservable } from '../../utils/store';
 		</div>
 	</section>
 
-	<div class="pb-4 pb-md-5">
-		<app-product-carousel [title]="'Destacados'" [products]="highlights$ | async"></app-product-carousel>
+	<div class="container">
+		<div class="pb-4 pb-md-5">
+			<app-product-carousel [title]="'Destacados'" [products]="highlights$ | async"></app-product-carousel>
+		</div>
+
+		<div class="boxes pb-3 pb-md-5">
+		<div class="row">
+			<div class="col-md-4">
+				<div class="box mb-3 mb-md-0 p-3 d-flex align-items-center justify-content-start mat-elevation-z3">
+					<div class="mr-4 d-block d-md-none d-xl-block">
+						<mat-icon>local_shipping</mat-icon>
+					</div>
+					<div>
+						<div class="desc">
+							<h1>Envíos</h1>
+							<h2>Asegurados</h2>
+							<p>A todo el país</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="box mb-3 mb-md-0 p-3 d-flex align-items-center justify-content-start mat-elevation-z3">
+					<div class="mr-4 d-block d-md-none d-xl-block">
+						<mat-icon>payment</mat-icon>
+					</div>
+					<div>
+						<div class="desc">
+							<h1>Pagos</h1>
+							<h2>Protegidos</h2>
+							<p>Débito y crédito</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="box p-3 d-flex align-items-center justify-content-start mat-elevation-z3">
+					<div class="mr-4 d-block d-md-none d-xl-block">
+						<mat-icon>phone</mat-icon>
+					</div>
+					<div>
+						<div class="desc">
+							<h1>Atención</h1>
+							<h2>Personalizada</h2>
+							<p>0810 2229873</p>
+						</div>
+					</div>
+				</div>
+			</div>
+				
+		</div>
 	</div>
 
-	<div class="pb-4 pb-md-5">
-		<app-product-carousel [title]="'Agregados recientemente'" [products]="latest$ | async"></app-product-carousel>
+		<div class="pb-4 pb-md-5">
+			<app-product-carousel [title]="'Agregados recientemente'" [products]="latest$ | async"></app-product-carousel>
+		</div>
+
+		<app-brands-list></app-brands-list>
 	</div>
 	`,
 	styleUrls: ['./landing.component.scss']

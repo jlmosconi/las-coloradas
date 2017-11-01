@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
 import { Store } from '@ngrx/store';
 import { Actions, Effect, toPayload } from '@ngrx/effects';
-import { ActionTypes as contactActions } from '../actions/contact';
+import { ActionTypes as contactActions } from '../actions/contact'
+import { ActionTypes as productsActions } from '../actions/products';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
@@ -34,5 +35,18 @@ export class ToastrEffects {
                 extraClasses: ['success']
             });
         }) 
+
+    @Effect({dispatch: false})
+        addFavoriteSuccess: Observable<{}> = this.action$
+          .ofType(productsActions.ADD_TO_FAVORITES_SUCCESS)
+          .map(toPayload)
+          .do(() => {
+              this.toastr.open('Producto añadido a favoritos', null, {
+                  duration: 3000,
+                  horizontalPosition: 'right',
+                  verticalPosition: 'top',
+                  extraClasses: ['success']
+              });
+          }) 
        
 }

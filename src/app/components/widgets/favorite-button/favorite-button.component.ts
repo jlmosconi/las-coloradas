@@ -1,4 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { AddToFavorites } from "../../../actions/products";
 
 @Component({
 	selector: 'app-favorite-button',
@@ -14,11 +16,12 @@ import { Component, OnInit, Input } from '@angular/core';
 
 export class FavoriteButtonComponent implements OnInit {
 	@Input() id;
-	constructor() { }
+	constructor(private store: Store<any>) { }
 
 	ngOnInit() { }
 
 	addToFavorite() {
 		console.log(this.id);
+		this.store.dispatch(new AddToFavorites(this.id));
 	}
 }

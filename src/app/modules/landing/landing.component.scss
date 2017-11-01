@@ -55,3 +55,50 @@
         }
     }
 }
+
+
+.boxes {
+    // @media (min-width: 768px) {
+    //     padding: 0 60px;
+    // }
+
+    .box {
+        overflow: hidden;
+        display: block;
+        position: relative;
+        background: #2C2C2C;
+        min-height: 150px;
+
+        .desc {
+            display: block;
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 300;
+            text-transform: uppercase;
+
+            h1 {
+                font-size: 2rem;
+                line-height: 2rem;
+                color: #fff;
+                font-weight: 600;
+                margin: 0px 0 5px;
+                margin-bottom: 0;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+                line-height: 1.5rem;
+                color: $primary-color;
+                font-weight: 600;
+                margin: 0px;
+            }
+        }
+
+        .mat-icon {
+            color: $primary-color;
+            font-size: 7rem;
+            height: 7rem;
+            width: 7rem;
+        }
+    }
+}

@@ -11,7 +11,7 @@ import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
 			<div [swiper]="config" class="swiper-container" *ngIf="products && products.length">
 				<div class="swiper-wrapper">
 					<div class="swiper-slide" *ngFor="let product of products">
-						<app-product-card [product]="product"></app-product-card>
+						<app-product-card [product]="product" [user]="user"></app-product-card>
 					</div>
 				</div>
 				<!-- Controls -->
@@ -37,20 +37,20 @@ import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
 export class ProductCarouselComponent implements OnInit {
 	@Input() products;
 	@Input() title;
-	public items;
-	public config: SwiperConfigInterface = {
+	items;
+	config: SwiperConfigInterface = {
         pagination: null,
         nextButton: '.swiper-button-next',
 		prevButton: '.swiper-button-prev',
         spaceBetween: 20,
-        slidesPerView: 5,
+        slidesPerView: 4,
 		breakpoints: {
             1024: {
-                slidesPerView: 4
-            },
-            768: {
                 slidesPerView: 3
             },
+            // 768: {
+            //     slidesPerView: 3
+            // },
             767: {
                 slidesPerView: 2
             },
@@ -58,7 +58,7 @@ export class ProductCarouselComponent implements OnInit {
               slidesPerView: 1
             }
       	}
-	  };
+	};
 	constructor() { 
 		this.items = Array(this.config.slidesPerView).fill(0).map((x,i)=>i);
 	}

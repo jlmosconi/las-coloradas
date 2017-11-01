@@ -11,6 +11,26 @@ export class UserService {
         return this.afAuth.authState;
     }
 
+    // getUserData() {
+    //     return new Promise((resolve, reject) => {
+    //         this.afAuth.authState.subscribe(state => {
+    //             if(state) {
+    //                 this.db.object(`/users/${state.uid}`).valueChanges().subscribe(userData => {
+    //                     resolve(userData)
+    //                 })
+    //             }else {
+    //                 resolve();
+    //             }
+    //         })
+    //     });
+    // }
+    getUserData(uid) {
+        return new Promise((resolve, reject) => {
+            this.db.object(`/users/${uid}`).valueChanges().subscribe(userData => {
+                                    resolve(userData)
+                                })
+        });
+    }
     socialLogin(providerId) {
         return new Promise((resolve, reject) => {
             const provider = this.getProviderForProviderId(providerId);

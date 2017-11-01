@@ -66,7 +66,7 @@ import { onStateChangeObservable } from '../../utils/store';
 							</div>
 							<div class="o-hidden">
 								<h4 class="info-title">Encontranos en nuestro local</h4>
-								<p class="description">Calle 43 433<br>
+								<p class="description">Calle 43 entre 3 Y 4 N°433<br>
 									La Plata<br>
 									Buenos Aires‎
 								</p>
@@ -81,7 +81,6 @@ import { onStateChangeObservable } from '../../utils/store';
 								<p class="description">
 									0810 2229873<br>
 									0221 482-2340<br>
-									Lunes - Viernes, 8:00-22:00
 								</p>
 							</div>
 						</div>

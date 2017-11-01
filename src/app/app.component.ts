@@ -40,6 +40,10 @@ export class AppComponent {
     });
 
     this.user$ = onStateChangeObservable(store, 'user.userData');
+
+    this.user$.subscribe(user => {
+      console.warn(user);
+    })
   }
 
   openSidenav() {
