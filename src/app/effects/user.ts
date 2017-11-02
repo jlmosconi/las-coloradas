@@ -95,5 +95,7 @@ export class UserEffects {
           .map(authData => {
             return new NotAuthenticated();
           })
-          .catch(err => Observable.of(new AuthError({error: err})));
+          .catch(err => {
+            return of(new AuthError({error: err}));
+          });
 }
