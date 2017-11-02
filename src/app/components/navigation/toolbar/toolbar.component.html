@@ -6,59 +6,34 @@
                 <mat-icon>menu</mat-icon>
             </button>
         
-            <app-logo class="d-flex h-100 align-items-center"></app-logo>
+            <a [routerLink]="['/']"><app-logo class="d-flex h-100 align-items-center"></app-logo></a>
         </span>
 
         <div class="search-bar-content">
             <app-search-bar [parent]="searchForm" (search)="goToSearch($event)" (clear)="clear();" [setFull]="setFull" [searchResult]="[]" [loading]="quickSearchLoading$ | async"></app-search-bar>
         </div>
 
-        <!--<span>
-            <button mat-icon-button class="hidden-mat-up">
+        <span class="d-flex align-items-center">
+            <button mat-icon-button color="accent" class="hidden-md-up" (click)="setFullSearchBar()">
                 <mat-icon>search</mat-icon>
             </button>
             <button mat-icon-button color="primary" class="mr-2">
                 <mat-icon>shopping_cart</mat-icon>
             </button>
-            <button mat-icon-button [matMenuTriggerFor]="userMenu">
-                <img alt="User avatar" class="rounded-circle avatar-sm" [matMenuTriggerFor]="userMenu" src="https://lh5.googleusercontent.com/-cSY3k8Emgds/AAAAAAAAAAI/AAAAAAAAABU/j5hcVTL-CfU/photo.jpg">
-            </button>
-            <mat-menu #userMenu="matMenu">
-                <button mat-menu-item>
-                    <mat-icon>dialpad</mat-icon>
-                    <span>Redial</span>
+            <div *ngIf="user">
+                <button mat-icon-button [matMenuTriggerFor]="menu" class="user-avatar">
+                    <img alt="User avatar" class="rounded-circle avatar-sm" [src]="user.photoURL" *ngIf="user.photoURL">
+                    <!--<app-no-image type="person" class="rounded-circle avatar-sm o-hidden" *ngIf="!user.photoURL"></app-no-image>-->
                 </button>
-                <button mat-menu-item disabled>
-                    <mat-icon>voicemail</mat-icon>
-                    <span>Check voicemail</span>
-                </button>
-                <button mat-menu-item>
-                    <mat-icon>notifications_off</mat-icon>
-                    <span>Disable alerts</span>
-                </button>
-            </mat-menu>
-        </span>-->
-            <span class="d-flex align-items-center">
-                <button mat-icon-button color="accent" class="hidden-md-up" (click)="setFullSearchBar()">
-                    <mat-icon>search</mat-icon>
-                </button>
-                <button mat-icon-button color="primary" class="mr-2">
-                    <mat-icon>shopping_cart</mat-icon>
-                </button>
-                <div *ngIf="user">
-                    <button mat-icon-button [matMenuTriggerFor]="menu" class="user-avatar">
-                        <img alt="User avatar" class="rounded-circle avatar-sm" [src]="user.photoURL" *ngIf="user.photoURL">
-                        <!--<app-no-image type="person" class="rounded-circle avatar-sm o-hidden" *ngIf="!user.photoURL"></app-no-image>-->
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item (click)="logout();">
+                        <mat-icon>highlight_off</mat-icon>
+                        <span>Salir</span>
                     </button>
-                    <mat-menu #menu="matMenu">
-                        <button mat-menu-item (click)="logout();">
-                            <mat-icon>highlight_off</mat-icon>
-                            <span>Salir</span>
-                        </button>
-                    </mat-menu>
-                </div>
-    
-                <button type="button" mat-button color="accent" class="text-uppercase color" (click)="openLogin()" *ngIf="!user">Acceder</button>
-            </span>
+                </mat-menu>
+            </div>
+
+            <button type="button" mat-button color="accent" class="text-uppercase color" (click)="openLogin()" *ngIf="!user">Acceder</button>
+        </span>
     </div>
 </mat-toolbar>

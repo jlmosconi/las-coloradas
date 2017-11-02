@@ -5,6 +5,9 @@ import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
 	selector: 'app-brands-list',
 	template:
 		`
+		<h2 class="title">
+			<span class="txt">Nuestras marcas</span>
+		</h2>
 		<div [swiper]="config" class="swiper-container">
 			<div class="swiper-wrapper">
 				<div class="swiper-slide" *ngFor="let brand of brands">

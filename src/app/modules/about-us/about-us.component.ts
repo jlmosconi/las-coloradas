@@ -63,11 +63,7 @@ export class AboutUsContainerComponent implements OnInit {
 		this.subscriptionLoading = this.loading$.subscribe();
 	}
 
-	ngOnInit() {
-		this.loading$.subscribe(data => {
-			console.warn(data);
-		})
-	 }
+	ngOnInit() { }
 
 	ngOnDestroy() {
 		this.subscriptionData.unsubscribe();

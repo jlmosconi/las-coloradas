@@ -29,7 +29,6 @@ export class AboutEffects {
             return this.aboutService.getData();
         })
         .map(result => {
-            console.warn(result);
             return new GetDataSuccess(result);
         })
         .catch(err => {

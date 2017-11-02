@@ -37,7 +37,7 @@ import { onStateChangeObservable } from '../../utils/store';
 						<div class="desc">
 							<h1>Envíos</h1>
 							<h2>Asegurados</h2>
-							<p>A todo el país</p>
+							<p class="mb-2">A todo el país</p>
 						</div>
 					</div>
 				</div>
@@ -51,7 +51,7 @@ import { onStateChangeObservable } from '../../utils/store';
 						<div class="desc">
 							<h1>Pagos</h1>
 							<h2>Protegidos</h2>
-							<p>Débito y crédito</p>
+							<p class="mb-2">Débito y crédito</p>
 						</div>
 					</div>
 				</div>
@@ -65,7 +65,7 @@ import { onStateChangeObservable } from '../../utils/store';
 						<div class="desc">
 							<h1>Atención</h1>
 							<h2>Personalizada</h2>
-							<p>0810 2229873</p>
+							<p class="mb-2">0810 2229873</p>
 						</div>
 					</div>
 				</div>

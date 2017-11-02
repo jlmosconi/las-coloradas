@@ -28,28 +28,9 @@ export class UserEffects {
       @Effect() 
         GetUser$: Observable<Action> = this.action$
         .ofType(ActionTypes.GET_USER)
-        .switchMap(payload => this.userService.getUserState())
-        .map(userData => {
-          console.warn(userData);
-          return Observable.fromPromise(this.userService.getUserData(userData.uid))
-        })
+        .switchMap(payload => Observable.fromPromise(this.userService.getUserData()))
         .map(authData => {
-          console.warn(authData);
           if (authData) {
-
-              console.warn(authData);
-
-              // this.userService.getUserData(authData.uid).subscribe(user => {
-              //   return new Authenticated(user);
-              // })
-              /// User logged in
-              //const user = new User(authData.uid, authData.displayName);
-              //const user = {
-                // uid: authData.uid,
-                // email: authData.email,
-                // displayName: authData.displayName,
-                // photoURL: authData.photoURL
-              //}
               return new Authenticated(authData);
           } else {
               return new NotAuthenticated();

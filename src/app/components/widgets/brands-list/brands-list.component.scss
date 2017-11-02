@@ -1,3 +1,21 @@
+.title {
+    font-size: 18px;
+    text-align: center;
+    position: relative;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    height: 12px;
+    margin-bottom: 1.5rem;
+    font-weight: 400;
+    line-height: 1.25;
+    color: #424242;
+
+    .txt {
+        background: #fafafa;
+        padding: 0 20px;
+        position: relative;
+    }
+}
+
 img {
     max-width: 90px;
 }
