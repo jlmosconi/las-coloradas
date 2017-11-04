@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
 
 @Component({
 	selector: 'app-product-card',
@@ -9,7 +9,7 @@ import { Component, OnInit, Input } from '@angular/core';
 				<img [src]="product.photoUrl" [alt]="product.title" *ngIf="product.photoUrl">
 				<!--<app-no-image type="product" *ngIf="!product.photoUrl"></app-no-image>-->
 				<div class="favorite d-flex">
-					<app-favorite-button [id]="product.$key"></app-favorite-button>
+					<app-favorite-button [id]="product.$key" [isFavorite]="isFavorite"></app-favorite-button>
 				</div>
 
 				<a [routerLink]="['/producto', product.$key]" title="{{ product.title }}">
@@ -43,8 +43,18 @@ import { Component, OnInit, Input } from '@angular/core';
 
 export class ProductCardComponent implements OnInit {
 	@Input() product;
-	@Input() user;
+	@Input() favorites;
+	isFavorite;
 	constructor() { }
 
 	ngOnInit() { }
+
+	ngOnChanges(changes: SimpleChanges) {
+        if (changes['favorites']) {
+			if(this.favorites) {
+				let keys = Object.keys(this.favorites);
+				this.isFavorite = !!keys.find(bid => bid === this.product.$key);
+			}
+        }
+    }
 }

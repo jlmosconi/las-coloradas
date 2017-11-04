@@ -11,26 +11,14 @@ export class UserService {
         return this.afAuth.authState;
     }
 
-    getUserData() {
-        return new Promise((resolve, reject) => {
-            this.afAuth.authState.subscribe(state => {
-                if(state) {
-                    this.db.object(`/users/${state.uid}`).valueChanges().subscribe(userData => {
-                        resolve(userData)
-                    })
-                }else {
-                    resolve();
-                }
-            })
-        });
+    getUserData(uid) {
+        return this.db.object(`/users/${uid}`).valueChanges();
     }
-    // getUserData(uid) {
-    //     return new Promise((resolve, reject) => {
-    //         this.db.object(`/users/${uid}`).valueChanges().subscribe(userData => {
-    //                                 resolve(userData)
-    //                             })
-    //     });
-    // }
+
+    getUserFavorites() {
+        
+    }
+
     socialLogin(providerId) {
         return new Promise((resolve, reject) => {
             const provider = this.getProviderForProviderId(providerId);
@@ -153,29 +141,6 @@ export class UserService {
             this.afAuth.auth.fetchProvidersForEmail(email)
                 .then(providers => {
                     if (providers[0] === 'password') {
-                        
-                        // Asks the user his password.
-                        // In real scenario, you should handle this asynchronously.
-                        //     var password = promptUserForPassword(); // TODO: implement promptUserForPassword.
-                        //     this.afAuth.auth.signInWithEmailAndPassword(email, password).then(function(user) {
-                        //     // Step 4a.
-                        //     return user.link(pendingCred);
-                        //     }).then(function() {
-                        //     // Facebook account successfully linked to the existing Firebase user.
-                        //     goToApp();
-                        // });
-                        // return;
-                        
-                        
-                        
-                        // this.afAuth.auth.signInWithEmailAndPassword(email, password)
-                        //     .then(user => {
-                        //         this.afAuth.auth.currentUser.linkWithCredential(pendingCred)
-                        //             .then(result => {
-                        //                 resolve(result);
-                        //             });
-                        //     });
-
                         reject({type: providers[0], email: email, pendingCred: pendingCred });
                         return;
                     }

@@ -24,19 +24,21 @@ export class UserEffects {
     private action$: Actions,
     private userService: UserService
   ) {}
-
-      @Effect() 
-        GetUser$: Observable<Action> = this.action$
-        .ofType(ActionTypes.GET_USER)
-        .switchMap(payload => Observable.fromPromise(this.userService.getUserData()))
-        .map(authData => {
-          if (authData) {
-              return new Authenticated(authData);
-          } else {
-              return new NotAuthenticated();
-          }
-      })
-      .catch(err => of(new AuthError()) );
+    @Effect() 
+      GetUser$: Observable<Action> = this.action$
+      .ofType(ActionTypes.GET_USER)
+      .switchMap(() => 
+        this.userService.getUserState()
+          .switchMap(result => {
+            if(result) {
+              return this.userService.getUserData(result.uid).map(user => {
+                return new Authenticated(user);
+              })
+            } else {
+              return of(new NotAuthenticated());
+            }
+          })
+      )
 
       @Effect()
         SocialLogin$:  Observable<Action> = this.action$

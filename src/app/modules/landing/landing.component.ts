@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { GetHighlights, GetLatest, GetLatestSuccess, GetHighlightsSuccess } from "../../actions/products";
-import { ISubscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 import { onStateChangeObservable } from '../../utils/store';
 
@@ -23,7 +23,7 @@ import { onStateChangeObservable } from '../../utils/store';
 
 	<div class="container">
 		<div class="pb-4 pb-md-5">
-			<app-product-carousel [title]="'Destacados'" [products]="highlights$ | async"></app-product-carousel>
+			<app-product-carousel [title]="'Destacados'" [products]="highlights$ | async" [favorites]="userFavorites$ | async"></app-product-carousel>
 		</div>
 
 		<div class="boxes pb-3 pb-md-5">
@@ -75,7 +75,7 @@ import { onStateChangeObservable } from '../../utils/store';
 	</div>
 
 		<div class="pb-4 pb-md-5">
-			<app-product-carousel [title]="'Agregados recientemente'" [products]="latest$ | async"></app-product-carousel>
+			<app-product-carousel [title]="'Agregados recientemente'" [products]="latest$ | async" [favorites]="userFavorites$ | async"></app-product-carousel>
 		</div>
 
 		<app-brands-list></app-brands-list>
@@ -87,16 +87,25 @@ import { onStateChangeObservable } from '../../utils/store';
 export class LandingContainerComponent implements OnInit {
 	latest$: Observable<any>;
 	highlights$: Observable<any>;
-	private subscriptionLatest: ISubscription;
-	private subscriptionHighlights: ISubscription;
+	userFavorites$: Observable<any>;
+	private subscriptionLatest: Subscription;
+	private subscriptionHighlights: Subscription;
+	private subscriptionuserFavorites: Subscription;
+
 	constructor(private store: Store<any>) {
 		store.dispatch(new GetLatest({}));
 		store.dispatch(new GetHighlights({}));
 		this.latest$ = onStateChangeObservable(store, 'products.latest');
 		this.highlights$ = onStateChangeObservable(store, 'products.highlights');
+		this.userFavorites$ = onStateChangeObservable(store, 'user.userData.favorites');
 
 		this.subscriptionLatest = this.latest$.subscribe();
 		this.subscriptionHighlights = this.highlights$.subscribe();
+		this.subscriptionuserFavorites = this.userFavorites$.subscribe();
+
+		this.userFavorites$.subscribe(favorites => {
+			console.warn(favorites);
+		})
 	}
 
 	ngOnInit() {}
@@ -104,6 +113,7 @@ export class LandingContainerComponent implements OnInit {
 	ngOnDestroy() {
 		this.subscriptionLatest.unsubscribe();
 		this.subscriptionHighlights.unsubscribe();
+		this.subscriptionuserFavorites.unsubscribe();
 		this.store.dispatch(new GetLatestSuccess([]));
 		this.store.dispatch(new GetHighlightsSuccess([]));
 	}
