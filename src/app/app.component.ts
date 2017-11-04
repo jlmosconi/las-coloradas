@@ -1,7 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { MatSidenav } from '@angular/material';
-import { GetUser, Logout } from "./actions/user";
+import { GetUser } from "./actions/user";
+import { Logout } from "./actions/auth";
 import { Observable } from 'rxjs/Observable';
 import { onStateChangeObservable } from './utils/store';
 import { Store } from '@ngrx/store';

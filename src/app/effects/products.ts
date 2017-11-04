@@ -64,24 +64,6 @@ export class ProductsEffects {
       return of({ type: ActionTypes.GET_DETAIL_FAILURE });
     });
 
-    // @Effect()
-    //   addToFavorites$: Observable<Action> = this.action$
-    //   .ofType(ActionTypes.ADD_TO_FAVORITES)
-    //   .map(toPayload)
-    //   .switchMap((payload) => 
-    //     this.userService.getUserState()
-    //       .switchMap(result => {
-    //         if(result) {
-    //           console.warn(result);
-    //           return this.userService.addToFavorites(payload, result.uid).then(response => {
-    //             return new AddToFavoritesSuccess();
-    //           })
-    //         } else {
-    //           return of(new AddToFavoritesFailure());
-    //         }
-    //       })
-    //   )
-
   @Effect()
     addToFavorites$: Observable<Action> = this.action$
       .ofType(ActionTypes.ADD_TO_FAVORITES)

@@ -9,7 +9,6 @@ export class ContactService {
         return new Promise((resolve, reject) => {
             this.db.list('contact').push(data)
                 .then(_ => {
-                    console.warn(_);
                     resolve();
                 })
         })

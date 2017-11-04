@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { Actions, Effect, toPayload } from '@ngrx/effects';
 import { MatDialog } from '@angular/material';
 import { ActionTypes } from '../actions/layout';
-import { SocialLogin, EmailLogin, SetPassword } from '../actions/user';
+import { SocialLogin, EmailLogin, SetPassword } from '../actions/auth';
 import { AuthModalComponent } from '../components/widgets/auth-modal/auth-modal.component';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';

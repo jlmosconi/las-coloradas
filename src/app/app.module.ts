@@ -21,6 +21,7 @@ import { services as SERVICES } from './services';
 import { navigation as NAVIGATION } from "./components/navigation/";
 
 import { AboutEffects } from "./effects/about";
+import { AuthEffects } from "./effects/auth";
 import { ContactEffects } from "./effects/contact";
 import { LayoutEffects } from "./effects/layout";
 import { ProductsEffects } from "./effects/products";
@@ -50,6 +51,7 @@ import 'hammerjs';
     }),
     EffectsModule.forRoot([
       AboutEffects,
+      AuthEffects,
       ContactEffects,
       LayoutEffects,
       ProductsEffects,
