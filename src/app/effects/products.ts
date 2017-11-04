@@ -82,7 +82,7 @@ export class ProductsEffects {
     //       })
     //   )
 
-    @Effect()
+  @Effect()
     addToFavorites$: Observable<Action> = this.action$
       .ofType(ActionTypes.ADD_TO_FAVORITES)
       .map(toPayload)
@@ -90,13 +90,31 @@ export class ProductsEffects {
         return this.userService.addToFavorites(payload)
       })
       .map(response => {
-        return new AddToFavoritesSuccess();
+        if(response) {
+          return new AddToFavoritesSuccess();
+        } else {
+          return new AddToFavoritesFailure();
+        }
       })
       .catch(err => {
-        return of({ type: ActionTypes.ADD_TO_FAVORITES_FAILURE });
+        return of(new AddToFavoritesFailure());
       });
 
-    @Effect()
+    // @Effect()
+    // removeToFavorites$: Observable<Action> = this.action$
+    //   .ofType(ActionTypes.REMOVE_TO_FAVORITES)
+    //   .map(toPayload)
+    //   .switchMap(payload => {
+    //     return this.userService.removeToFavorites(payload)
+    //   })
+    //   .map(response => {
+    //     return new RemoveToFavoritesSuccess();
+    //   })
+    //   .catch(err => {
+    //     return of({ type: ActionTypes.REMOVE_TO_FAVORITES_FAILURE });
+    //   });
+
+  @Effect()
     removeToFavorites$: Observable<Action> = this.action$
       .ofType(ActionTypes.REMOVE_TO_FAVORITES)
       .map(toPayload)
@@ -104,9 +122,13 @@ export class ProductsEffects {
         return this.userService.removeToFavorites(payload)
       })
       .map(response => {
-        return new RemoveToFavoritesSuccess();
+        if(response) {
+          return new RemoveToFavoritesSuccess();
+        } else {
+          return new RemoveToFavoritesFailure();
+        }
       })
       .catch(err => {
-        return of({ type: ActionTypes.REMOVE_TO_FAVORITES_FAILURE });
+        return of(new RemoveToFavoritesFailure());
       });
 }

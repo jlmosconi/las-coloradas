@@ -21,17 +21,27 @@ export class UserService {
 
     addToFavorites(productId) {
         return new Promise((resolve, reject) => {
-            this.db.object(`/users/${this.getCurrentUser().uid}/favorites/${productId}`).set(true)
-                .then( _ => resolve())
-                .catch(err => reject())
+            let uid = this.getCurrentUser() ? this.getCurrentUser().uid : null;
+            if (uid) {
+                this.db.object(`/users/${uid}/favorites/${productId}`).set(true)
+                    .then( _ => resolve(true))
+                    .catch(err => reject())
+            } else {
+                resolve(false);
+            }
         });
     }
 
     removeToFavorites(productId) {
         return new Promise((resolve, reject) => {
-            this.db.object(`/users/${this.getCurrentUser().uid}/favorites/${productId}`).remove()
-                .then( _ => resolve())
-                .catch(err => reject())
+            let uid = this.getCurrentUser() ? this.getCurrentUser().uid : null;
+            if (uid) {
+                this.db.object(`/users/${uid}/favorites/${productId}`).remove()
+                    .then( _ => resolve(true))
+                    .catch(err => reject())
+            } else {
+                resolve(false);
+            }
         });
     }
 

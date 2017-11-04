@@ -26,6 +26,7 @@ export class FavoriteButtonComponent implements OnInit {
 
 	addToFavorite() {
 		if(!this.isFavorite) {
+			console.warn('AddToFavorites');
 			this.store.dispatch(new AddToFavorites(this.id));
 		} else {
 			this.store.dispatch(new RemoveToFavorites(this.id));
