@@ -43,18 +43,17 @@ import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
 
 export class ProductCardComponent implements OnInit {
 	@Input() product;
-	@Input() favorites;
-	isFavorite;
+	@Input() favorites
+	isFavorite: boolean;
+	
 	constructor() { }
 
 	ngOnInit() { }
 
 	ngOnChanges(changes: SimpleChanges) {
         if (changes['favorites']) {
-			if(this.favorites) {
-				let keys = Object.keys(this.favorites);
-				this.isFavorite = !!keys.find(bid => bid === this.product.$key);
-			}
+			let keys = Object.keys(this.favorites || []);
+			this.isFavorite = !!keys.find(favorite => favorite === this.product.$key);
         }
     }
 }

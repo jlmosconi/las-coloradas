@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AddToFavorites } from "../../../actions/products";
-import { Observable } from 'rxjs/Observable';
+import { AddToFavorites, RemoveToFavorites } from "../../../actions/products";
 
 @Component({
 	selector: 'app-favorite-button',
@@ -27,10 +26,9 @@ export class FavoriteButtonComponent implements OnInit {
 
 	addToFavorite() {
 		if(!this.isFavorite) {
-			console.warn('add to favorites');
 			this.store.dispatch(new AddToFavorites(this.id));
 		} else {
-			console.warn('removeTofavorites');
+			this.store.dispatch(new RemoveToFavorites(this.id));
 		}
 	}
 }

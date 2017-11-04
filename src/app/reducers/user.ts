@@ -20,7 +20,7 @@ reducers[ActionTypes.AUTHENTICATED] = (state, payload) => {
 
 reducers[ActionTypes.NOT_AUTHENTICATED] = (state, payload) => {
     return Object.assign({}, state, {
-        userData: initialState.userData,
+        userData: null,
         loading: false
     });
 };

@@ -13,7 +13,10 @@ export const ActionTypes = {
     GET_DETAIL_FAILURE: type('[Products] Get Detail Failure'),
     ADD_TO_FAVORITES: type('[Products] Add To Favorites'),
     ADD_TO_FAVORITES_FAILURE: type('[Products] Add To Favorites Failure'),
-    ADD_TO_FAVORITES_SUCCESS: type('[Products] Add To Favorites Success')
+    ADD_TO_FAVORITES_SUCCESS: type('[Products] Add To Favorites Success'),
+    REMOVE_TO_FAVORITES: type('[Products] Remove To Favorites'),
+    REMOVE_TO_FAVORITES_FAILURE: type('[Products] Remove To Favorites Failure'),
+    REMOVE_TO_FAVORITES_SUCCESS: type('[Products] Remove To Favorites Success')
 };
 
 export class GetHighlights implements Action {
@@ -76,8 +79,24 @@ export class AddToFavoritesSuccess implements Action {
   constructor(public payload?: any) { }
 }
 
+export class RemoveToFavorites implements Action {
+  readonly type = ActionTypes.REMOVE_TO_FAVORITES;
+  constructor(public payload: any) { }
+}
+
+export class RemoveToFavoritesFailure implements Action {
+  readonly type = ActionTypes.REMOVE_TO_FAVORITES_FAILURE;
+  constructor(public payload?: any) { }
+}
+
+export class RemoveToFavoritesSuccess implements Action {
+  readonly type = ActionTypes.REMOVE_TO_FAVORITES_SUCCESS;
+  constructor(public payload?: any) { }
+}
+
 export type Actions = 
 GetHighlights | GetHighlightsFailure | GetHighlightsSuccess |
 GetLatest | GetLatestFailure | GetLatestSuccess |
 GetDetail | GetDetailFailure | GetDetailSuccess |
-AddToFavorites | AddToFavoritesFailure | AddToFavoritesSuccess;
+AddToFavorites | AddToFavoritesFailure | AddToFavoritesSuccess |
+RemoveToFavorites | RemoveToFavoritesFailure | RemoveToFavoritesSuccess;

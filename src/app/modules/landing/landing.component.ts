@@ -102,10 +102,6 @@ export class LandingContainerComponent implements OnInit {
 		this.subscriptionLatest = this.latest$.subscribe();
 		this.subscriptionHighlights = this.highlights$.subscribe();
 		this.subscriptionuserFavorites = this.userFavorites$.subscribe();
-
-		this.userFavorites$.subscribe(favorites => {
-			console.warn(favorites);
-		})
 	}
 
 	ngOnInit() {}

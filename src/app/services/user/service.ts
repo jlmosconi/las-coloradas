@@ -15,8 +15,24 @@ export class UserService {
         return this.db.object(`/users/${uid}`).valueChanges();
     }
 
-    getUserFavorites() {
-        
+    getCurrentUser() {
+        return firebase.auth().currentUser;
+    }
+
+    addToFavorites(productId) {
+        return new Promise((resolve, reject) => {
+            this.db.object(`/users/${this.getCurrentUser().uid}/favorites/${productId}`).set(true)
+                .then( _ => resolve())
+                .catch(err => reject())
+        });
+    }
+
+    removeToFavorites(productId) {
+        return new Promise((resolve, reject) => {
+            this.db.object(`/users/${this.getCurrentUser().uid}/favorites/${productId}`).remove()
+                .then( _ => resolve())
+                .catch(err => reject())
+        });
     }
 
     socialLogin(providerId) {
@@ -25,20 +41,14 @@ export class UserService {
             this.afAuth.auth.signInWithPopup(provider)
                 .then(result => {
                     this.createUserIfNotExist(result.user)
-                        .then(user => {
-                            resolve(user);
-                        })
+                        .then(user => resolve(user))
                 })
                 .catch(error => {
                     console.warn(error);
                     if (error.code === 'auth/account-exists-with-different-credential') {
                         this.accountExistsWithDifferentCredential(error)
-                            .then(_ => {
-                                resolve();
-                            })
-                            .catch(err => {
-                                reject(err);
-                            })
+                            .then(_ => resolve())
+                            .catch(err => reject(err))
                     } else {
                         reject();
                     }
