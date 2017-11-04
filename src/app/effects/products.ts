@@ -100,20 +100,6 @@ export class ProductsEffects {
         return of(new AddToFavoritesFailure());
       });
 
-    // @Effect()
-    // removeToFavorites$: Observable<Action> = this.action$
-    //   .ofType(ActionTypes.REMOVE_TO_FAVORITES)
-    //   .map(toPayload)
-    //   .switchMap(payload => {
-    //     return this.userService.removeToFavorites(payload)
-    //   })
-    //   .map(response => {
-    //     return new RemoveToFavoritesSuccess();
-    //   })
-    //   .catch(err => {
-    //     return of({ type: ActionTypes.REMOVE_TO_FAVORITES_FAILURE });
-    //   });
-
   @Effect()
     removeToFavorites$: Observable<Action> = this.action$
       .ofType(ActionTypes.REMOVE_TO_FAVORITES)
