@@ -20,6 +20,7 @@ export class ToolbarComponent implements OnInit {
 	products$: Observable<any>;
 	quickSearchLoading$: Observable<any>;
 	setFull: boolean;
+	cart;
 	private subscription: ISubscription;
 	private quickSearchLoadingSubscription: ISubscription;
 	@Output() openSidenav: EventEmitter<any> = new EventEmitter();
@@ -35,7 +36,10 @@ export class ToolbarComponent implements OnInit {
 		});
 	}
 
-	ngOnInit() { }
+	ngOnInit() { 
+		this.cart = JSON.parse(localStorage.getItem('cart'));
+		console.warn(this.cart);
+	}
 
 	setFullSearchBar() {
 		this.setFull = true;

@@ -94,23 +94,30 @@ export class AuthService {
 
     createUserIfNotExist(user) {
         return new Promise((resolve, reject) => {
+            let cart = JSON.parse(localStorage.getItem('cart')) || null;
             let userData = {
                 uid: user.uid,
                 email: user.email,
                 displayName: user.displayName,
                 photoURL: user.photoURL,
+                cart: cart,
                 role: 'customer'
             }
 
             firebase.database().ref('/users/' + user.uid).once('value')
                 .then((snapshot) => {
                     let value = snapshot.val();
+                    if (cart) localStorage.removeItem('cart');
+
                     if(!value) {
                         this.db.object(`users/${user.uid}`).set(userData)
                             .then(_ => {
                                 resolve(userData);
                             })
                     } else {
+                        
+                        // if (cart) this.db.object(`users/${user.uid}/cart`).update(cart);
+                        if (!value.cart && cart) this.db.object(`users/${user.uid}/cart`).set(cart);
                         resolve(value);
                     }
                 });

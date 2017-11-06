@@ -69,8 +69,8 @@ $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-
     .mat-snack-bar-container {
         //margin-top: 5rem!important;
         color: #fff;
-        opacity: .95;
-        filter: alpha(opacity=95);
+        // opacity: .95;
+        // filter: alpha(opacity=95);
 
         &.success {
             background:#4CAF50;
@@ -81,13 +81,13 @@ $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-
         }
     }
 
-    @media (max-width:768px) {
-        .mat-snack-bar-container {
-            width: 100vw;
-            margin: 0!important;
-            box-sizing: border-box!important;
-        }
-    }
+    // @media (max-width:768px) {
+    //     .mat-snack-bar-container {
+    //         width: 100vw;
+    //         margin: 0!important;
+    //         box-sizing: border-box!important;
+    //     }
+    // }
 }
 
 // Include theme styles for core and each component used in your app.

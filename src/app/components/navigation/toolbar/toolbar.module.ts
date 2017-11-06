@@ -6,6 +6,7 @@ import { MatToolbarModule, MatIconModule, MatMenuModule, MatButtonModule } from 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LogoModule } from "../../widgets/logo/logo.module";
 import { SearchBarModule } from "./search-bar/search-bar.module";
+import { ShoppingCartIconModule } from "./shopping-cart-icon/shopping-cart-icon.module";
 
 @NgModule({
     imports: [
@@ -18,7 +19,8 @@ import { SearchBarModule } from "./search-bar/search-bar.module";
         FormsModule,
         ReactiveFormsModule,
         LogoModule,
-        SearchBarModule
+        SearchBarModule,
+        ShoppingCartIconModule
     ],
     declarations: [
         ToolbarComponent

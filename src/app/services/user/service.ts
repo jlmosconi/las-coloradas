@@ -19,9 +19,13 @@ export class UserService {
         return firebase.auth().currentUser;
     }
 
+    getCurrentUserId() {
+        return this.getCurrentUser() ? this.getCurrentUser().uid : null;
+    };
+
     addToFavorites(productId) {
         return new Promise((resolve, reject) => {
-            let uid = this.getCurrentUser() ? this.getCurrentUser().uid : null;
+            let uid = this.getCurrentUserId();
             if (uid) {
                 this.db.object(`/users/${uid}/favorites/${productId}`).set(true)
                     .then( _ => resolve(true))
@@ -34,7 +38,7 @@ export class UserService {
 
     removeToFavorites(productId) {
         return new Promise((resolve, reject) => {
-            let uid = this.getCurrentUser() ? this.getCurrentUser().uid : null;
+            let uid = this.getCurrentUserId();
             if (uid) {
                 this.db.object(`/users/${uid}/favorites/${productId}`).remove()
                     .then( _ => resolve(true))
@@ -45,22 +49,25 @@ export class UserService {
         });
     }
 
-    addToCart(productId) {
+    addToCart(productId, quantity) {
         return new Promise((resolve, reject) => {
-            let uid = this.getCurrentUser() ? this.getCurrentUser().uid : null;
+            let uid = this.getCurrentUserId();
             if (uid) {
-                this.db.object(`/users/${uid}/cart/${productId}`).set(true)
+                this.db.object(`/users/${uid}/cart/${productId}`).set(quantity)
                     .then( _ => resolve(true))
                     .catch(err => reject())
             } else {
-                resolve(false);
+                let cart = JSON.parse(localStorage.getItem('cart')) || {};
+                cart[productId] = quantity;
+                localStorage.setItem('cart', JSON.stringify(cart));
+                resolve(true);
             }
         });
     }
 
     removeToCart(productId) {
         return new Promise((resolve, reject) => {
-            let uid = this.getCurrentUser() ? this.getCurrentUser().uid : null;
+            let uid = this.getCurrentUserId();
             if (uid) {
                 this.db.object(`/users/${uid}/cart/${productId}`).remove()
                     .then( _ => resolve(true))

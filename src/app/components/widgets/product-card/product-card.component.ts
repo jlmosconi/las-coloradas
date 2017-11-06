@@ -33,7 +33,7 @@ import { AddToCart, RemoveToCart } from "../../../actions/products";
 						Ver
 					</button>
 					
-					<button mat-raised-button color="primary">
+					<button mat-raised-button color="primary" (click)="addToCart(1);">
 						Añadir al carrito
 					</button>
 				</div>
@@ -48,7 +48,7 @@ export class ProductCardComponent implements OnInit {
 	@Input() favorites
 	isFavorite: boolean;
 	
-	constructor() { }
+	constructor(private store: Store<any>) { }
 
 	ngOnInit() { }
 
@@ -57,5 +57,12 @@ export class ProductCardComponent implements OnInit {
 			let keys = Object.keys(this.favorites || []);
 			this.isFavorite = !!keys.find(favorite => favorite === this.product.$key);
         }
-    }
+	}
+	
+	addToCart(quantity) {
+		this.store.dispatch(new AddToCart({
+			id: this.product.$key,
+			quantity: quantity
+		}));
+	}
 }

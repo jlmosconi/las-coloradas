@@ -26,12 +26,9 @@ export class ToastrEffects {
     @Effect({dispatch: false})
       sendMessageSuccess: Observable<{}> = this.action$
         .ofType(contactActions.SEND_MESSAGE_SUCCESS)
-        .map(toPayload)
         .do(() => {
             this.toastr.open('Mensaje enviado correctamente', null, {
-                duration: 3000,
-                horizontalPosition: 'right',
-                verticalPosition: 'top',
+                duration: 2000,
                 extraClasses: ['success']
             });
         }) 
@@ -39,14 +36,23 @@ export class ToastrEffects {
     @Effect({dispatch: false})
         addFavoriteSuccess: Observable<{}> = this.action$
           .ofType(productsActions.ADD_TO_FAVORITES_SUCCESS)
-          .map(toPayload)
           .do(() => {
               this.toastr.open('Producto añadido a favoritos', null, {
-                  duration: 3000,
-                  horizontalPosition: 'right',
-                  verticalPosition: 'top',
+                  duration: 2000,
                   extraClasses: ['success']
               });
-          }) 
+          })
+          
+    @Effect({dispatch: false})
+          addToCartSuccess: Observable<{}> = this.action$
+            .ofType(productsActions.ADD_TO_CART_SUCCESS)
+            .do(() => {
+                this.toastr.open('Producto añadido al carrito', null, {
+                    duration: 2000,
+                    // horizontalPosition: 'right',
+                    // verticalPosition: 'top',
+                    extraClasses: ['success']
+                });
+            })
        
 }

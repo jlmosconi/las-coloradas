@@ -37,9 +37,10 @@ export class AppComponent {
 
       window.scrollTo(0, 0);
       if(this.sidenav.opened) this.closeSidenav();
-      store.dispatch(new GetUser());
+      // store.dispatch(new GetUser());
     });
 
+    store.dispatch(new GetUser());
     this.user$ = onStateChangeObservable(store, 'user.userData');
   }
 

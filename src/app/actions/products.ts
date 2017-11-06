@@ -100,35 +100,33 @@ export class RemoveToFavoritesSuccess implements Action {
   constructor(public payload?: any) { }
 }
 
-
-
 export class AddToCart implements Action {
-  readonly type = ActionTypes.ADD_TO_FAVORITES;
+  readonly type = ActionTypes.ADD_TO_CART;
   constructor(public payload: any) { }
 }
 
 export class AddToCartFailure implements Action {
-  readonly type = ActionTypes.ADD_TO_FAVORITES_FAILURE;
+  readonly type = ActionTypes.ADD_TO_CART_FAILURE;
   constructor(public payload?: any) { }
 }
 
 export class AddToCartSuccess implements Action {
-  readonly type = ActionTypes.ADD_TO_FAVORITES_SUCCESS;
+  readonly type = ActionTypes.ADD_TO_CART_SUCCESS;
   constructor(public payload?: any) { }
 }
 
 export class RemoveToCart implements Action {
-  readonly type = ActionTypes.REMOVE_TO_FAVORITES;
+  readonly type = ActionTypes.REMOVE_TO_CART;
   constructor(public payload: any) { }
 }
 
 export class RemoveToCartFailure implements Action {
-  readonly type = ActionTypes.REMOVE_TO_FAVORITES_FAILURE;
+  readonly type = ActionTypes.REMOVE_TO_CART_FAILURE;
   constructor(public payload?: any) { }
 }
 
 export class RemoveToCartSuccess implements Action {
-  readonly type = ActionTypes.REMOVE_TO_FAVORITES_SUCCESS;
+  readonly type = ActionTypes.REMOVE_TO_CART_SUCCESS;
   constructor(public payload?: any) { }
 }
 

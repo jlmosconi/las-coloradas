@@ -17,9 +17,11 @@
             <button mat-icon-button color="accent" class="hidden-md-up" (click)="setFullSearchBar()">
                 <mat-icon>search</mat-icon>
             </button>
-            <button mat-icon-button color="primary" class="mr-2">
+            <!--<button mat-icon-button color="primary" class="mr-2">
                 <mat-icon>shopping_cart</mat-icon>
-            </button>
+                <span class="count d-flex align-items-center justify-content-center mat-elevation-z1">6</span>
+            </button>-->
+            <app-shopping-cart-icon class="mr-2" [cart]="user ? user.cart : cart"></app-shopping-cart-icon>
             <div *ngIf="user">
                 <button mat-icon-button [matMenuTriggerFor]="menu" class="user-avatar">
                     <img alt="User avatar" class="rounded-circle avatar-sm" [src]="user.photoURL" *ngIf="user.photoURL">

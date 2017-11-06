@@ -107,7 +107,7 @@ export class ProductsEffects {
       .ofType(ActionTypes.ADD_TO_CART)
       .map(toPayload)
       .switchMap(payload => {
-        return this.userService.addToCart(payload)
+        return this.userService.addToCart(payload.id, payload.quantity)
       })
       .map(response => {
         if(response) {
