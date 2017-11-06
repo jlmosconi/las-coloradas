@@ -1,11 +1,16 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { LocalStorageService } from "../localStorage/service";
 import * as firebase from 'firebase';
 
 @Injectable()
 export class AuthService {
-    constructor(private db: AngularFireDatabase, private afAuth: AngularFireAuth) { }
+    constructor(
+        private db: AngularFireDatabase, 
+        private afAuth: AngularFireAuth,
+        private localStorageService: LocalStorageService
+    ) { }
 
     socialLogin(providerId) {
         return new Promise((resolve, reject) => {
@@ -107,7 +112,7 @@ export class AuthService {
             firebase.database().ref('/users/' + user.uid).once('value')
                 .then((snapshot) => {
                     let value = snapshot.val();
-                    if (cart) localStorage.removeItem('cart');
+                    if (cart) this.localStorageService.removeItem('cart');
 
                     if(!value) {
                         this.db.object(`users/${user.uid}`).set(userData)
@@ -115,7 +120,6 @@ export class AuthService {
                                 resolve(userData);
                             })
                     } else {
-                        
                         // if (cart) this.db.object(`users/${user.uid}/cart`).update(cart);
                         if (!value.cart && cart) this.db.object(`users/${user.uid}/cart`).set(cart);
                         resolve(value);

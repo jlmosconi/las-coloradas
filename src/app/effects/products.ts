@@ -74,11 +74,7 @@ export class ProductsEffects {
         return this.userService.addToFavorites(payload)
       })
       .map(response => {
-        if(response) {
-          return new AddToFavoritesSuccess();
-        } else {
-          return new AddToFavoritesFailure();
-        }
+        return response ? new AddToFavoritesSuccess() : new AddToFavoritesFailure();
       })
       .catch(err => {
         return of(new AddToFavoritesFailure());
@@ -92,11 +88,7 @@ export class ProductsEffects {
         return this.userService.removeToFavorites(payload)
       })
       .map(response => {
-        if(response) {
-          return new RemoveToFavoritesSuccess();
-        } else {
-          return new RemoveToFavoritesFailure();
-        }
+        return response ? new RemoveToFavoritesSuccess() : new RemoveToFavoritesFailure();
       })
       .catch(err => {
         return of(new RemoveToFavoritesFailure());
@@ -110,11 +102,7 @@ export class ProductsEffects {
         return this.userService.addToCart(payload.id, payload.quantity)
       })
       .map(response => {
-        if(response) {
-          return new AddToCartSuccess();
-        } else {
-          return new AddToCartFailure();
-        }
+        return response ? new AddToCartSuccess() : new AddToCartFailure();
       })
       .catch(err => {
         return of(new AddToCartFailure());
@@ -128,11 +116,7 @@ export class ProductsEffects {
         return this.userService.removeToCart(payload)
       })
       .map(response => {
-        if(response) {
-          return new RemoveToCartSuccess;
-        } else {
-          return new RemoveToCartFailure();
-        }
+        return response ? new RemoveToCartSuccess() : new RemoveToCartFailure();
       })
       .catch(err => {
         return of(new RemoveToCartFailure());

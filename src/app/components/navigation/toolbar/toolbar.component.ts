@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import { ISubscription } from "rxjs/Subscription";
 import { onStateChangeObservable } from '../../../utils/store';
 import { OpenLogin } from '../../../actions/layout';
+import { LocalStorageService } from "../../../services/localStorage/service";
 // import { QuickSearchMovies, ClearQuickSearchMovies } from "../../../actions/movies";
 
 @Component({
@@ -29,7 +30,8 @@ export class ToolbarComponent implements OnInit {
 	constructor(
 		private router: Router,
 		private fb: FormBuilder, 
-		private store: Store<any>
+		private store: Store<any>,
+		private localStorageService: LocalStorageService
 		) { 
 		this.searchForm = fb.group({
 			search: ['']
@@ -38,7 +40,10 @@ export class ToolbarComponent implements OnInit {
 
 	ngOnInit() { 
 		this.cart = JSON.parse(localStorage.getItem('cart'));
-		console.warn(this.cart);
+		this.localStorageService.getItem('cart').subscribe(cart => {
+			console.warn(cart);
+			this.cart = cart;
+		});
 	}
 
 	setFullSearchBar() {

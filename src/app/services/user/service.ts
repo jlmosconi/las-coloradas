@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { LocalStorageService } from "../localStorage/service";
 import * as firebase from 'firebase';
 
 @Injectable()
 export class UserService {
-    constructor(private db: AngularFireDatabase, private afAuth: AngularFireAuth) { }
+    constructor(
+        private db: AngularFireDatabase, 
+        private afAuth: AngularFireAuth,
+        private localStorageService: LocalStorageService) { }
 
     getUserState() {
         return this.afAuth.authState;
@@ -53,14 +57,28 @@ export class UserService {
         return new Promise((resolve, reject) => {
             let uid = this.getCurrentUserId();
             if (uid) {
-                this.db.object(`/users/${uid}/cart/${productId}`).set(quantity)
-                    .then( _ => resolve(true))
-                    .catch(err => reject())
+                firebase.database().ref(`/users/${uid}/cart/${productId}`).once('value')
+                    .then((snapshot) => { 
+                        let value = snapshot.val();
+                        if(!!!value || value !== quantity) {
+                            this.db.object(`/users/${uid}/cart/${productId}`).set(quantity)
+                                .then( _ => resolve(true))
+                                .catch(err => reject())
+                        } else {
+                            resolve(false);
+                        }
+                    });
             } else {
                 let cart = JSON.parse(localStorage.getItem('cart')) || {};
-                cart[productId] = quantity;
-                localStorage.setItem('cart', JSON.stringify(cart));
-                resolve(true);
+
+                if(!cart[productId] || cart[productId] !== quantity) {
+                    cart[productId] = quantity;
+                    // localStorage.setItem('cart', JSON.stringify(cart));
+                    this.localStorageService.setItem('cart', cart);
+                    resolve(true);
+                } else {
+                    resolve(false);
+                }
             }
         });
     }
