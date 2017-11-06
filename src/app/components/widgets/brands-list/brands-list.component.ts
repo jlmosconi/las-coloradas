@@ -52,18 +52,18 @@ export class BrandsListComponent implements OnInit {
 	};
 
 	brands = [
-		{img: 'https://firebasestorage.googleapis.com/v0/b/las-coloradas-development.appspot.com/o/remington.png?alt=media&token=8546fa8e-c0bd-415b-82e0-015f625c4dfa'},
-		{img: 'https://firebasestorage.googleapis.com/v0/b/las-coloradas-development.appspot.com/o/remington.png?alt=media&token=8546fa8e-c0bd-415b-82e0-015f625c4dfa'},
-		{img: 'https://firebasestorage.googleapis.com/v0/b/las-coloradas-development.appspot.com/o/bersa.png?alt=media&token=0c57e8ef-029e-4917-a0a5-423628e4ba3e'},
-		{img: 'https://firebasestorage.googleapis.com/v0/b/las-coloradas-development.appspot.com/o/remington.png?alt=media&token=8546fa8e-c0bd-415b-82e0-015f625c4dfa'},
-		{img: 'https://firebasestorage.googleapis.com/v0/b/las-coloradas-development.appspot.com/o/bersa.png?alt=media&token=0c57e8ef-029e-4917-a0a5-423628e4ba3e'},
-		{img: 'https://firebasestorage.googleapis.com/v0/b/las-coloradas-development.appspot.com/o/remington.png?alt=media&token=8546fa8e-c0bd-415b-82e0-015f625c4dfa'},
-		{img: 'https://firebasestorage.googleapis.com/v0/b/las-coloradas-development.appspot.com/o/bersa.png?alt=media&token=0c57e8ef-029e-4917-a0a5-423628e4ba3e'},
-		{img: 'https://firebasestorage.googleapis.com/v0/b/las-coloradas-development.appspot.com/o/remington.png?alt=media&token=8546fa8e-c0bd-415b-82e0-015f625c4dfa'},
-		{img: 'https://firebasestorage.googleapis.com/v0/b/las-coloradas-development.appspot.com/o/bersa.png?alt=media&token=0c57e8ef-029e-4917-a0a5-423628e4ba3e'},
-		{img: 'https://firebasestorage.googleapis.com/v0/b/las-coloradas-development.appspot.com/o/remington.png?alt=media&token=8546fa8e-c0bd-415b-82e0-015f625c4dfa'},
-		{img: 'https://firebasestorage.googleapis.com/v0/b/las-coloradas-development.appspot.com/o/bersa.png?alt=media&token=0c57e8ef-029e-4917-a0a5-423628e4ba3e'},
-		{img: 'https://firebasestorage.googleapis.com/v0/b/las-coloradas-development.appspot.com/o/bersa.png?alt=media&token=0c57e8ef-029e-4917-a0a5-423628e4ba3e'},
+		{img: 'http://res.cloudinary.com/anterux/image/upload/v1509839052/remington_qunnsq.png'},
+		{img: 'http://res.cloudinary.com/anterux/image/upload/v1509839051/bersa_keihit.png'},
+		{img: 'http://res.cloudinary.com/anterux/image/upload/v1509839052/remington_qunnsq.png'},
+		{img: 'http://res.cloudinary.com/anterux/image/upload/v1509839051/bersa_keihit.png'},
+		{img: 'http://res.cloudinary.com/anterux/image/upload/v1509839052/remington_qunnsq.png'},
+		{img: 'http://res.cloudinary.com/anterux/image/upload/v1509839051/bersa_keihit.png'},
+		{img: 'http://res.cloudinary.com/anterux/image/upload/v1509839052/remington_qunnsq.png'},
+		{img: 'http://res.cloudinary.com/anterux/image/upload/v1509839051/bersa_keihit.png'},
+		{img: 'http://res.cloudinary.com/anterux/image/upload/v1509839052/remington_qunnsq.png'},
+		{img: 'http://res.cloudinary.com/anterux/image/upload/v1509839051/bersa_keihit.png'},
+		{img: 'http://res.cloudinary.com/anterux/image/upload/v1509839052/remington_qunnsq.png'},
+		{img: 'http://res.cloudinary.com/anterux/image/upload/v1509839051/bersa_keihit.png'},
 	]
 	constructor() { }
 

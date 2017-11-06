@@ -98,7 +98,8 @@ export class AuthService {
                 uid: user.uid,
                 email: user.email,
                 displayName: user.displayName,
-                photoURL: user.photoURL
+                photoURL: user.photoURL,
+                role: 'customer'
             }
 
             firebase.database().ref('/users/' + user.uid).once('value')

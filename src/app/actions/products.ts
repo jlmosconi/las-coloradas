@@ -16,7 +16,13 @@ export const ActionTypes = {
     ADD_TO_FAVORITES_SUCCESS: type('[Products] Add To Favorites Success'),
     REMOVE_TO_FAVORITES: type('[Products] Remove To Favorites'),
     REMOVE_TO_FAVORITES_FAILURE: type('[Products] Remove To Favorites Failure'),
-    REMOVE_TO_FAVORITES_SUCCESS: type('[Products] Remove To Favorites Success')
+    REMOVE_TO_FAVORITES_SUCCESS: type('[Products] Remove To Favorites Success'),
+    ADD_TO_CART: type('[Products] Add To Cart'),
+    ADD_TO_CART_FAILURE: type('[Products] Add To Cart Failure'),
+    ADD_TO_CART_SUCCESS: type('[Products] Add To Cart Success'),
+    REMOVE_TO_CART: type('[Products] Remove To Cart'),
+    REMOVE_TO_CART_FAILURE: type('[Products] Remove To Cart Failure'),
+    REMOVE_TO_CART_SUCCESS: type('[Products] Remove To Cart Success')
 };
 
 export class GetHighlights implements Action {
@@ -94,9 +100,43 @@ export class RemoveToFavoritesSuccess implements Action {
   constructor(public payload?: any) { }
 }
 
-export type Actions = 
-GetHighlights | GetHighlightsFailure | GetHighlightsSuccess |
-GetLatest | GetLatestFailure | GetLatestSuccess |
-GetDetail | GetDetailFailure | GetDetailSuccess |
-AddToFavorites | AddToFavoritesFailure | AddToFavoritesSuccess |
-RemoveToFavorites | RemoveToFavoritesFailure | RemoveToFavoritesSuccess;
+
+
+export class AddToCart implements Action {
+  readonly type = ActionTypes.ADD_TO_FAVORITES;
+  constructor(public payload: any) { }
+}
+
+export class AddToCartFailure implements Action {
+  readonly type = ActionTypes.ADD_TO_FAVORITES_FAILURE;
+  constructor(public payload?: any) { }
+}
+
+export class AddToCartSuccess implements Action {
+  readonly type = ActionTypes.ADD_TO_FAVORITES_SUCCESS;
+  constructor(public payload?: any) { }
+}
+
+export class RemoveToCart implements Action {
+  readonly type = ActionTypes.REMOVE_TO_FAVORITES;
+  constructor(public payload: any) { }
+}
+
+export class RemoveToCartFailure implements Action {
+  readonly type = ActionTypes.REMOVE_TO_FAVORITES_FAILURE;
+  constructor(public payload?: any) { }
+}
+
+export class RemoveToCartSuccess implements Action {
+  readonly type = ActionTypes.REMOVE_TO_FAVORITES_SUCCESS;
+  constructor(public payload?: any) { }
+}
+
+export type Actions 
+= GetHighlights | GetHighlightsFailure | GetHighlightsSuccess
+| GetLatest | GetLatestFailure | GetLatestSuccess
+| GetDetail | GetDetailFailure | GetDetailSuccess
+| AddToFavorites | AddToFavoritesFailure | AddToFavoritesSuccess
+| RemoveToFavorites | RemoveToFavoritesFailure | RemoveToFavoritesSuccess
+| AddToCart | AddToCartFailure | AddToCartSuccess
+| RemoveToCart | RemoveToCartFailure | RemoveToCartSuccess;

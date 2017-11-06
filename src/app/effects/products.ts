@@ -6,7 +6,9 @@ import {
   GetLatest, GetLatestFailure, GetLatestSuccess,
   GetDetail, GetDetailFailure, GetDetailSuccess,
   AddToFavorites, AddToFavoritesFailure, AddToFavoritesSuccess,
-  RemoveToFavorites, RemoveToFavoritesFailure, RemoveToFavoritesSuccess
+  RemoveToFavorites, RemoveToFavoritesFailure, RemoveToFavoritesSuccess,
+  AddToCart, AddToCartFailure, AddToCartSuccess,
+  RemoveToCart, RemoveToCartFailure, RemoveToCartSuccess
 } from '../actions/products';
 import { ProductsService } from '../services/products/service';
 import { UserService } from '../services/user/service';
@@ -98,5 +100,41 @@ export class ProductsEffects {
       })
       .catch(err => {
         return of(new RemoveToFavoritesFailure());
+      });
+
+  @Effect()
+    addToCart$: Observable<Action> = this.action$
+      .ofType(ActionTypes.ADD_TO_CART)
+      .map(toPayload)
+      .switchMap(payload => {
+        return this.userService.addToCart(payload)
+      })
+      .map(response => {
+        if(response) {
+          return new AddToCartSuccess();
+        } else {
+          return new AddToCartFailure();
+        }
+      })
+      .catch(err => {
+        return of(new AddToCartFailure());
+      });
+  
+  @Effect()
+    removeToCart$: Observable<Action> = this.action$
+      .ofType(ActionTypes.REMOVE_TO_CART)
+      .map(toPayload)
+      .switchMap(payload => {
+        return this.userService.removeToCart(payload)
+      })
+      .map(response => {
+        if(response) {
+          return new RemoveToCartSuccess;
+        } else {
+          return new RemoveToCartFailure();
+        }
+      })
+      .catch(err => {
+        return of(new RemoveToCartFailure());
       });
 }

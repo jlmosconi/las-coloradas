@@ -22,7 +22,7 @@ export class GetDataSuccess implements Action {
     constructor(public payload?: any) { }
 }
 
-export type Actions = 
-GetData | 
-GetDataFailure | 
-GetDataSuccess;
+export type Actions 
+= GetData 
+| GetDataFailure 
+| GetDataSuccess;

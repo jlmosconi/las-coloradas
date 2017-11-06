@@ -44,4 +44,30 @@ export class UserService {
             }
         });
     }
+
+    addToCart(productId) {
+        return new Promise((resolve, reject) => {
+            let uid = this.getCurrentUser() ? this.getCurrentUser().uid : null;
+            if (uid) {
+                this.db.object(`/users/${uid}/cart/${productId}`).set(true)
+                    .then( _ => resolve(true))
+                    .catch(err => reject())
+            } else {
+                resolve(false);
+            }
+        });
+    }
+
+    removeToCart(productId) {
+        return new Promise((resolve, reject) => {
+            let uid = this.getCurrentUser() ? this.getCurrentUser().uid : null;
+            if (uid) {
+                this.db.object(`/users/${uid}/cart/${productId}`).remove()
+                    .then( _ => resolve(true))
+                    .catch(err => reject())
+            } else {
+                resolve(false);
+            }
+        });
+    }
 }

@@ -22,5 +22,7 @@ export class SendMessageSuccess implements Action {
     constructor(public payload?: any) { }
 }
 
-export type Actions = 
-SendMessage | SendMessageFailure | SendMessageSuccess;
+export type Actions 
+= SendMessage 
+| SendMessageFailure
+| SendMessageSuccess;

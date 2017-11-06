@@ -1,4 +1,6 @@
 import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { AddToCart, RemoveToCart } from "../../../actions/products";
 
 @Component({
 	selector: 'app-product-card',
@@ -18,7 +20,7 @@ import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
 			</div>
 			<div class="product-info">
 				<div class="product-price">
-					<span class="money">$ {{ product.cost }}</span>
+					<span class="money">$ {{ product.price }}</span>
 				</div>
 				<div class="product-name">
 					<a [routerLink]="['/producto', product.$key]" title="{{ product.title }}">{{ product.title }}</a>
