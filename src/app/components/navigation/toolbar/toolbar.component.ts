@@ -40,10 +40,7 @@ export class ToolbarComponent implements OnInit {
 
 	ngOnInit() { 
 		this.cart = JSON.parse(localStorage.getItem('cart'));
-		this.localStorageService.getItem('cart').subscribe(cart => {
-			console.warn(cart);
-			this.cart = cart;
-		});
+		this.localStorageService.getItem('cart').subscribe(cart => this.cart = cart);
 	}
 
 	setFullSearchBar() {

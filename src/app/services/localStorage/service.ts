@@ -13,7 +13,7 @@ export class LocalStorageService {
     }
 
     getItem(collection) {
-        this.storage.next(JSON.parse(localStorage.getItem(collection)));
+        //this.storage.next(JSON.parse(localStorage.getItem(collection)));
         return this.storage.map(storage => {
             return storage[collection];
         });
