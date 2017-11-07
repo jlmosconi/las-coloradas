@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { LocalStorageService } from "../localStorage/service";
+import { ProductsService } from "../products/service";
 import * as firebase from 'firebase';
 
 @Injectable()
@@ -9,7 +10,9 @@ export class UserService {
     constructor(
         private db: AngularFireDatabase, 
         private afAuth: AngularFireAuth,
-        private localStorageService: LocalStorageService) { }
+        private localStorageService: LocalStorageService,
+        private productsService: ProductsService
+    ) { }
 
     getUserState() {
         return this.afAuth.authState;
@@ -92,6 +95,43 @@ export class UserService {
                     .catch(err => reject())
             } else {
                 resolve(false);
+            }
+        });
+    }
+
+    getUserCart() {
+        return new Promise((resolve, reject) => {
+            let uid = this.getCurrentUserId() || 'hljE5x4aOnPLvf3Potb9gTSZ2fy2';
+            console.warn(uid);
+            if(uid) {
+                // firebase.database().ref(`/users/${uid}/cart`).once('value', (snapshot) => {
+                //     let value = snapshot.val() || {};
+                //     console.warn(value);
+                //     resolve(Object.keys(value))
+                // })
+                firebase.database().ref(`/users/${uid}/cart`).once('value')
+                    .then(result => {
+                        let values = result.val();
+                        if(values) {
+                            let keys = Object.keys(values);
+                            this.productsService.getProductsById(keys).then(results => {
+                                resolve(results)
+                            })
+                        } else {
+                            resolve();
+                        }
+                    })
+            } else {
+                let cart = JSON.parse(localStorage.getItem('cart')) || null;
+                if(cart) {
+                    let keys = Object.keys(cart);
+                    this.productsService.getProductsById(keys).then(results => {
+                        resolve(results)
+                    })
+                    // resolve(keys);
+                } else {
+                    resolve();
+                }
             }
         });
     }

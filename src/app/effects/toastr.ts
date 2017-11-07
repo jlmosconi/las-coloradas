@@ -1,25 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
-import { Store } from '@ngrx/store';
-import { Actions, Effect, toPayload } from '@ngrx/effects';
+import { Actions, Effect } from '@ngrx/effects';
 import { ActionTypes as contactActions } from '../actions/contact'
 import { ActionTypes as productsActions } from '../actions/products';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from '@angular/material';
 import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/toArray';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/startWith';
-import 'rxjs/add/operator/map';
 
 @Injectable()
 export class ToastrEffects {
     constructor(
-        private action$: Actions, 
-        private store: Store<any>,
+        private action$: Actions,
         public toastr: MatSnackBar
     ) {}
 

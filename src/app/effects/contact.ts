@@ -6,13 +6,8 @@ import { ActionTypes, SendMessageFailure, SendMessageSuccess } from '../actions/
 import { Observable } from 'rxjs/Observable';
 import { ContactService } from '../services/contact/service';
 import { of } from 'rxjs/observable/of';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/toArray';
+import { map, switchMap } from 'rxjs/operators';
 import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/startWith';
-import 'rxjs/add/operator/map';
 
 @Injectable()
 export class ContactEffects {

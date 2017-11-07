@@ -9,12 +9,7 @@ import { AuthModalComponent } from '../components/widgets/auth-modal/auth-modal.
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/toArray';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/startWith';
-import 'rxjs/add/operator/map';
+import { map, switchMap } from 'rxjs/operators';
 
 @Injectable()
 export class LayoutEffects {

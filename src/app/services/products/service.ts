@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
+import * as firebase from 'firebase';
 
 @Injectable()
 export class ProductsService {
@@ -18,7 +19,25 @@ export class ProductsService {
 	}
 		
 	getDetail(id) {
-		return this.db.object(`/products/published/${id}`).valueChanges();
+		return new Promise((resolve, reject) => {
+			firebase.database().ref(`/products/published/${id}`).once('value')
+				.then(result => resolve(result.val()))
+				.catch(err => reject())
+		});
+	}
+
+	getProductsById(ids) {
+		return new Promise((resolve, reject)=>{
+			let promises = [];
+			ids.map(id=>promises.push(this.getDetail(id)));
+			if(promises.length) {
+				Promise.all(promises)
+					.then(results=>resolve(results))
+					.catch(err=>reject(err))
+			} else {
+				resolve();
+			}
+		});
 	}
 
 	processSnapshots(snapshots) {

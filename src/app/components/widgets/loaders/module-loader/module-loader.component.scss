@@ -1,0 +1,10 @@
+.loader {
+    height: calc(100vh - 266px);
+
+    @media (max-width: 600px) {
+        height: calc(100vh - 258px);
+    }
+    mat-spinner {
+        margin: 100px auto 0;
+    }
+}

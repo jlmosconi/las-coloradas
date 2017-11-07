@@ -2,24 +2,22 @@ import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
 import { Actions, Effect, toPayload } from '@ngrx/effects';
 import {
-  ActionTypes, Authenticated, NotAuthenticated
+  ActionTypes, Authenticated, NotAuthenticated,
+  GetUserCartFailure, GetUserCartSuccess
 } from '../actions/user';
 import { UserService } from '../services/user/service';
+import { ProductsService } from '../services/products/service';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
-import 'rxjs/add/observable/fromPromise';
-import 'rxjs/add/operator/toArray';
+import { map, switchMap } from 'rxjs/operators';
 import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/startWith';
-import 'rxjs/add/operator/map';
 
 @Injectable()
 export class UserEffects {
   constructor(
     private action$: Actions,
-    private userService: UserService
+    private userService: UserService,
+    private productsService: ProductsService
   ) {}
     @Effect() 
       GetUser$: Observable<Action> = this.action$
@@ -36,4 +34,38 @@ export class UserEffects {
             }
           })
       )
+
+    // @Effect() 
+    //   GetUserCart$: Observable<Action> = this.action$
+    //   .ofType(ActionTypes.GET_USER_CART)
+    //   .switchMap(() => {
+    //     return this.userService.getUserCart();
+    //   })
+    //   .map(response => {
+    //     return response ? new GetUserCartSuccess(response) : new GetUserCartFailure();
+    //   })
+    //   .catch(err => {
+    //     return of(new GetUserCartFailure());
+    //   });
+
+    @Effect() 
+      GetUserCart$: Observable<Action> = this.action$
+      .ofType(ActionTypes.GET_USER_CART)
+      .switchMap(() => {
+        return this.userService.getUserState();
+      })
+      .switchMap(() => {
+        return this.userService.getUserCart();
+      })
+      .switchMap((ids) => {
+        console.warn(ids);
+        return this.productsService.getProductsById(ids);
+      })
+      .map(response => {
+        console.warn(response);
+        return new GetUserCartSuccess(response);
+      })
+      .catch(err => {
+        return of(new GetUserCartFailure());
+      });
 }

@@ -3,16 +3,11 @@ import { Action } from '@ngrx/store';
 import { Store } from '@ngrx/store';
 import { Actions, Effect, toPayload } from '@ngrx/effects';
 import { ActionTypes, GetDataSuccess } from '../actions/about';
-import { Observable } from 'rxjs/Observable';
 import { AboutService } from '../services/about/service';
+import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/toArray';
+import { map, switchMap } from 'rxjs/operators';
 import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/startWith';
-import 'rxjs/add/operator/map';
 
 @Injectable()
 export class AboutEffects {
