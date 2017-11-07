@@ -12,5 +12,11 @@ export const environment = {
       projectId: "las-coloradas-development",
       storageBucket: "las-coloradas-development.appspot.com",
       messagingSenderId: "70963654048"
+    },
+    algolia: {
+      appId: 'TA1XWNDJBY',
+      apiKey: '6eb50a2b55fb2d6d05dc8629ce682715',
+      indexName: 'products',
+      urlSync: true
     }
 };
