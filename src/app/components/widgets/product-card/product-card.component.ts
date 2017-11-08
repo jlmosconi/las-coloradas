@@ -11,10 +11,10 @@ import { AddToCart, RemoveToCart } from "../../../actions/products";
 				<img [src]="product.photoUrl" [alt]="product.title" *ngIf="product.photoUrl">
 				<!--<app-no-image type="product" *ngIf="!product.photoUrl"></app-no-image>-->
 				<div class="favorite d-flex">
-					<app-favorite-button [id]="product.$key" [isFavorite]="isFavorite"></app-favorite-button>
+					<app-favorite-button [id]="product.id" [isFavorite]="isFavorite"></app-favorite-button>
 				</div>
 
-				<a [routerLink]="['/producto', product.$key]" title="{{ product.title }}">
+				<a [routerLink]="['/producto', product.id]" title="{{ product.title }}">
 					<div class="see"></div>
 				</a>
 			</div>
@@ -23,13 +23,13 @@ import { AddToCart, RemoveToCart } from "../../../actions/products";
 					<span class="money">$ {{ product.price }}</span>
 				</div>
 				<div class="product-name">
-					<a [routerLink]="['/producto', product.$key]" title="{{ product.title }}">{{ product.title }}</a>
+					<a [routerLink]="['/producto', product.id]" title="{{ product.title }}">{{ product.title }}</a>
 				</div>
 				<div class="product-description mb-4">
 					<p>{{ product.description }}</p>
 				</div>
 				<div class="product-links pb-3 d-flex">
-					<button mat-raised-button color="accent" class="text-white mr-1" [routerLink]="['/producto', product.$key]">
+					<button mat-raised-button color="accent" class="text-white mr-1" [routerLink]="['/producto', product.id]">
 						Ver
 					</button>
 					
@@ -55,13 +55,13 @@ export class ProductCardComponent implements OnInit {
 	ngOnChanges(changes: SimpleChanges) {
         if (changes['favorites']) {
 			let keys = Object.keys(this.favorites || []);
-			this.isFavorite = !!keys.find(favorite => favorite === this.product.$key);
+			this.isFavorite = !!keys.find(favorite => favorite === this.product.id);
         }
 	}
 	
 	addToCart(quantity) {
 		this.store.dispatch(new AddToCart({
-			id: this.product.$key,
+			id: this.product.id,
 			quantity: quantity
 		}));
 	}
