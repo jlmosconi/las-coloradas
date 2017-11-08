@@ -1,6 +1,4 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase } from 'angularfire2/database';
-import * as firebase from 'firebase';
 import * as algoliasearch from 'algoliasearch';
 import { environment } from "../../../environments/environment";
 
@@ -9,19 +7,7 @@ const index = client.initIndex(environment.algolia.indexName);
 
 @Injectable()
 export class ProductsService {
-    constructor(private db: AngularFireDatabase) { }
-
-    // getHighlightProducts() {
-	// 	return this.db.list('/products/published', ref => ref.orderByChild('highlight').equalTo(true).limitToLast(12)).snapshotChanges().map(products => {
-	// 		return this.processSnapshots(products).reverse();
-	// 	})
-	// }
-
-    // getLatestProducts() {
-	// 	return this.db.list('/products/published', ref => ref.limitToLast(12)).snapshotChanges().map(products => {
-	// 		return this.processSnapshots(products).reverse();
-	// 	})
-	// }
+    constructor() { }
 
 	getHighlightProducts() {
 		return new Promise((resolve, reject) => {
@@ -76,6 +62,7 @@ export class ProductsService {
 			)
 		});
 	}
+
 	getProductsById(ids) {
 		return new Promise((resolve, reject)=>{
 			let promises = [];
@@ -90,15 +77,46 @@ export class ProductsService {
 		});
 	}
 
-	processSnapshots(snapshots) {
-		let snapshostArr = [];
-		
-		snapshots.map(snapshot => {
-			let $key = snapshot.payload.key;
-			let data = { $key, ...snapshot.payload.val() };
-			snapshostArr.push(data);
-		})
-					
-		return snapshostArr;
+	quickSearch(query) {
+		return new Promise((resolve, reject) => {
+			index.search(
+				{
+					query: query,
+					hitsPerPage: 6
+				},
+				function searchDone(err, content) {
+					if (err) {
+						console.error(err);
+						reject();
+					}
+
+					resolve(content.hits);
+				}
+			)
+		});
+	}
+
+	search(query, page) {
+		return new Promise((resolve, reject) => {
+			index.search(
+				{
+					query: query,
+					hitsPerPage: 12,
+					page: page || 0
+				},
+				function searchDone(err, content) {
+					if (err) {
+						console.error(err);
+						reject();
+					}
+
+					resolve({
+						hits: content.hits,
+						currentPage: content.page,
+						totalPages: content.nbPages
+					});
+				}
+			)
+		});
 	}
 }

@@ -7,7 +7,7 @@ import { ISubscription } from "rxjs/Subscription";
 import { onStateChangeObservable } from '../../../utils/store';
 import { OpenLogin } from '../../../actions/layout';
 import { LocalStorageService } from "../../../services/localStorage/service";
-// import { QuickSearchMovies, ClearQuickSearchMovies } from "../../../actions/movies";
+import { QuickSearchProducts, ClearQuickSearchProducts } from "../../../actions/products";
 
 @Component({
 	selector: 'app-toolbar',
@@ -36,11 +36,24 @@ export class ToolbarComponent implements OnInit {
 		this.searchForm = fb.group({
 			search: ['']
 		});
+
+		this.products$ = onStateChangeObservable(store, 'products.quickSearch');
+		this.quickSearchLoading$ = onStateChangeObservable(store, 'products.quickSearchLoading');
+		this.subscription = this.products$.subscribe();
+		this.quickSearchLoadingSubscription = this.quickSearchLoading$.subscribe();
 	}
 
 	ngOnInit() { 
 		this.cart = JSON.parse(localStorage.getItem('cart'));
 		this.localStorageService.getItem('cart').subscribe(cart => this.cart = cart);
+
+		let delayTimer;
+		this.searchForm.get('search').valueChanges.subscribe(query => {
+			clearTimeout(delayTimer);
+			delayTimer = setTimeout(() => {
+				query ? this.store.dispatch(new QuickSearchProducts(query)) : this.store.dispatch(new ClearQuickSearchProducts());
+			}, 200);
+		})
 	}
 
 	setFullSearchBar() {

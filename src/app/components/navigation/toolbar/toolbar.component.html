@@ -10,7 +10,7 @@
         </span>
 
         <div class="search-bar-content">
-            <app-search-bar [parent]="searchForm" (search)="goToSearch($event)" (clear)="clear();" [setFull]="setFull" [searchResult]="[]" [loading]="quickSearchLoading$ | async"></app-search-bar>
+            <app-search-bar [parent]="searchForm" (search)="goToSearch($event)" (clear)="clear();" [setFull]="setFull" [searchResult]="products$ | async" [loading]="quickSearchLoading$ | async"></app-search-bar>
         </div>
 
         <span class="d-flex align-items-center">

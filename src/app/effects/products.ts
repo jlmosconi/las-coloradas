@@ -8,13 +8,15 @@ import {
   AddToFavorites, AddToFavoritesFailure, AddToFavoritesSuccess,
   RemoveToFavorites, RemoveToFavoritesFailure, RemoveToFavoritesSuccess,
   AddToCart, AddToCartFailure, AddToCartSuccess,
-  RemoveToCart, RemoveToCartFailure, RemoveToCartSuccess
+  RemoveToCart, RemoveToCartFailure, RemoveToCartSuccess,
+  QuickSearchProductsSuccess, QuickSearchProductsFailure,
+  SearchProductsSuccess, SearchProductsFailure
 } from '../actions/products';
 import { ProductsService } from '../services/products/service';
 import { UserService } from '../services/user/service';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, mergeMap } from 'rxjs/operators';
 import 'rxjs/add/operator/catch';
 
 @Injectable()
@@ -24,6 +26,30 @@ export class ProductsEffects {
     private productsService: ProductsService,
     private userService: UserService
   ) {}
+
+  @Effect() 
+  QuickSearchMovies$: Observable<Action> = this.action$
+    .ofType(ActionTypes.QUICK_SEARCH_PRODUCTS)
+    .map(toPayload)
+    .switchMap(payload => {
+      return this.productsService.quickSearch(payload)
+        .then((result) => new QuickSearchProductsSuccess(result))
+        .catch(err => {
+          return new QuickSearchProductsFailure(err)
+        })
+    });
+
+  @Effect() 
+    SearchMovies$: Observable<Action> = this.action$
+      .ofType(ActionTypes.SEARCH_PRODUCTS)
+      .map(toPayload)
+      .switchMap(payload => {
+        return this.productsService.search(payload.query, payload.page)
+          .then((result) => new SearchProductsSuccess(result))
+          .catch(err => {
+            return new SearchProductsFailure(err)
+          })
+      });
 
   @Effect() GetHighlights$: Observable<{}> = this.action$
     .ofType(ActionTypes.GET_HIGHLIGHTS)

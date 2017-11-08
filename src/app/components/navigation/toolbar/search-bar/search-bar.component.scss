@@ -53,16 +53,25 @@
         color: #666666;
    }
 
-    .mat-spinner {
-        height: 24px;
-        width: 24px;
+    .mat-progress-spinner {
+        height: 24px!important;
+        width: 24px!important;
+
+        svg {
+            height: 24px!important;
+            width: 24px!important;
+        }
+    }
+
+    .mat-progress-spinner svg {
+        height: 24px!important;
+        width: 24px!important;
     }
 
     .suggestions {
         position: absolute;
         background-color: rgba(250, 250, 250, 0.99);
         line-height: 2rem;
-        box-shadow: rgba(0,0,0,0.8) 0 4px 14px 0;
         overflow: hidden;
         padding: 0px;
         z-index: 99999;
@@ -95,9 +104,12 @@
 
             li {
                 padding: .5rem 1rem;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
 
                 &:hover {
-                    background-color: rgba(25, 25, 25, .8);
+                    background-color: rgba(240, 240, 240, .8);
                 }
 
                 &:last-child {

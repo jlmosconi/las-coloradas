@@ -1,10 +1,16 @@
 const reducers = {};
 import { ActionTypes, Actions } from '../actions/products';
 const initialState = {
-    highlights: [],
-    latest: [],
-    selectedProduct: {},
-    loading: false
+  highlights: [],
+  latest: [],
+  filteredProducts: [],
+  currentPage: 0,
+  totalPages: 0,
+  selectedProduct: {},
+  searchList: [],
+  quickSearch: [],
+  quickSearchLoading: false,
+  loading: false
 };
 
 reducers[ActionTypes.GET_HIGHLIGHTS] = (state, payload) => {
@@ -56,6 +62,58 @@ reducers[ActionTypes.GET_DETAIL_SUCCESS] = (state, payload) => {
 reducers[ActionTypes.GET_DETAIL_FAILURE] = (state, payload) => {
   return Object.assign({}, state, {
     selectedProduct: {}
+  });
+};
+
+reducers[ActionTypes.QUICK_SEARCH_PRODUCTS] = (state, payload) => {
+  return Object.assign({}, state, {
+    quickSearchLoading: true
+  });
+};
+
+reducers[ActionTypes.CLEAR_QUICK_SEARCH_PRODUCTS] = (state, payload) => {
+  return Object.assign({}, state, {
+    quickSearch: []
+  });
+};
+
+reducers[ActionTypes.QUICK_SEARCH_PRODUCTS_SUCCESS] = (state, payload) => {
+  return Object.assign({}, state, {
+    quickSearch: payload,
+    quickSearchLoading: false
+  });
+};
+
+reducers[ActionTypes.SEARCH_PRODUCTS] = (state, payload) => {
+  return Object.assign({}, state, {
+    loading: true
+  });
+};
+
+reducers[ActionTypes.SEARCH_PRODUCTS_SUCCESS] = (state, payload) => {
+  return Object.assign({}, state, {
+    searchList: state.searchList.concat(payload.hits),
+    currentPage: payload.currentPage,
+    totalPages: payload.totalPages,
+    loading: false
+  });
+};
+
+reducers[ActionTypes.CLEAR_FILTERED_PRODUCTS] = (state, payload) => {
+  return Object.assign({}, state, {
+    filteredProducts: [],
+    currentPage: 0,
+    totalPages: 0,
+    loading: false
+  });
+};
+
+reducers[ActionTypes.CLEAR_SEARCH_LIST] = (state, payload) => {
+  return Object.assign({}, state, {
+    searchList: [],
+    currentPage: 0,
+    totalPages: 0,
+    loading: false
   });
 };
 
