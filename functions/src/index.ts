@@ -3,7 +3,8 @@ import * as admin from 'firebase-admin';
 
 admin.initializeApp(functions.config().firebase);
 
-import * as products from './products';
+const nodeEnv = process.env.NODE_ENV;
 
+import * as products from './products';
 
 export const updateProducts = products.updateProducts;

@@ -18,7 +18,7 @@ export const updateProducts = functions.database
             });
         }
 
-        data.objectID = data.id = +productId;
+        data.objectID = data.id = productId;
 
         return index.saveObject(data, (err, content) => {
             if (err) throw err

@@ -79,6 +79,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const functions = __webpack_require__(0);
 const admin = __webpack_require__(2);
 admin.initializeApp(functions.config().firebase);
+const nodeEnv = "production";
 const products = __webpack_require__(3);
 exports.updateProducts = products.updateProducts;
 
@@ -120,7 +121,7 @@ exports.updateProducts = functions.database
             console.log(productId);
         });
     }
-    data.objectID = data.id = +productId;
+    data.objectID = data.id = productId;
     return index.saveObject(data, (err, content) => {
         if (err)
             throw err;
