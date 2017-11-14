@@ -1,0 +1,12 @@
+.mat-progress-spinner {
+    height: 50px!important;
+    width: 50px!important;
+    margin: 0 auto;
+
+    /deep/ {
+        svg {
+            height: 50px!important;
+            width: 50px!important;
+        }
+    }
+}

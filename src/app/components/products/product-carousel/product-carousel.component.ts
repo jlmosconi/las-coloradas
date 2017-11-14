@@ -5,9 +5,9 @@ import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
 	selector: 'app-product-carousel',
 	template: `
 		<div class="carousel">
-			<div class="header">
-				<h1>{{ title }}</h1>
-			</div>
+		
+			<app-products-header [title]="title" *ngIf="title"></app-products-header>
+
 			<div [swiper]="config" class="swiper-container" *ngIf="products && products.length">
 				<div class="swiper-wrapper">
 					<div class="swiper-slide" *ngFor="let product of products">
