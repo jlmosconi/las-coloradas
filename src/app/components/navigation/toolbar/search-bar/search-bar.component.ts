@@ -15,7 +15,7 @@ import { FormGroup } from '@angular/forms';
 					<mat-icon class="searchBarSearchIcon">search</mat-icon> 
 				</button>
 				<input type="text" id="searchBarInput" placeholder="Buscar..." formControlName="search" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="off">
-				<mat-spinner *ngIf="false"></mat-spinner>
+				<mat-spinner *ngIf="loading"></mat-spinner>
 				<button type="button" mat-icon-button class="mr-1" (click)="clear.emit();">
 					<mat-icon>clear</mat-icon> 
 				</button>
@@ -24,8 +24,7 @@ import { FormGroup } from '@angular/forms';
 			<div class="suggestions w-100 mat-elevation-z5" [ngClass]="{ 'suggestions-hidde': !searchResult.length }">
 				<ul>
 					<li *ngFor="let product of searchResult">
-						{{ product.title }}
-						<!--<app-film-search-card [film]="film" (click)="clear.emit();"></app-film-search-card>-->
+						<app-product-search-card [product]="product" (click)="clear.emit();"></app-product-search-card>
 					</li>
 				</ul>
 			</div>
@@ -60,7 +59,7 @@ export class SearchBarComponent implements OnInit {
 			inside = false;
 
 		do {
-			if (clickedComponent === searchBarInput) {
+			if(clickedComponent === searchBarInput) {
 				inside = true;
 			}
 		   clickedComponent = clickedComponent.parentNode;

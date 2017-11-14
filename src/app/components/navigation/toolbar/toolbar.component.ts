@@ -66,7 +66,7 @@ export class ToolbarComponent implements OnInit {
 	}
 	
 	goToSearch(q) {
-		this.router.navigate(['/buscar', q]);
+		this.router.navigate(['/busqueda', q]);
 	}
 
 	openSideNav() {

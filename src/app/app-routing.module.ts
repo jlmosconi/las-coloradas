@@ -7,6 +7,7 @@ const routes: Routes = [
   { path: 'carrito', loadChildren: 'app/modules/cart/cart.module#CartContainerModule' },
   { path: 'sobre-nosotros', loadChildren: 'app/modules/about-us/about-us.module#AboutUsModule' },
   { path: 'contacto', loadChildren: 'app/modules/contact-us/contact-us.module#ContactUsModule' },
+  { path: 'busqueda', loadChildren: 'app/modules/search/search.module#SearchContainerModule' },
   { path: '**', redirectTo: '' }
 ];
 

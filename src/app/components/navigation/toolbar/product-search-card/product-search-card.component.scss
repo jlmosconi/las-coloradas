@@ -1,0 +1,49 @@
+@import '../../../../../assets/styles/_variables';
+
+.product {
+    position: relative;
+    min-height: 45px;
+    max-height: 53px;
+    padding: 0 0 0 5.75rem;
+    overflow: hidden;
+
+    .img {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 80px;
+        // height: auto;
+        // font-size: 1.5rem;
+        border-radius: 2px;
+        overflow: hidden;
+
+        img {
+            width: 100%;
+            height: auto;
+        }
+    }
+
+    .data {
+        padding-right: 1.25rem;
+        line-height: 1.75rem;
+
+        .title {
+            color: #3e454c;
+            font-size: 0.9375rem;
+            width: 100%;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-weight: 500;
+            overflow: hidden;
+        }
+
+        .price {
+            font-size: 0.75rem;
+            width: 100%;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            color: rgba($primary-color, 0.9);
+        }
+    }
+}
