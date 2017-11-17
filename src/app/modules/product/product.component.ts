@@ -11,7 +11,7 @@ import { onStateChangeObservable } from '../../utils/store';
 	template: 
 	`
 		<div class="container">
-			<div class="pt-3 pt-md-4">
+			<div class="pt-4 pt-md-5">
 				<app-product-detail [product]="product$ | async" [favorites]="userFavorites$ | async" [related]="related$ | async" *ngIf="!(loading$ | async) && (product$ | async).id"></app-product-detail>
 				<app-no-results-found *ngIf="!(loading$ | async) && !(product$ | async).id"></app-no-results-found>
 				<app-module-loader *ngIf="loading$ | async"></app-module-loader>

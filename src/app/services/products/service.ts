@@ -72,14 +72,13 @@ export class ProductsService {
 	getDetail(id) {
 		return new Promise((resolve, reject) => {
 			index.getObject(id, (err, content) => {
-					if (err) {
-						console.error(err);
-						reject();
-					}
-
-					resolve(content);
+				if (err) {
+					console.error(err);
+					reject();
 				}
-			)
+
+				resolve(content);
+			})
 		});
 	}
 
