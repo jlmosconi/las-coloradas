@@ -8,6 +8,9 @@ export const ActionTypes = {
     GET_LATEST: type('[Products] Get Latest'),
     GET_LATEST_SUCCESS: type('[Products] Get Latest Success'),
     GET_LATEST_FAILURE: type('[Products] Get Latest Failure'),
+    GET_RELATED: type('[Products] Get Related'),
+    GET_RELATED_SUCCESS: type('[Products] Get Related Success'),
+    GET_RELATED_FAILURE: type('[Products] Get Related Failure'),
     GET_DETAIL: type('[Products] Get Detail'),
     GET_DETAIL_SUCCESS: type('[Products] Get Detail Success'),
     GET_DETAIL_FAILURE: type('[Products] Get Detail Failure'),
@@ -61,6 +64,21 @@ export class GetLatestFailure implements Action {
 
 export class GetLatestSuccess implements Action {
   readonly type = ActionTypes.GET_LATEST_SUCCESS;
+  constructor(public payload: any) { }
+}
+
+export class GetRelated implements Action {
+  readonly type = ActionTypes.GET_RELATED;
+  constructor(public payload: any) { }
+}
+
+export class GetRelatedFailure implements Action {
+  readonly type = ActionTypes.GET_RELATED_FAILURE;
+  constructor(public payload: any) { }
+}
+
+export class GetRelatedSuccess implements Action {
+  readonly type = ActionTypes.GET_RELATED_SUCCESS;
   constructor(public payload: any) { }
 }
 
@@ -188,6 +206,7 @@ export class ClearSearchList implements Action {
 export type Actions 
 = GetHighlights | GetHighlightsFailure | GetHighlightsSuccess
 | GetLatest | GetLatestFailure | GetLatestSuccess
+| GetRelated | GetRelatedFailure | GetRelatedSuccess
 | GetDetail | GetDetailFailure | GetDetailSuccess
 | AddToFavorites | AddToFavoritesFailure | AddToFavoritesSuccess
 | RemoveToFavorites | RemoveToFavoritesFailure | RemoveToFavoritesSuccess

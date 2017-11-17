@@ -1,0 +1,62 @@
+.alert {
+    padding: 0;
+    height: auto;
+    display: table;
+    width: 100%;
+    border: 0;
+    border-radius: 3px;
+    height: 100%;
+
+    &.alert-warning {
+        .icon {
+            color: #FFECB3;
+            background-color: #FFC107;
+        }
+
+        .message {
+            color: #fff;
+            background-color: #ffd149;
+        }
+    }
+
+    .icon {
+        float: left;
+        height: 100%;
+        display: table-cell;
+        vertical-align: middle;
+        padding: 0 40px;
+        border-radius: 3px 0 0 3px;
+        position: relative;
+        text-align: center;
+        font-size: 28px!important;
+
+        .svgCont {
+            position: absolute;
+            top: 47%;
+            display: block;
+            -webkit-transform: translate(-50%,-50%);
+            -ms-transform: translate(-50%,-50%);
+            transform: translate(-50%,-50%);
+
+            svg:not(:root) {
+                overflow: visible;
+                width: 1.125em;
+                font-size: inherit;
+                height: 1em;
+                vertical-align: -10%;
+            }
+        }
+    }
+
+    .message {
+        padding: 10px 20px;
+        display: table-cell;
+        vertical-align: middle;
+        width: 100%;
+        border-radius: 3px;
+
+        &.with-icon {
+            border-radius: 0 3px 3px 0;
+        }
+    }
+}

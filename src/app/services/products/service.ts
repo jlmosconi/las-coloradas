@@ -48,6 +48,26 @@ export class ProductsService {
 			)
 		});
 	}
+
+	getRelatedProducts(categoryId, productId) {
+		return new Promise((resolve, reject) => {
+			index.search(
+				{
+					filters: `NOT id:${productId}`,
+					facetFilters: `categories.${categoryId}:true`,
+				},
+				function searchDone(err, content) {
+					if (err) {
+						console.error(err);
+						reject();
+						return;
+					}
+
+					resolve(content.hits);
+				}
+			)
+		});
+	}
 		
 	getDetail(id) {
 		return new Promise((resolve, reject) => {

@@ -4,6 +4,7 @@ import { Actions, Effect, toPayload } from '@ngrx/effects';
 import {
   ActionTypes, GetHighlights, GetHighlightsFailure, GetHighlightsSuccess,
   GetLatest, GetLatestFailure, GetLatestSuccess,
+  GetRelated, GetRelatedFailure, GetRelatedSuccess,
   GetDetail, GetDetailFailure, GetDetailSuccess,
   AddToFavorites, AddToFavoritesFailure, AddToFavoritesSuccess,
   RemoveToFavorites, RemoveToFavoritesFailure, RemoveToFavoritesSuccess,
@@ -73,6 +74,19 @@ export class ProductsEffects {
     })
     .catch(err => {
       return of({ type: ActionTypes.GET_LATEST_FAILURE, payload: err });
+    });
+
+  @Effect() GetRelated$: Observable<{}> = this.action$
+    .ofType(ActionTypes.GET_RELATED)
+    .map(toPayload)
+    .switchMap(payload => {
+      return this.productsService.getRelatedProducts(payload.categoryId, payload.productId);
+    })
+    .map(result => {
+        return new GetRelatedSuccess(result);
+    })
+    .catch(err => {
+      return of({ type: ActionTypes.GET_RELATED_FAILURE, payload: err });
     });
 
   @Effect() GetProductDetail$: Observable<Action> = this.action$

@@ -27,6 +27,10 @@ import { FormGroup } from '@angular/forms';
 						<app-product-search-card [product]="product" (click)="clear.emit();"></app-product-search-card>
 					</li>
 				</ul>
+
+				<div class="footer d-block text-center" (click)="onSubmit()">
+					Ver todos los resultados para {{ parent.value.search }}
+				</div>
 			</div>
 		</form>
 		`

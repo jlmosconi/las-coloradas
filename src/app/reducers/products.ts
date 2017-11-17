@@ -3,10 +3,12 @@ import { ActionTypes, Actions } from '../actions/products';
 const initialState = {
   highlights: [],
   latest: [],
+  related: [],
   filteredProducts: [],
   currentPage: 0,
   totalPages: 0,
   selectedProduct: {},
+  selectedProductLoading: true,
   searchList: [],
   quickSearch: [],
   quickSearchLoading: false,
@@ -53,15 +55,35 @@ reducers[ActionTypes.GET_LATEST_FAILURE] = (state, payload) => {
   });
 };
 
+reducers[ActionTypes.GET_RELATED_SUCCESS] = (state, payload) => {
+  return Object.assign({}, state, {
+    related: payload
+  });
+};
+
+reducers[ActionTypes.GET_RELATED_FAILURE] = (state, payload) => {
+  return Object.assign({}, state, {
+    related: []
+  });
+};
+
+reducers[ActionTypes.GET_DETAIL] = (state, payload) => {
+  return Object.assign({}, state, {
+    selectedProductLoading: true
+  });
+};
+
 reducers[ActionTypes.GET_DETAIL_SUCCESS] = (state, payload) => {
   return Object.assign({}, state, {
-    selectedProduct: payload
+    selectedProduct: payload,
+    selectedProductLoading: false
   });
 };
 
 reducers[ActionTypes.GET_DETAIL_FAILURE] = (state, payload) => {
   return Object.assign({}, state, {
-    selectedProduct: {}
+    selectedProduct: {},
+    selectedProductLoading: false
   });
 };
 

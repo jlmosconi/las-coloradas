@@ -14,7 +14,7 @@ import { AddToCart, RemoveToCart } from "../../../actions/products";
 					<app-favorite-button [id]="product.id" [isFavorite]="isFavorite"></app-favorite-button>
 				</div>
 
-				<a [routerLink]="['/producto', product.id]" title="{{ product.title }}">
+				<a [routerLink]="['/producto', product.id, product.slug]" title="{{ product.title }}">
 					<div class="see"></div>
 				</a>
 			</div>
@@ -23,13 +23,13 @@ import { AddToCart, RemoveToCart } from "../../../actions/products";
 					<span class="money">$ {{ product.price }}</span>
 				</div>
 				<div class="product-name">
-					<a [routerLink]="['/producto', product.id]" title="{{ product.title }}">{{ product.title }}</a>
+					<a [routerLink]="['/producto', product.id, product.slug]" title="{{ product.title }}">{{ product.title }}</a>
 				</div>
 				<div class="product-description mb-4">
 					<p>{{ product.description }}</p>
 				</div>
 				<div class="product-links pb-3 d-flex">
-					<button mat-raised-button color="accent" class="text-white mr-1" [routerLink]="['/producto', product.id]">
+					<button mat-raised-button color="accent" class="text-white mr-1" [routerLink]="['/producto', product.id, product.slug]">
 						Ver
 					</button>
 					

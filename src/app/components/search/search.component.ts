@@ -4,19 +4,15 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 	selector: 'app-search',
 	template:
 	`
-		<div class="container">
-			<div class="pt-3 pt-md-4">
-				<app-products-grid
-					[list]="products" 
-					[currentPage]="currentPage"
-					[totalPages]="totalPages"
-					[title]="'Resultados para: ' + title" 
-					[favorites]="favorites"
-					[loading]="loading"
-					(scroll)="scroll()">
-				</app-products-grid>
-			</div>
-		</div>
+		<app-products-grid
+			[list]="products" 
+			[currentPage]="currentPage"
+			[totalPages]="totalPages"
+			[title]="'Resultados para: ' + title" 
+			[favorites]="favorites"
+			[loading]="loading"
+			(scroll)="scroll()">
+		</app-products-grid>
 	`,
 	styleUrls: ['./search.component.scss']
 })

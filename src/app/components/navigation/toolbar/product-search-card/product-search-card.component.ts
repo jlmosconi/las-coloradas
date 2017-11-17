@@ -4,7 +4,7 @@ import { Component, OnInit, Input } from '@angular/core';
 	selector: 'app-product-search-card',
 	template: 
 		`
-		<a class="product d-flex align-items-center" [routerLink]="['/producto', product.id]">
+		<a class="product d-flex align-items-center" [routerLink]="['/producto', product.id, product.slug]">
 			<div class="img">
 				<img [src]="product.photoUrl" [alt]="product.title" *ngIf="product.photoUrl">
 				<!--<app-no-image type="product" *ngIf="!product.photoUrl"></app-no-image>-->

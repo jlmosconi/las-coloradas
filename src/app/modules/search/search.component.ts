@@ -10,16 +10,20 @@ import { SearchProducts, ClearSearchList } from "../../actions/products";
 	selector: 'app-search-container',
 	template: 
 		`
-			<app-search
-				[products]="products$ | async" 
-				[currentPage]="currentPage$ | async"
-				[totalPages]="totalPages$ | async"
-				[title]="query"
-				[favorites]="userFavorites$ | async"
-				[loading]="loading$ | async"
-				(onScroll)="onScroll()"
-				>
-			</app-search>
+		<div class="container">
+			<div class="pt-3 pt-md-4">
+				<app-search
+					[products]="products$ | async" 
+					[currentPage]="currentPage$ | async"
+					[totalPages]="totalPages$ | async"
+					[title]="query"
+					[favorites]="userFavorites$ | async"
+					[loading]="loading$ | async"
+					(onScroll)="onScroll()"
+					>
+				</app-search>
+			</div>
+		</div>
 		`,
 	styleUrls: ['./search.component.scss']
 })
