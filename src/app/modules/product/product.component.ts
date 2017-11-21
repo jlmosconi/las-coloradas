@@ -12,7 +12,7 @@ import { onStateChangeObservable } from '../../utils/store';
 	`
 		<div class="container">
 			<div class="pt-4 pt-md-5">
-				<app-product-detail [product]="product$ | async" [favorites]="userFavorites$ | async" [related]="related$ | async" *ngIf="!(loading$ | async) && (product$ | async).id"></app-product-detail>
+				<app-product-detail [product]="product$ | async" [favorites]="userFavorites$ | async" [related]="related$ | async" [relatedLoading]="relatedLoading$ | async" *ngIf="!(loading$ | async) && (product$ | async).id"></app-product-detail>
 				<app-no-results-found *ngIf="!(loading$ | async) && !(product$ | async).id"></app-no-results-found>
 				<app-module-loader *ngIf="loading$ | async"></app-module-loader>
 			</div>
@@ -25,11 +25,13 @@ import { onStateChangeObservable } from '../../utils/store';
 export class ProductComponent implements OnInit {
 	product$: Observable<any>;
 	related$: Observable<any>;
+	relatedLoading$: Observable<any>;
 	loading$: Observable<any>;
 	userFavorites$: Observable<any>;
 	id;
 	private subscriptionProduct: ISubscription;
 	private subscriptionRelated: ISubscription;
+	private subscriptionRelatedLoading: ISubscription;
 	private subscriptionLoading: ISubscription;
 	private subscriptionuserFavorites: ISubscription;
 
@@ -46,6 +48,7 @@ export class ProductComponent implements OnInit {
 			this.product$ = onStateChangeObservable(this.store, 'products.selectedProduct');
 			this.related$ = onStateChangeObservable(this.store, 'products.related');
 			this.loading$ = onStateChangeObservable(this.store, 'products.selectedProductLoading');
+			this.relatedLoading$ = onStateChangeObservable(this.store, 'products.relatedLoading');
 			this.userFavorites$ = onStateChangeObservable(store, 'user.userData.favorites');
 
 			this.subscriptionProduct = this.product$.subscribe(product => {
@@ -57,6 +60,7 @@ export class ProductComponent implements OnInit {
 				}
 			});
 			this.subscriptionRelated = this.related$.subscribe();
+			this.subscriptionRelatedLoading = this.relatedLoading$.subscribe();
 			this.subscriptionLoading = this.loading$.subscribe();
 			this.subscriptionuserFavorites = this.userFavorites$.subscribe();
 		});
@@ -67,6 +71,7 @@ export class ProductComponent implements OnInit {
 	 ngOnDestroy() {
 		this.subscriptionProduct.unsubscribe();
 		this.subscriptionRelated.unsubscribe();
+		this.subscriptionRelatedLoading.unsubscribe();
 		this.subscriptionLoading.unsubscribe();
 		this.subscriptionuserFavorites.unsubscribe();
 	}

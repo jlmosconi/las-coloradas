@@ -37,7 +37,7 @@ import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
 		</div>
 
 		<div class="pt-4 pt-md-5">
-			<app-product-carousel [title]="'Relacionados'" [products]="related" [favorites]="favorites"></app-product-carousel>
+			<app-product-carousel [title]="'Relacionados'" [products]="related" [favorites]="favorites" [loading]="relatedLoading"></app-product-carousel>
 		</div>
 	`,
 	styleUrls: ['./product-detail.component.scss']
@@ -46,6 +46,7 @@ import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
 export class ProductDetailComponent implements OnInit {
 	@Input() product;
 	@Input() related;
+	@Input() relatedLoading;
 	@Input() favorites;
 	isFavorite: boolean;
 	constructor() { }

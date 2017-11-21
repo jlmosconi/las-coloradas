@@ -2,8 +2,11 @@ const reducers = {};
 import { ActionTypes, Actions } from '../actions/products';
 const initialState = {
   highlights: [],
+  highlightsLoading: true,
   latest: [],
+  latestLoading: true,
   related: [],
+  relatedLoading: true,
   filteredProducts: [],
   currentPage: 0,
   totalPages: 0,
@@ -17,53 +20,61 @@ const initialState = {
 
 reducers[ActionTypes.GET_HIGHLIGHTS] = (state, payload) => {
   return Object.assign({}, state, {
-    loading: true
+    highlightsLoading: true
   });
 };
 
 reducers[ActionTypes.GET_HIGHLIGHTS_SUCCESS] = (state, payload) => {
   return Object.assign({}, state, {
     highlights: payload,
-    loading: false
+    highlightsLoading: false
   });
 };
 
 reducers[ActionTypes.GET_HIGHLIGHTS_FAILURE] = (state, payload) => {
   return Object.assign({}, state, {
     highlights: [],
-    loading: false
+    highlightsLoading: false
   });
 };
 
 reducers[ActionTypes.GET_LATEST] = (state, payload) => {
   return Object.assign({}, state, {
-    loading: true
+    latestLoading: true
   });
 };
 
 reducers[ActionTypes.GET_LATEST_SUCCESS] = (state, payload) => {
   return Object.assign({}, state, {
     latest: payload,
-    loading: false
+    latestLoading: false
   });
 };
 
 reducers[ActionTypes.GET_LATEST_FAILURE] = (state, payload) => {
   return Object.assign({}, state, {
     latest: [],
-    loading: false
+    latestLoading: false
+  });
+};
+
+reducers[ActionTypes.GET_RELATED] = (state, payload) => {
+  return Object.assign({}, state, {
+    relatedLoading: true
   });
 };
 
 reducers[ActionTypes.GET_RELATED_SUCCESS] = (state, payload) => {
   return Object.assign({}, state, {
-    related: payload
+    related: payload,
+    relatedLoading: false
   });
 };
 
 reducers[ActionTypes.GET_RELATED_FAILURE] = (state, payload) => {
   return Object.assign({}, state, {
-    related: []
+    related: [],
+    relatedLoading: false
   });
 };
 

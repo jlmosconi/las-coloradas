@@ -8,7 +8,7 @@ import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
 		
 			<app-products-header [title]="title" *ngIf="title"></app-products-header>
 
-			<div [swiper]="config" class="swiper-container" *ngIf="products && products.length">
+			<div [swiper]="config" class="swiper-container" *ngIf="!loading && products.length">
 				<div class="swiper-wrapper">
 					<div class="swiper-slide" *ngFor="let product of products">
 						<app-product-card [product]="product" [favorites]="favorites"></app-product-card>
@@ -22,13 +22,15 @@ import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
 				<div [hidden]="config.prevButton != '.swiper-button-prev'" class="swiper-button-prev"></div>
 			</div>
 
-			<div [swiper]="config" class="swiper-container" *ngIf="!products.length">
+			<div [swiper]="config" class="swiper-container" *ngIf="loading">
 				<div class="swiper-wrapper">
 					<div class="swiper-slide" *ngFor="let item of items">
 						<app-product-card-loader></app-product-card-loader>  
 					</div>
 				</div>
 			</div>
+
+			<div *ngIf="!loading && !products.length">No se encontraron resultados.</div>
 		</div> 
 	`,
 	styleUrls: ['./product-carousel.component.scss']
@@ -36,6 +38,7 @@ import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
 
 export class ProductCarouselComponent implements OnInit {
 	@Input() products;
+	@Input() loading;
 	@Input() title;
 	@Input() favorites;
 	items;
@@ -61,5 +64,7 @@ export class ProductCarouselComponent implements OnInit {
 		this.items = Array(this.config.slidesPerView).fill(0).map((x,i)=>i);
 	}
 
-	ngOnInit() { }
+	ngOnInit() { 
+		
+	}
 }
