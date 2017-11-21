@@ -29,7 +29,7 @@ export class ProductsEffects {
   ) {}
 
   @Effect() 
-  QuickSearchMovies$: Observable<Action> = this.action$
+  QuickSearchProducts$: Observable<Action> = this.action$
     .ofType(ActionTypes.QUICK_SEARCH_PRODUCTS)
     .map(toPayload)
     .switchMap(payload => {
@@ -41,7 +41,7 @@ export class ProductsEffects {
     });
 
   @Effect() 
-    SearchMovies$: Observable<Action> = this.action$
+    SearchProducts$: Observable<Action> = this.action$
       .ofType(ActionTypes.SEARCH_PRODUCTS)
       .map(toPayload)
       .switchMap(payload => {

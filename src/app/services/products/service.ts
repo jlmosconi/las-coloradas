@@ -70,6 +70,7 @@ export class ProductsService {
 	}
 		
 	getDetail(id) {
+		console.warn(id);
 		return new Promise((resolve, reject) => {
 			index.getObject(id, (err, content) => {
 				if (err) {
@@ -83,6 +84,7 @@ export class ProductsService {
 	}
 
 	getProductsById(ids) {
+		console.warn(ids);
 		return new Promise((resolve, reject)=>{
 			let promises = [];
 			ids.map(id=>promises.push(this.getDetail(id)));

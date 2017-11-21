@@ -54,13 +54,12 @@ export class UserEffects {
       .switchMap(() => {
         return this.userService.getUserState();
       })
-      .switchMap(() => {
+      .switchMap((s) => {
         return this.userService.getUserCart();
       })
-      .switchMap((ids) => {
-        console.warn(ids);
-        return this.productsService.getProductsById(ids);
-      })
+      // .switchMap((ids) => {
+      //   return this.productsService.getProductsById(ids);
+      // })
       .map(response => {
         console.warn(response);
         return new GetUserCartSuccess(response);

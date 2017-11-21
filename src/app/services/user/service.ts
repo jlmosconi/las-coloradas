@@ -101,21 +101,16 @@ export class UserService {
 
     getUserCart() {
         return new Promise((resolve, reject) => {
-            let uid = this.getCurrentUserId() || 'hljE5x4aOnPLvf3Potb9gTSZ2fy2';
+            let uid = this.getCurrentUserId();
             console.warn(uid);
             if(uid) {
-                // firebase.database().ref(`/users/${uid}/cart`).once('value', (snapshot) => {
-                //     let value = snapshot.val() || {};
-                //     console.warn(value);
-                //     resolve(Object.keys(value))
-                // })
                 firebase.database().ref(`/users/${uid}/cart`).once('value')
                     .then(result => {
                         let values = result.val();
                         if(values) {
                             let keys = Object.keys(values);
                             this.productsService.getProductsById(keys).then(results => {
-                                resolve(results)
+                                resolve(results);
                             })
                         } else {
                             resolve();
@@ -126,7 +121,7 @@ export class UserService {
                 if(cart) {
                     let keys = Object.keys(cart);
                     this.productsService.getProductsById(keys).then(results => {
-                        resolve(results)
+                        resolve(results);
                     })
                     // resolve(keys);
                 } else {
