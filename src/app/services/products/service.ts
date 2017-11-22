@@ -85,11 +85,32 @@ export class ProductsService {
 	getProductsById(ids) {
 		return new Promise((resolve, reject)=>{
 			let promises = [];
-			ids.map(id=>promises.push(this.getDetail(id)));
+			if(ids) ids.map(id=>promises.push(this.getDetail(id)));
 			if(promises.length) {
 				Promise.all(promises)
 					.then(results=>resolve(results))
 					.catch(err=>reject(err))
+			} else {
+				resolve();
+			}
+		});
+	}
+
+	processProductsCart(cart) {
+		return new Promise((resolve, reject)=>{
+			let keys = cart ? Object.keys(cart) : null
+			if(keys) {
+				this.getProductsById(keys)
+					.then(products => {
+						keys.map((key, i) => {
+							let product = products[i];
+							if(product.id == key) {
+								product.quantity = cart[key]
+								product.total = product.quantity * product.price;
+							};
+						})
+						resolve(products);
+					})
 			} else {
 				resolve();
 			}

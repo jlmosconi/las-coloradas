@@ -4,6 +4,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { LocalStorageService } from "../localStorage/service";
 import { ProductsService } from "../products/service";
 import * as firebase from 'firebase';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class UserService {
@@ -99,35 +100,36 @@ export class UserService {
         });
     }
 
-    getUserCart() {
-        return new Promise((resolve, reject) => {
-            let uid = this.getCurrentUserId();
-            if(uid) {
-                firebase.database().ref(`/users/${uid}/cart`).once('value')
-                    .then(result => {
-                        let values = result.val();
-                        if(values) {
-                            let keys = Object.keys(values);
-                            console.warn(values);
-                            this.productsService.getProductsById(keys).then(results => {
-                                resolve(results);
-                            })
-                        } else {
-                            resolve();
-                        }
-                    })
-            } else {
-                let cart = JSON.parse(localStorage.getItem('cart')) || null;
-                if(cart) {
-                    let keys = Object.keys(cart);
-                    this.productsService.getProductsById(keys).then(results => {
-                        resolve(results);
-                    })
-                    // resolve(keys);
-                } else {
-                    resolve();
-                }
-            }
-        });
+    getUserCart(uid) {
+           return uid ? this.db.object(`/users/${uid}/cart`).valueChanges() : Observable.of(JSON.parse(localStorage.getItem('cart')));
+        // return new Promise((resolve, reject) => {
+        //     let uid = this.getCurrentUserId();
+        //     console.warn(uid);
+        //     if(uid) {
+        //         firebase.database().ref(`/users/${uid}/cart`).once('value')
+        //             .then(result => {
+        //                 let values = result.val();
+        //                 if(values) {
+        //                     let keys = Object.keys(values);
+        //                     console.warn(values);
+        //                     this.productsService.getProductsById(keys).then(results => {
+        //                         resolve(results);
+        //                     })
+        //                 } else {
+        //                     resolve();
+        //                 }
+        //             })
+        //     } else {
+        //         let cart = JSON.parse(localStorage.getItem('cart')) || null;
+        //         if(cart) {
+        //             let keys = Object.keys(cart);
+        //             this.productsService.getProductsById(keys).then(results => {
+        //                 resolve(results);
+        //             })
+        //         } else {
+        //             resolve();
+        //         }
+        //     }
+        // });
     }
 }

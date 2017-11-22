@@ -39,35 +39,33 @@ export class UserEffects {
     //   GetUserCart$: Observable<Action> = this.action$
     //   .ofType(ActionTypes.GET_USER_CART)
     //   .switchMap(() => {
+    //     return this.userService.getUserState();
+    //   })
+    //   .switchMap((s) => {
     //     return this.userService.getUserCart();
     //   })
+     
     //   .map(response => {
-    //     return response ? new GetUserCartSuccess(response) : new GetUserCartFailure();
+    //     return new GetUserCartSuccess(response);
     //   })
     //   .catch(err => {
     //     return of(new GetUserCartFailure());
     //   });
 
-    @Effect() 
+      @Effect() 
       GetUserCart$: Observable<Action> = this.action$
       .ofType(ActionTypes.GET_USER_CART)
-      .switchMap(() => {
-        return this.userService.getUserState();
-      })
-      .switchMap((s) => {
-        return this.userService.getUserCart();
-      })
-     
-      .map(response => {
-        return new GetUserCartSuccess(response);
-      })
-      .catch(err => {
-        return of(new GetUserCartFailure());
-      });
+      .switchMap(() => 
+        this.userService.getUserState()
+        .switchMap(result => {
+            let uid = result ? result.uid : null
+            return this.userService.getUserCart(uid)
+        })
+        .switchMap(cart => {
+          return this.productsService.processProductsCart(cart);
+        })
+        .map(result => {
+          return new GetUserCartSuccess(result);
+        })
+      )
 }
-
-
-
- // .switchMap((ids) => {
-      //   return this.productsService.getProductsById(ids);
-      // })

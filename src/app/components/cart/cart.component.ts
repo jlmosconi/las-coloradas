@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
 
 @Component({
 	selector: 'app-cart',
@@ -47,7 +47,7 @@ import { Component, OnInit, Input } from '@angular/core';
 	</div></div> <!-- wizard container -->
 
 
-			<div *ngIf="!cart">
+			<div *ngIf="!cart" style="padding-top:150px;">
 				Carrito vacío
 			</div>
 			<div class="table-responsive" *ngIf="cart" style="padding-top:150px;">
@@ -76,14 +76,14 @@ import { Component, OnInit, Input } from '@angular/core';
 								<small>$</small> {{ product.price }}
 							</td>
 							<td class="td-number">
-								1
+								{{ product.quantity }}
 								<div class="btn-group ml-3">
-									<button mat-raised-button class="btn btn-round btn-info btn-xs" (click)="changeStock(product.id, '');"> <i class="material-icons">remove</i> </button>
-									<button mat-raised-button class="btn btn-round btn-info btn-xs" (click)="addStock(product.id);"> <i class="material-icons">add</i> </button>
+									<button mat-raised-button (click)="removeStock(product);" [disabled]="product.quantity -1 < 1"> <i class="material-icons">remove</i> </button>
+									<button mat-raised-button (click)="addStock(product);" [disabled]="product.quantity + 1 > product.stock"> <i class="material-icons">add</i> </button>
 								</div>
 							</td>
 							<td class="td-number">
-								<small>$</small>{{ product.price * (product.quantity || 1) }}
+								<small>$</small>{{ product.total }}
 							</td>
 							<td class="td-actions">
 								<button mat-icon-button type="button" rel="tooltip" data-placement="left" title="" class="btn btn-simple" data-original-title="Remove item" (click)="deleteProduct(product.id);">
@@ -97,7 +97,7 @@ import { Component, OnInit, Input } from '@angular/core';
 								Total
 							</td>
 							<td class="td-price">
-								<small>€</small>2,346
+								<small>$</small>{{ total }}
 							</td>
 							<td colspan="1"></td>
 						</tr>
@@ -110,7 +110,45 @@ import { Component, OnInit, Input } from '@angular/core';
 
 export class CartComponent implements OnInit {
 	@Input() cart;
+	@Output() changeStock: EventEmitter<any> = new EventEmitter();
+	total;
 	constructor() { }
 
 	ngOnInit() { }
+
+	calculateTotal() {
+		this.total = 0;
+		this.cart.map(product => {
+			this.total += product.total || 0;
+		})
+	}
+
+	addStock(product) {
+		if(product.quantity + 1 <= product.stock) {
+			product.quantity ++;
+			this.processProducts();
+		}
+	}
+
+	removeStock(product) {
+		if(product.quantity -1 >= 1) {
+			product.quantity --;
+			this.processProducts();
+		}
+	}
+
+	deleteProduct(id) {
+		console.warn(id);
+	}
+
+	processProducts() {
+		this.cart.map(product => product.total = product.quantity * product.price);
+		this.calculateTotal();
+	}
+
+	ngOnChanges(changes: SimpleChanges) {
+        if (changes['cart']) {
+			this.calculateTotal();
+        }
+	}
 }
