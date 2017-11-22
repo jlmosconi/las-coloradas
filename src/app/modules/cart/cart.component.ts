@@ -37,9 +37,12 @@ export class CartContainerComponent implements OnInit {
 		this.subscriptionLoadingCart = this.loadingCart$.subscribe();
 
 		this.userCart$ = onStateChangeObservable(store, 'user.userData.cart');
-		this.userCart$.subscribe(cart => {
-			store.dispatch(new GetUserCart());
-		})
+		// this.userCart$.subscribe(cart => {
+		//
+		// 		console.warn(cart);
+		// 		store.dispatch(new GetUserCart());
+		//
+		// })
 	}
 
 	ngOnInit() { }

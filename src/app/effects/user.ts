@@ -57,14 +57,17 @@ export class UserEffects {
       .switchMap((s) => {
         return this.userService.getUserCart();
       })
-      // .switchMap((ids) => {
-      //   return this.productsService.getProductsById(ids);
-      // })
+     
       .map(response => {
-        console.warn(response);
         return new GetUserCartSuccess(response);
       })
       .catch(err => {
         return of(new GetUserCartFailure());
       });
 }
+
+
+
+ // .switchMap((ids) => {
+      //   return this.productsService.getProductsById(ids);
+      // })

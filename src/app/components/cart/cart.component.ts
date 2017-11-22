@@ -5,77 +5,52 @@ import { Component, OnInit, Input } from '@angular/core';
 	template: 
 		`
 		<!--      Wizard container        -->
-		<div class="wizard-container">
-		<div class="card wizard-card" data-color="red" id="wizard">
-		<form action="" method="">
-		<!--        You can switch " data-color="green" "  with one of the next bright colors: "blue", "azure", "orange", "red"       -->
-
-				<div class="wizard-header">
-					<h3 class="wizard-title">List your place</h3>
-					<p class="category">This information will let us know more about your place.</p>
-				</div>
-				<div class="wizard-navigation">
-				<div class="progress-with-circle">
-					<div class="progress-bar" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="4" style="width: 12.5%;"></div>
-				</div>
-				<ul class="nav nav-pills">
-					<li class="active" style="width: 25%;">
-						<a href="#location" data-toggle="tab" aria-expanded="true">
-							<div class="icon-circle checked">
-								<i class="ti-map"></i>
-							</div>
-							Location
-						</a>
-					</li>
-					<li style="width: 25%;" class="">
-						<a href="#type" data-toggle="tab" aria-expanded="false">
-							<div class="icon-circle checked">
-								<i class="ti-direction-alt"></i>
-							</div>
-							Type
-						</a>
-					</li>
-					<li style="width: 25%;" class="">
-						<a href="#facilities" data-toggle="tab" aria-expanded="false">
-							<div class="icon-circle checked">
-								<i class="ti-panel"></i>
-							</div>
-							Facilities
-						</a>
-					</li>
-					<li style="width: 25%;" class="">
-						<a href="#description" data-toggle="tab" aria-expanded="false">
-							<div class="icon-circle checked">
-								<i class="ti-comments"></i>
-							</div>
-							Comments
-						</a>
-					</li>
-				</ul>
-			</div>
-				<div class="tab-content">
-					content
-				</div>
-				<div class="wizard-footer">
-					<div class="pull-right">
-						<input type='button' class='btn btn-next btn-fill btn-danger btn-wd' name='next' value='Next' />
-						<input type='button' class='btn btn-finish btn-fill btn-danger btn-wd' name='finish' value='Finish' />
-					</div>
-
-					<div class="pull-left">
-						<input type='button' class='btn btn-previous btn-default btn-wd' name='previous' value='Previous' />
-					</div>
-					<div class="clearfix"></div>
-				</div>
-			</form>
+		<div class="wizard-card">
+		<div class="wizard-navigation">
+		<div class="progress-with-circle">
+			<div class="progress-bar" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="4" style="width: 12.5%;"></div>
 		</div>
-	</div> <!-- wizard container -->
+		<ul class="nav nav-pills">
+			<li class="active" style="width: 25%;">
+				<a href="#location" data-toggle="tab" aria-expanded="true">
+					<div class="icon-circle checked">
+						<i class="ti-map material-icons">shopping_cart</i>
+					</div>
+					Carrito
+				</a>
+			</li>
+			<li style="width: 25%;">
+				<a href="#type" data-toggle="tab">
+					<div class="icon-circle">
+						<i class="ti-direction-alt material-icons">local_shipping</i>
+					</div>
+					Envío
+				</a>
+			</li>
+			<li style="width: 25%;">
+				<a href="#facilities" data-toggle="tab">
+					<div class="icon-circle">
+						<i class="ti-panel material-icons">payment</i>
+					</div>
+					Pago
+				</a>
+			</li>
+			<li style="width: 25%;">
+				<a href="#description" data-toggle="tab">
+					<div class="icon-circle">
+						<i class="ti-comments material-icons">check</i>
+					</div>
+					Confirmar
+				</a>
+			</li>
+		</ul>
+	</div></div> <!-- wizard container -->
 
 
 			<div *ngIf="!cart">
 				Carrito vacío
 			</div>
-			<div class="table-responsive" *ngIf="cart">
+			<div class="table-responsive" *ngIf="cart" style="padding-top:150px;">
 				<table class="table table-shopping w-100">
 					<thead>
 						<tr>
@@ -103,15 +78,15 @@ import { Component, OnInit, Input } from '@angular/core';
 							<td class="td-number">
 								1
 								<div class="btn-group ml-3">
-									<button mat-raised-button class="btn btn-round btn-info btn-xs"> <i class="material-icons">remove</i> </button>
-									<button mat-raised-button class="btn btn-round btn-info btn-xs"> <i class="material-icons">add</i> </button>
+									<button mat-raised-button class="btn btn-round btn-info btn-xs" (click)="changeStock(product.id, '');"> <i class="material-icons">remove</i> </button>
+									<button mat-raised-button class="btn btn-round btn-info btn-xs" (click)="addStock(product.id);"> <i class="material-icons">add</i> </button>
 								</div>
 							</td>
 							<td class="td-number">
-								<small>€</small>549
+								<small>$</small>{{ product.price * (product.quantity || 1) }}
 							</td>
 							<td class="td-actions">
-								<button mat-icon-button type="button" rel="tooltip" data-placement="left" title="" class="btn btn-simple" data-original-title="Remove item">
+								<button mat-icon-button type="button" rel="tooltip" data-placement="left" title="" class="btn btn-simple" data-original-title="Remove item" (click)="deleteProduct(product.id);">
 									<i class="material-icons">close</i>
 								</button>
 							</td>

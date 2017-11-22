@@ -102,13 +102,13 @@ export class UserService {
     getUserCart() {
         return new Promise((resolve, reject) => {
             let uid = this.getCurrentUserId();
-            console.warn(uid);
             if(uid) {
                 firebase.database().ref(`/users/${uid}/cart`).once('value')
                     .then(result => {
                         let values = result.val();
                         if(values) {
                             let keys = Object.keys(values);
+                            console.warn(values);
                             this.productsService.getProductsById(keys).then(results => {
                                 resolve(results);
                             })
