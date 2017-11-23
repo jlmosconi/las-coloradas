@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { GetUserCart, GetUserCartSuccess, GetUser } from "../../actions/user";
+import { RemoveToCart } from "../../actions/products";
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 import { onStateChangeObservable } from '../../utils/store';
@@ -12,7 +13,7 @@ import { LocalStorageService } from "../../services/localStorage/service";
 		`
 			<div class="container">
 				<div class="pt-4 pt-md-5">
-					<app-cart [cart]="cart$ | async" *ngIf="!(loadingCart$ | async)"></app-cart>
+					<app-cart [cart]="cart$ | async" *ngIf="!(loadingCart$ | async)" (deleteProduct)="deleteProduct($event);"></app-cart>
 					<app-module-loader  *ngIf="loadingCart$ | async"></app-module-loader>
 				</div>
 			</div>
@@ -46,6 +47,10 @@ export class CartContainerComponent implements OnInit {
 	}
 
 	ngOnInit() { }
+
+	deleteProduct(id) {
+		this.store.dispatch(new RemoveToCart(id));
+	}
 
 	ngOnDestroy() {
 		this.subscriptionCart.unsubscribe();

@@ -35,23 +35,6 @@ export class UserEffects {
           })
       )
 
-    // @Effect() 
-    //   GetUserCart$: Observable<Action> = this.action$
-    //   .ofType(ActionTypes.GET_USER_CART)
-    //   .switchMap(() => {
-    //     return this.userService.getUserState();
-    //   })
-    //   .switchMap((s) => {
-    //     return this.userService.getUserCart();
-    //   })
-     
-    //   .map(response => {
-    //     return new GetUserCartSuccess(response);
-    //   })
-    //   .catch(err => {
-    //     return of(new GetUserCartFailure());
-    //   });
-
       @Effect() 
       GetUserCart$: Observable<Action> = this.action$
       .ofType(ActionTypes.GET_USER_CART)

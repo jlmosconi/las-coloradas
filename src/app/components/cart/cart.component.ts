@@ -86,7 +86,7 @@ import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges } from '@
 								<small>$</small>{{ product.total }}
 							</td>
 							<td class="td-actions">
-								<button mat-icon-button type="button" rel="tooltip" data-placement="left" title="" class="btn btn-simple" data-original-title="Remove item" (click)="deleteProduct(product.id);">
+								<button mat-icon-button type="button" rel="tooltip" data-placement="left" title="" class="btn btn-simple" data-original-title="Remove item" (click)="delete(product.id);">
 									<i class="material-icons">close</i>
 								</button>
 							</td>
@@ -111,16 +111,15 @@ import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges } from '@
 export class CartComponent implements OnInit {
 	@Input() cart;
 	@Output() changeStock: EventEmitter<any> = new EventEmitter();
-	total;
+	@Output() deleteProduct: EventEmitter<any> = new EventEmitter();
+	total: number = 0;
 	constructor() { }
 
 	ngOnInit() { }
 
 	calculateTotal() {
 		this.total = 0;
-		this.cart.map(product => {
-			this.total += product.total || 0;
-		})
+		this.cart.map(product => this.total += product.total || 0);
 	}
 
 	addStock(product) {
@@ -137,8 +136,8 @@ export class CartComponent implements OnInit {
 		}
 	}
 
-	deleteProduct(id) {
-		console.warn(id);
+	delete(id) {
+		this.deleteProduct.emit(id);
 	}
 
 	processProducts() {

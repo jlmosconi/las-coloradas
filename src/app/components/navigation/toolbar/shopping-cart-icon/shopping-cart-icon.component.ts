@@ -33,8 +33,4 @@ export class ShoppingCartIconComponent implements OnInit {
 			
         }
 	}
-
-	goToCart() {
-
-	}
 }
