@@ -30,20 +30,13 @@ export class CartContainerComponent implements OnInit {
 	private subscriptionCart: Subscription;
 	private subscriptionLoadingCart: Subscription;
 	constructor(private store: Store<any>, private localStorageService: LocalStorageService) {
-		//store.dispatch(new GetUser({}));
 		store.dispatch(new GetUserCart({}));
 		this.cart$ = onStateChangeObservable(store, 'user.cart');
 		this.loadingCart$ = onStateChangeObservable(store, 'user.loadingCart');
 		this.subscriptionCart = this.cart$.subscribe(cart => console.warn(cart));
 		this.subscriptionLoadingCart = this.loadingCart$.subscribe();
 
-		this.userCart$ = onStateChangeObservable(store, 'user.userData.cart');
-		// this.userCart$.subscribe(cart => {
-		//
-		// 		console.warn(cart);
-		// 		store.dispatch(new GetUserCart());
-		//
-		// })
+		// this.userCart$ = onStateChangeObservable(store, 'user.userData.cart');
 	}
 
 	ngOnInit() { }

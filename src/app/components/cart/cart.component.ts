@@ -119,7 +119,7 @@ export class CartComponent implements OnInit {
 
 	calculateTotal() {
 		this.total = 0;
-		this.cart.map(product => this.total += product.total || 0);
+		if(this.cart) this.cart.map(product => this.total += product.total || 0);
 	}
 
 	addStock(product) {
