@@ -138,6 +138,7 @@ export class CartComponent implements OnInit {
 
 	delete(id) {
 		this.deleteProduct.emit(id);
+		// this.p
 	}
 
 	processProducts() {

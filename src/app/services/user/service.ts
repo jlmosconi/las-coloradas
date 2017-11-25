@@ -95,41 +95,24 @@ export class UserService {
                     .then( _ => resolve(true))
                     .catch(err => reject())
             } else {
-                resolve(false);
+                // let cart = JSON.parse(localStorage.getItem('cart'));
+                // delete cart[productId];
+                this.localStorageService.removeItem('cart', productId);
+                resolve(true);
             }
         });
     }
 
     getUserCart(uid) {
-           return uid ? this.db.object(`/users/${uid}/cart`).valueChanges() : Observable.of(JSON.parse(localStorage.getItem('cart')));
-        // return new Promise((resolve, reject) => {
-        //     let uid = this.getCurrentUserId();
-        //     console.warn(uid);
-        //     if(uid) {
-        //         firebase.database().ref(`/users/${uid}/cart`).once('value')
-        //             .then(result => {
-        //                 let values = result.val();
-        //                 if(values) {
-        //                     let keys = Object.keys(values);
-        //                     console.warn(values);
-        //                     this.productsService.getProductsById(keys).then(results => {
-        //                         resolve(results);
-        //                     })
-        //                 } else {
-        //                     resolve();
-        //                 }
-        //             })
-        //     } else {
-        //         let cart = JSON.parse(localStorage.getItem('cart')) || null;
-        //         if(cart) {
-        //             let keys = Object.keys(cart);
-        //             this.productsService.getProductsById(keys).then(results => {
-        //                 resolve(results);
-        //             })
-        //         } else {
-        //             resolve();
-        //         }
-        //     }
-        // });
+        if(uid) {
+            return this.db.object(`/users/${uid}/cart`).valueChanges();
+        } else {
+            // return this.localStorageService.storage.map(storage => {
+            //     console.warn(storage);
+            //     return storage['cart'];
+            // })
+
+            return this.localStorageService.getCollection('cart');
+        }
     }
 }

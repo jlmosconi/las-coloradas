@@ -112,7 +112,7 @@ export class AuthService {
             firebase.database().ref('/users/' + user.uid).once('value')
                 .then((snapshot) => {
                     let value = snapshot.val();
-                    if (cart) this.localStorageService.removeItem('cart');
+                    if (cart) this.localStorageService.removeCollection('cart');
 
                     if(!value) {
                         this.db.object(`users/${user.uid}`).set(userData)

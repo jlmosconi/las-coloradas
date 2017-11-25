@@ -41,8 +41,8 @@ export class UserEffects {
       .switchMap(() => 
         this.userService.getUserState()
         .switchMap(result => {
-            let uid = result ? result.uid : null
-            return this.userService.getUserCart(uid)
+          let uid = result ? result.uid : null
+          return this.userService.getUserCart(uid)
         })
         .switchMap(cart => {
           return this.productsService.processProductsCart(cart);
