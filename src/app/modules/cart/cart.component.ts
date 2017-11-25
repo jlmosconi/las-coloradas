@@ -23,9 +23,7 @@ import { LocalStorageService } from "../../services/localStorage/service";
 
 export class CartContainerComponent implements OnInit {
 	cart$: Observable<any>;
-	userCart$: Observable<any>;
-	cart;
-	user$: Observable<any>;
+	removeToCart$: Observable<any>;
 	loadingCart$: Observable<any>;
 	private subscriptionCart: Subscription;
 	private subscriptionLoadingCart: Subscription;
@@ -33,10 +31,9 @@ export class CartContainerComponent implements OnInit {
 		store.dispatch(new GetUserCart({}));
 		this.cart$ = onStateChangeObservable(store, 'user.cart');
 		this.loadingCart$ = onStateChangeObservable(store, 'user.loadingCart');
-		this.subscriptionCart = this.cart$.subscribe(cart => console.warn(cart));
-		this.subscriptionLoadingCart = this.loadingCart$.subscribe();
 
-		// this.userCart$ = onStateChangeObservable(store, 'user.userData.cart');
+		this.subscriptionCart = this.cart$.subscribe();
+		this.subscriptionLoadingCart = this.loadingCart$.subscribe();
 	}
 
 	ngOnInit() { }

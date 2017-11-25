@@ -63,7 +63,7 @@ import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges } from '@
 						</tr>
 					</thead>
 					<tbody>
-						<tr *ngFor="let product of cart">
+						<tr *ngFor="let product of cart; let i = index" [ngClass]="product.state">
 							<td>
 								<div class="img-container">
 									<img [src]="product.photoUrl" [alt]="product.title">
@@ -86,7 +86,7 @@ import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges } from '@
 								<small>$</small>{{ product.total }}
 							</td>
 							<td class="td-actions">
-								<button mat-icon-button type="button" rel="tooltip" data-placement="left" title="" class="btn btn-simple" data-original-title="Remove item" (click)="delete(product.id);">
+								<button mat-icon-button type="button" rel="tooltip" data-placement="left" title="" class="btn btn-simple" data-original-title="Remove item" (click)="delete(product.id, i);">
 									<i class="material-icons">close</i>
 								</button>
 							</td>
@@ -117,11 +117,6 @@ export class CartComponent implements OnInit {
 
 	ngOnInit() { }
 
-	calculateTotal() {
-		this.total = 0;
-		if(this.cart) this.cart.map(product => this.total += product.total || 0);
-	}
-
 	addStock(product) {
 		if(product.quantity + 1 <= product.stock) {
 			product.quantity ++;
@@ -136,14 +131,20 @@ export class CartComponent implements OnInit {
 		}
 	}
 
-	delete(id) {
+	delete(id, index) {
+		this.cart[index].state = 'deleted';
 		this.deleteProduct.emit(id);
-		// this.p
+		this.processProducts();
 	}
 
 	processProducts() {
 		this.cart.map(product => product.total = product.quantity * product.price);
 		this.calculateTotal();
+	}
+
+	calculateTotal() {
+		this.total = 0;
+		if(this.cart) this.cart.map(product => this.total += product.total || 0);
 	}
 
 	ngOnChanges(changes: SimpleChanges) {

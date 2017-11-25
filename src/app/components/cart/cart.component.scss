@@ -1,4 +1,15 @@
+// @-webkit-keyframes slide {
+//     100% { left: 0; }
+// }
 
+@keyframes test{
+    0%{
+        background-position: -468px 0
+    }
+    100%{
+        background-position: 468px 0
+    }
+}
 
 .table-shopping {
     .img-container {
@@ -52,6 +63,31 @@
         text-transform: uppercase;
     }
     
+
+    &> tbody > tr {
+        // -webkit-transition: opacity .25s, transform .25s ease-in-out;
+        // -moz-transition: opacity .25s, transform .25s ease-in-out;
+        // -ms-transition: opacity .25s, transform .25s ease-in-out;
+        // -o-transition: opacity .25s, transform .25s ease-in-out;
+        // transition: opacity .25s, transform .25s ease-in-out;
+        // transform: translateX(0);
+        // opacity: 1;
+
+        // &.deleted {
+        //     transform: translateX(20px);
+        //     opacity: .2;
+        // }
+        
+        &.deleted {
+            animation-duration: .25s;
+            animation-fill-mode: forwards;
+            animation-name: fadeToRight;
+            animation-timing-function: linear;
+            visibility: visible;
+            transition: all .25s;
+        }
+    }
+
     &> tbody > tr > td {
         font-size: 16px;
     }
@@ -287,4 +323,19 @@ ul, ol {
     top: -4px;
     transform: scale(0);
     transition: .2s all linear;
+}
+
+@keyframes fadeToRight{
+    0%{
+        transform: translateX(0);
+        opacity: 1;
+    }
+    50% {
+        opacity: .2
+    }
+    100%{
+        visibility: collapse;
+        opacity: 0;
+        transform: translateX(20px);
+    }
 }

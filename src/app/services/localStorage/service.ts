@@ -8,14 +8,11 @@ import { from } from 'rxjs/observable/from';
 export class LocalStorageService {
     public storage = new BehaviorSubject(null);
 
-    constructor() { 
-        
-    }
+    constructor() { }
 
     setItem(collection, value) {
         localStorage.setItem(collection, JSON.stringify(value));
         this.storage.next({[collection]: value});
-        // this.storage.next(value);
     }
 
     getCollection(collection) {
@@ -42,8 +39,6 @@ export class LocalStorageService {
         delete coll[item];
         
         this.setItem(collection, coll)
-
-        //return
     }
     
 }

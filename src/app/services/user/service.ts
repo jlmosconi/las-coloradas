@@ -77,7 +77,6 @@ export class UserService {
 
                 if(!cart[productId] || cart[productId] !== quantity) {
                     cart[productId] = quantity;
-                    // localStorage.setItem('cart', JSON.stringify(cart));
                     this.localStorageService.setItem('cart', cart);
                     resolve(true);
                 } else {
@@ -95,8 +94,6 @@ export class UserService {
                     .then( _ => resolve(true))
                     .catch(err => reject())
             } else {
-                // let cart = JSON.parse(localStorage.getItem('cart'));
-                // delete cart[productId];
                 this.localStorageService.removeItem('cart', productId);
                 resolve(true);
             }
@@ -104,15 +101,6 @@ export class UserService {
     }
 
     getUserCart(uid) {
-        if(uid) {
-            return this.db.object(`/users/${uid}/cart`).valueChanges();
-        } else {
-            // return this.localStorageService.storage.map(storage => {
-            //     console.warn(storage);
-            //     return storage['cart'];
-            // })
-
-            return this.localStorageService.getCollection('cart');
-        }
+        return uid ? this.db.object(`/users/${uid}/cart`).valueChanges() : this.localStorageService.getCollection('cart');
     }
 }
