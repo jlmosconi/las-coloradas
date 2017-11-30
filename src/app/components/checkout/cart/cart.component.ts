@@ -4,53 +4,10 @@ import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges } from '@
 	selector: 'app-cart',
 	template: 
 		`
-		<!--      Wizard container        -->
-		<div class="wizard-card">
-		<div class="wizard-navigation">
-		<div class="progress-with-circle">
-			<div class="progress-bar" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="4" style="width: 12.5%;"></div>
-		</div>
-		<ul class="nav nav-pills">
-			<li class="active" style="width: 25%;">
-				<a href="#location" data-toggle="tab" aria-expanded="true">
-					<div class="icon-circle checked">
-						<i class="ti-map material-icons">shopping_cart</i>
-					</div>
-					Carrito
-				</a>
-			</li>
-			<li style="width: 25%;">
-				<a href="#type" data-toggle="tab">
-					<div class="icon-circle">
-						<i class="ti-direction-alt material-icons">local_shipping</i>
-					</div>
-					Envío
-				</a>
-			</li>
-			<li style="width: 25%;">
-				<a href="#facilities" data-toggle="tab">
-					<div class="icon-circle">
-						<i class="ti-panel material-icons">payment</i>
-					</div>
-					Pago
-				</a>
-			</li>
-			<li style="width: 25%;">
-				<a href="#description" data-toggle="tab">
-					<div class="icon-circle">
-						<i class="ti-comments material-icons">check</i>
-					</div>
-					Confirmar
-				</a>
-			</li>
-		</ul>
-	</div></div> <!-- wizard container -->
-
-
-			<div *ngIf="!cart" style="padding-top:150px;">
+			<div *ngIf="!cart">
 				Carrito vacío
 			</div>
-			<div class="table-responsive" *ngIf="cart" style="padding-top:150px;">
+			<div class="table-responsive pb-5" *ngIf="cart">
 				<table class="table table-shopping w-100">
 					<thead>
 						<tr>
@@ -110,7 +67,7 @@ import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges } from '@
 
 export class CartComponent implements OnInit {
 	@Input() cart;
-	@Output() changeStock: EventEmitter<any> = new EventEmitter();
+	@Output() setStock: EventEmitter<any> = new EventEmitter();
 	@Output() deleteProduct: EventEmitter<any> = new EventEmitter();
 	total: number = 0;
 	constructor() { }
@@ -120,6 +77,10 @@ export class CartComponent implements OnInit {
 	addStock(product) {
 		if(product.quantity + 1 <= product.stock) {
 			product.quantity ++;
+			this.setStock.emit({
+				productId: product.id, 
+				quantity: product.quantity
+			});
 			this.processProducts();
 		}
 	}
@@ -127,6 +88,10 @@ export class CartComponent implements OnInit {
 	removeStock(product) {
 		if(product.quantity -1 >= 1) {
 			product.quantity --;
+			this.setStock.emit({
+				productId: product.id, 
+				quantity: product.quantity
+			});
 			this.processProducts();
 		}
 	}
@@ -134,7 +99,6 @@ export class CartComponent implements OnInit {
 	delete(id, index) {
 		this.cart[index].state = 'deleted';
 		this.deleteProduct.emit(id);
-		this.processProducts();
 	}
 
 	processProducts() {
@@ -148,8 +112,6 @@ export class CartComponent implements OnInit {
 	}
 
 	ngOnChanges(changes: SimpleChanges) {
-        if (changes['cart']) {
-			this.calculateTotal();
-        }
+        if (changes['cart']) this.calculateTotal();
 	}
 }

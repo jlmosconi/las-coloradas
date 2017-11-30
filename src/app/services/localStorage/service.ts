@@ -23,11 +23,11 @@ export class LocalStorageService {
         });
     }
 
-    getCollectionAsObservable(collection) {
-        return this.storage.map(storage => {
-            return storage[collection];
-        })
-    }
+    // getCollectionAsObservable(collection) {
+    //     return this.storage.map(storage => {
+    //         return storage[collection];
+    //     })
+    // }
 
     removeCollection(collection) {
         localStorage.removeItem(collection);

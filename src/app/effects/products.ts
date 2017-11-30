@@ -11,7 +11,7 @@ import {
   AddToCart, AddToCartFailure, AddToCartSuccess,
   RemoveToCart, RemoveToCartFailure, RemoveToCartSuccess,
   QuickSearchProductsSuccess, QuickSearchProductsFailure,
-  SearchProductsSuccess, SearchProductsFailure
+  SearchProductsSuccess, SearchProductsFailure, SetStockSuccess, SetStockFailure
 } from '../actions/products';
 import { ProductsService } from '../services/products/service';
 import { UserService } from '../services/user/service';
@@ -156,5 +156,19 @@ export class ProductsEffects {
       })
       .catch(err => {
         return of(new RemoveToCartFailure());
+      });
+
+  @Effect()
+    setStock$: Observable<Action> = this.action$
+      .ofType(ActionTypes.SET_STOCK)
+      .map(toPayload)
+      .switchMap(payload => {
+        return this.userService.addToCart(payload.productId, payload.quantity)
+      })
+      .map(response => {
+        return response ? new SetStockSuccess() : new SetStockFailure();
+      })
+      .catch(err => {
+        return of(new SetStockFailure());
       });
 }

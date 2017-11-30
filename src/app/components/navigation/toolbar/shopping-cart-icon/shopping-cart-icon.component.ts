@@ -4,7 +4,7 @@ import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
 	selector: 'app-shopping-cart-icon',
 	template:
 		`
-		<button mat-icon-button color="primary" routerLink="/carrito">
+		<button mat-icon-button color="primary" routerLink="checkout/carrito">
 			<mat-icon>shopping_cart</mat-icon>
 			<span class="count d-flex align-items-center justify-content-center mat-elevation-z1" *ngIf="count > 0">{{ count }}</span>
 		</button>

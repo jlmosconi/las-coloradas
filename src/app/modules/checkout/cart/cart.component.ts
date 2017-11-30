@@ -1,22 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { GetUserCart, GetUserCartSuccess, GetUser } from "../../actions/user";
-import { RemoveToCart } from "../../actions/products";
+import { GetUserCart, GetUserCartSuccess, GetUser } from "../../../actions/user";
+import { RemoveToCart, SetStock } from "../../../actions/products";
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
-import { onStateChangeObservable } from '../../utils/store';
-import { LocalStorageService } from "../../services/localStorage/service";
+import { onStateChangeObservable } from '../../../utils/store';
+import { LocalStorageService } from "../../../services/localStorage/service";
 
 @Component({
 	selector: 'app-cart-container',
 	template:
 		`
-			<div class="container">
-				<div class="pt-4 pt-md-5">
-					<app-cart [cart]="cart$ | async" *ngIf="!(loadingCart$ | async)" (deleteProduct)="deleteProduct($event);"></app-cart>
-					<app-module-loader  *ngIf="loadingCart$ | async"></app-module-loader>
-				</div>
-			</div>
+			<app-cart [cart]="cart$ | async" *ngIf="!(loadingCart$ | async)" (deleteProduct)="deleteProduct($event);" (setStock)="setStock($event)"></app-cart>
+			<app-module-loader  *ngIf="loadingCart$ | async"></app-module-loader>
 		`,
 	styleUrls: ['./cart.component.scss']
 })
@@ -38,8 +34,15 @@ export class CartContainerComponent implements OnInit {
 
 	ngOnInit() { }
 
-	deleteProduct(id) {
-		this.store.dispatch(new RemoveToCart(id));
+	deleteProduct(productId) {
+		this.store.dispatch(new RemoveToCart(productId));
+	}
+
+	setStock(product) {
+		this.store.dispatch(new SetStock({
+			productId: product.productId, 
+			quantity: product.quantity
+		}));
 	}
 
 	ngOnDestroy() {

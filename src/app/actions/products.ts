@@ -23,6 +23,9 @@ export const ActionTypes = {
     ADD_TO_CART: type('[Products] Add To Cart'),
     ADD_TO_CART_FAILURE: type('[Products] Add To Cart Failure'),
     ADD_TO_CART_SUCCESS: type('[Products] Add To Cart Success'),
+    SET_STOCK: type('[Products] Set Stock'),
+    SET_STOCK_FAILURE: type('[Products] Set Stock Failure'),
+    SET_STOCK_SUCCESS: type('[Products] Set Stock Success'),
     REMOVE_TO_CART: type('[Products] Remove To Cart'),
     REMOVE_TO_CART_FAILURE: type('[Products] Remove To Cart Failure'),
     REMOVE_TO_CART_SUCCESS: type('[Products] Remove To Cart Success'),
@@ -157,6 +160,21 @@ export class RemoveToCartSuccess implements Action {
   constructor(public payload?: any) { }
 }
 
+export class SetStock implements Action {
+  readonly type = ActionTypes.SET_STOCK;
+  constructor(public payload: any) { }
+}
+
+export class SetStockFailure implements Action {
+  readonly type = ActionTypes.SET_STOCK_FAILURE;
+  constructor(public payload?: any) { }
+}
+
+export class SetStockSuccess implements Action {
+  readonly type = ActionTypes.SET_STOCK_SUCCESS;
+  constructor(public payload?: any) { }
+}
+
 
 export class QuickSearchProducts implements Action {
   readonly type = ActionTypes.QUICK_SEARCH_PRODUCTS;
@@ -212,6 +230,7 @@ export type Actions
 | RemoveToFavorites | RemoveToFavoritesFailure | RemoveToFavoritesSuccess
 | AddToCart | AddToCartFailure | AddToCartSuccess
 | RemoveToCart | RemoveToCartFailure | RemoveToCartSuccess
+| SetStock | SetStockFailure | SetStockSuccess
 | QuickSearchProducts | QuickSearchProductsFailure | QuickSearchProductsSuccess
 | SearchProducts | SearchProductsFailure | SearchProductsSuccess
 | ClearFilteredProducts | ClearQuickSearchProducts | ClearSearchList;
