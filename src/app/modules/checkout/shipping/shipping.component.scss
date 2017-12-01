@@ -29,19 +29,9 @@ h3 {
 
     i {
         font-size: 4rem;
-      }
+    }
 }
-  .choice:hover .icon, .choice.active .icon {
-    border-color: #2ca8ff;
-  }
-  .choice input[type="radio"],
-  .choice input[type="checkbox"] {
-    position: absolute;
-    left: -10000px;
-    z-index: -1;
-  }
-
-  .card {
+.card {
     border-radius: 6px;
     box-shadow: 0 2px 2px rgba(204, 197, 185, 0.5);
     background-color: #FFFFFF;
@@ -71,5 +61,5 @@ h3 {
         -o-transition: translateY(-10px);
         -ms-transform: translateY(-10px);
         transform: translateY(-10px);
-      }
-  }
+    }
+}

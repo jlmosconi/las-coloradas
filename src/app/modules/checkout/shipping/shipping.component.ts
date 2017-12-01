@@ -11,7 +11,6 @@ import { FormBuilder } from '@angular/forms';
 				<div class="row">
 					<div class="col-sm-4" *ngFor="let shipping of shippings">
 						<div class="choice" data-toggle="wizard-checkbox" [ngClass]="{'active': shippingType.get('type').value === shipping.id }" (click)="select(shipping.id)">
-							<input type="checkbox" name="jobb" value="Design" checked="checked">
 							<div class="card card-checkboxes card-hover-effect">
 								<i class="ti-home material-icons">{{ shipping.icon }}</i>
 								<p>{{ shipping.title }}</p>
