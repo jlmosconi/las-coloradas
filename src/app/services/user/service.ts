@@ -61,11 +61,11 @@ export class UserService {
         return new Promise((resolve, reject) => {
             let uid = this.getCurrentUserId();
             if (uid) {
-                firebase.database().ref(`/users/${uid}/cart/${productId}`).once('value')
+                firebase.database().ref(`/users/${uid}/checkout/cart/${productId}`).once('value')
                     .then((snapshot) => { 
                         let value = snapshot.val();
                         if(!!!value || value !== quantity) {
-                            this.db.object(`/users/${uid}/cart/${productId}`).set(quantity)
+                            this.db.object(`/users/${uid}/checkout/cart/${productId}`).set(quantity)
                                 .then( _ => resolve(true))
                                 .catch(err => reject())
                         } else {
@@ -90,7 +90,7 @@ export class UserService {
         return new Promise((resolve, reject) => {
             let uid = this.getCurrentUserId();
             if (uid) {
-                this.db.object(`/users/${uid}/cart/${productId}`).remove()
+                this.db.object(`/users/${uid}/checkout/cart/${productId}`).remove()
                     .then( _ => resolve(true))
                     .catch(err => reject())
             } else {
@@ -101,6 +101,17 @@ export class UserService {
     }
 
     getUserCart(uid) {
-        return uid ? this.db.object(`/users/${uid}/cart`).valueChanges() : this.localStorageService.getCollection('cart');
+        return uid ? this.db.object(`/users/${uid}/checkout/cart`).valueChanges() : this.localStorageService.getCollection('cart');
+    }
+
+    saveShipping(id) {
+        return new Promise((resolve, reject) => {
+            let uid = this.getCurrentUserId();
+            if (uid) {
+                firebase.database().ref(`/users/${uid}/checkout/shipping/${id}`).set(true)
+                    .then( _ => resolve(true))
+                    .catch(err => reject())
+            }
+        });
     }
 }
