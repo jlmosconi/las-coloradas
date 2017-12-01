@@ -35,7 +35,7 @@ export class UserEffects {
           })
       )
 
-      @Effect() 
+    @Effect() 
       GetUserCart$: Observable<Action> = this.action$
       .ofType(ActionTypes.GET_USER_CART)
       .switchMap(() => 

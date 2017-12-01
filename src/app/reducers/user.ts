@@ -4,26 +4,26 @@ const initialState = {
     userData: null,
     cart: null,
     loadingCart: false,
-    loading: true
+    loadingUser: true
 };
 
 reducers[ActionTypes.GET_USER] = (state, payload) => {
     return Object.assign({}, state, {
-        loading: true
+        loadingUser: true
     });
 };
 
 reducers[ActionTypes.AUTHENTICATED] = (state, payload) => {
     return Object.assign({}, state, {
         userData: payload,
-        loading: false
+        loadingUser: false
     });
 };
 
 reducers[ActionTypes.NOT_AUTHENTICATED] = (state, payload) => {
     return Object.assign({}, state, {
         userData: null,
-        loading: false
+        loadingUser: false
     });
 };
 

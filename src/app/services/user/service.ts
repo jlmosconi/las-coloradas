@@ -108,10 +108,14 @@ export class UserService {
         return new Promise((resolve, reject) => {
             let uid = this.getCurrentUserId();
             if (uid) {
-                firebase.database().ref(`/users/${uid}/checkout/shipping/${id}`).set(true)
+                firebase.database().ref(`/users/${uid}/checkout/shipping`).set(id)
                     .then( _ => resolve(true))
                     .catch(err => reject())
             }
         });
+    }
+
+    getUserShipping(uid) {
+        return uid ? this.db.object(`/users/${uid}/checkout/shipping`).valueChanges() : this.localStorageService.getCollection('cart/shipping');
     }
 }

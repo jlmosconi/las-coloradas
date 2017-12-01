@@ -1,58 +1,36 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs/Subscription';
+import { Observable } from 'rxjs/Observable';
+import { onStateChangeObservable } from '../../../utils/store';
+import { SaveShipping, GetShipping } from "../../../actions/checkout";
 
 @Component({
 	selector: 'app-shipping-container',
 	template: 
 		`
-		<h3 class="info-text text-center py-3">Formas de entrega</h3>
-		<div class="row">
-			<div class="col-sm-8 offset-sm-2">
-				<div class="row">
-					<div class="col-sm-4" *ngFor="let shipping of shippings">
-						<div class="choice" data-toggle="wizard-checkbox" [ngClass]="{'active': shippingType.get('type').value === shipping.id }" (click)="select(shipping.id)">
-							<div class="card card-checkboxes card-hover-effect">
-								<i class="ti-home material-icons">{{ shipping.icon }}</i>
-								<p>{{ shipping.title }}</p>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+			<h3 class="info-text text-center py-3">Formas de entrega</h3>
+			<app-shipping (saveShipping)="saveShipping($event)" [shipping]="shipping$ | async" [userCheckout]="user$ | async" *ngIf="!(loadingUser$ | async)"></app-shipping>
+			<app-module-loader  *ngIf="loadingUser$ | async"></app-module-loader>
 		`
 	,
 	styleUrls: ['./shipping.component.scss']
 })
 
 export class ShippingContainerComponent implements OnInit {
-	shippingType;
-	shippings = [
-		{
-			id: 1,
-			title: 'Retiro en local',
-			icon: 'domain'
-		},
-		{
-			id: 2,
-			title: 'Retiro en una sucursal',
-			icon: 'local_shipping'
-		},
-		{
-			id: 3,
-			title: 'Normal a domicilio',
-			icon: 'home'
-		}
-	]
-	constructor(private fb: FormBuilder) { 
-		this.shippingType = this.fb.group({
-			type: [3],
-		});
-	}
+	user$: Observable<any>;
+	loadingUser$: Observable<any>;
+	constructor(private store: Store<any>) {
+		store.dispatch(new GetShipping());
+
+		this.user$ = onStateChangeObservable(store, 'user.userData.checkout');
+		this.loadingUser$ = onStateChangeObservable(store, 'user.loadingUser');
+	 }
 
 	ngOnInit() { }
 
-	select(id){
-		this.shippingType.get('type').setValue(id);
+	saveShipping(id) {
+		this.store.dispatch(new SaveShipping(id));
 	}
 }

@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material'
 import { CheckoutComponent } from './checkout.component';
 import { CartContainerModule } from "./cart/cart.module";
 import { ShippingContainerModule } from "./shipping/shipping.module";
+import { PayContainerModule } from "./pay/pay.module";
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { ShippingContainerModule } from "./shipping/shipping.module";
     routing,
     MatButtonModule,
     CartContainerModule,
-    ShippingContainerModule
+    ShippingContainerModule,
+    PayContainerModule
   ],
   exports: [
     CheckoutComponent
