@@ -29,8 +29,8 @@ import { ISubscription } from 'rxjs/Subscription';
 				<router-outlet></router-outlet>
 
 				<div class="d-flex justify-content-between pt-5">
-					<button mat-raised-button color="accent" class="text-white" routerLink="{{prevStepRoute}}">Anterior</button>
-					<button mat-raised-button color="primary" routerLink="{{nextStepRoute}}">Siguiente</button>
+					<button mat-raised-button color="accent" class="text-white" (click)="goToPrevStep();">Anterior</button>
+					<button mat-raised-button color="primary" (click)="goToNextStep();">Siguiente</button>
 				</div>
 			</div>
 		</div>
@@ -119,6 +119,14 @@ export class CheckoutComponent implements OnInit {
 
 	setPrevStep(index) {
 		this.prevStepRoute = index == 0 ? this.steps[index].route : this.steps[index - 1].route;
+	}
+
+	goToPrevStep() {
+		this.router.navigate(['/checkout', this.prevStepRoute]);
+	}
+
+	goToNextStep() {
+		this.router.navigate(['/checkout', this.nextStepRoute]);
 	}
 
 	ngOnDestroy() {
