@@ -12,7 +12,6 @@ import { ISubscription } from 'rxjs/Subscription';
 					<div class="wizard-navigation h-100">
 						<div class="progress-with-circle">
 							<div class="progress-bar" id="progressBar"></div>
-							
 						</div>
 						<ul class="nav nav-pills" id="steps">
 							<li class="w-25" *ngFor="let step of steps" id="{{step.id}}">
@@ -30,8 +29,8 @@ import { ISubscription } from 'rxjs/Subscription';
 				<router-outlet></router-outlet>
 
 				<div class="d-flex justify-content-between pt-5">
-					<button mat-raised-button color="accent" class="text-white" (click)="prev();">Anterior</button>
-					<button mat-raised-button color="primary" (click)="next();">Siguiente</button>
+					<button mat-raised-button color="accent" class="text-white" routerLink="{{prevStepRoute}}">Anterior</button>
+					<button mat-raised-button color="primary" routerLink="{{nextStepRoute}}">Siguiente</button>
 				</div>
 			</div>
 		</div>
@@ -89,45 +88,37 @@ export class CheckoutComponent implements OnInit {
 		let steps = document.getElementById('steps');
 		let childElementCount = steps.childElementCount;
 		if(steps && childElementCount) {
-			
 			for(var i = 0; i< steps.children.length;i++) {
 				let children = steps.children[i];
 				children.classList.remove('active');
 				children.classList.remove('checked');
 
 				if(children.getAttribute('id') == this.currentStep) {
-					this.calculateProgressBar(i, childElementCount);
-					this.setNextStep(i, childElementCount);
-					this.setPrevStep(i);
 					children.classList.add('active');
 					for(var j = 0; j < i;j++) {
 						steps.children[j].classList.add('checked');
 					}
+
+					this.calculateProgressBar(i, childElementCount);
+					this.setNextStep(i, childElementCount);
+					this.setPrevStep(i);
 				}
 			}
 		}
 	}
 
 	calculateProgressBar(index, childElementCount) {
-		let progressBarWidth = ((100 / childElementCount) * index) + ((100 / childElementCount) / 2);
 		let progressBar = document.getElementById('progressBar');
+		let progressBarWidth = ((100 / childElementCount) * index) + ((100 / childElementCount) / 2);
 		progressBar.style.width = progressBarWidth+'%';
 	}
 
 	setNextStep(index, childElementCount) {
-		this.nextStepRoute = index == childElementCount ? this.steps[index].route : this.steps[index + 1].route;
+		this.nextStepRoute = index + 1 == childElementCount ? this.steps[index].route : this.steps[index + 1].route;
 	}
 
 	setPrevStep(index) {
 		this.prevStepRoute = index == 0 ? this.steps[index].route : this.steps[index - 1].route;
-	}
-
-	next() {
-		this.router.navigate(['checkout/' + this.nextStepRoute]);
-	}
-
-	prev() {
-		this.router.navigate(['checkout/' + this.prevStepRoute]);
 	}
 
 	ngOnDestroy() {

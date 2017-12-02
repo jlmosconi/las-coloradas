@@ -7,6 +7,7 @@ import { CheckoutComponent } from './checkout.component';
 import { CartContainerModule } from "./cart/cart.module";
 import { ShippingContainerModule } from "./shipping/shipping.module";
 import { PayContainerModule } from "./pay/pay.module";
+import { ConfirmContainerModule } from "./confirm/confirm.module";
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { PayContainerModule } from "./pay/pay.module";
     MatButtonModule,
     CartContainerModule,
     ShippingContainerModule,
-    PayContainerModule
+    PayContainerModule,
+    ConfirmContainerModule
   ],
   exports: [
     CheckoutComponent
