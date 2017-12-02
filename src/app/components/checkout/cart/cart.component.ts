@@ -7,7 +7,7 @@ import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges } from '@
 			<div *ngIf="!cart">
 				Carrito vacío
 			</div>
-			<div class="table-responsive pb-5" *ngIf="cart">
+			<div class="table-responsive" *ngIf="cart">
 				<table class="table table-shopping w-100">
 					<thead>
 						<tr>

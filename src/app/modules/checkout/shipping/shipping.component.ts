@@ -10,7 +10,6 @@ import { SaveShipping, GetShipping } from "../../../actions/checkout";
 	selector: 'app-shipping-container',
 	template: 
 		`
-			<h3 class="info-text text-center py-3">Formas de entrega</h3>
 			<app-shipping (saveShipping)="saveShipping($event)" [shipping]="shipping$ | async" [userCheckout]="user$ | async" *ngIf="!(loadingUser$ | async)"></app-shipping>
 			<app-module-loader  *ngIf="loadingUser$ | async"></app-module-loader>
 		`

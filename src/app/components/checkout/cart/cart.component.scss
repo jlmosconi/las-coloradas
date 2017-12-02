@@ -1,18 +1,11 @@
 .table-shopping {
     .img-container {
-        // width: 120px;
-        // max-height: 160px;
-        // overflow: hidden;
-        // display: block;
-
         width: 120px;
-        /* max-height: 160px; */
         overflow: hidden;
         display: block;
         width: 80px;
         border-radius: 2px;
         overflow: hidden;
-        /* min-height: 74px; */
         max-height: 53px;
 
         img {
@@ -123,14 +116,16 @@
 }
 
 @keyframes fadeToRight{
-    0%{
+    0% {
         transform: translateX(0);
         opacity: 1;
     }
+
     50% {
         opacity: .2
     }
-    100%{
+
+    100% {
         visibility: collapse;
         opacity: 0;
         transform: translateX(20px);

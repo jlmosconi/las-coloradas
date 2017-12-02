@@ -7,23 +7,22 @@ import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 		`
 		<div class="container">
 			<div class="pt-4 pt-md-5">
-				<!--      Wizard container        -->
-				<div class="wizard-card" style="padding-bottom:150px;">
-					<div class="wizard-navigation">
+				<div class="wizard mb-5">
+					<div class="wizard-navigation h-100">
 						<div class="progress-with-circle">
 							<div class="progress-bar" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="4" [ngStyle]="{'width': progressBar+'%'}" ></div>
 						</div>
 						<ul class="nav nav-pills" id="steps">
 							<li class="w-25" id="cart">
-								<a routerLink="carrito" data-toggle="tab" aria-expanded="true">
-									<div class="icon-circle checked">
-										<i class="ti-map material-icons">shopping_cart</i>
+								<a routerLink="carrito" aria-expanded="true">
+									<div class="icon-circle">
+										<i class="material-icons">shopping_cart</i>
 									</div>
 									Carrito
 								</a>
 							</li>
 							<li class="w-25" id="shipping">
-								<a routerLink="envio" data-toggle="tab">
+								<a routerLink="envio">
 									<div class="icon-circle">
 										<i class="ti-direction-alt material-icons">local_shipping</i>
 									</div>
@@ -31,28 +30,28 @@ import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 								</a>
 							</li>
 							<li class="w-25" id="pay">
-								<a routerLink="pago" data-toggle="tab">
+								<a routerLink="pago">
 									<div class="icon-circle">
-										<i class="ti-panel material-icons">payment</i>
+										<i class="material-icons">payment</i>
 									</div>
 									Pago
 								</a>
 							</li>
 							<li class="w-25" id="check">
-								<a href="#description" data-toggle="tab">
+								<a>
 									<div class="icon-circle">
-										<i class="ti-comments material-icons">check</i>
+										<i class="material-icons">check</i>
 									</div>
 									Confirmar
 								</a>
 							</li>
 						</ul>
 					</div>
-				</div> <!-- wizard container -->
+				</div>
 
 				<router-outlet></router-outlet>
 
-				<div class="d-flex justify-content-between">
+				<div class="d-flex justify-content-between pt-5">
 					<button mat-raised-button color="accent" class="text-white">Anterior</button>
 					<button mat-raised-button color="primary">Siguiente</button>
 				</div>
@@ -78,36 +77,30 @@ export class CheckoutComponent implements OnInit {
 	ngOnInit() { }
 
 	wizard(step) {
-		console.warn('step: ', step);
-		let wizard = document.getElementById('steps');
-		let count = wizard.childElementCount;
+		let steps = document.getElementById('steps');
+		let childElementCount = steps.childElementCount;
 		
-		for(var i = 0; i< wizard.children.length;i++)
-		{
-			wizard.children[i].classList.remove('active');
-		  if (wizard.children[i].getAttribute('id') == step) // any attribute could be used here
-		  {
-			this.calculateProgressBar(i, count);
-			//
-			wizard.children[i].classList.add('active');
+		for(var i = 0; i< steps.children.length;i++) {
+			let children = steps.children[i];
+			children.classList.remove('active');
+			children.classList.remove('checked');
+
+		  if(children.getAttribute('id') == step) {
+			this.calculateProgressBar(i, childElementCount);
+			this.setNextStep(i);
+			children.classList.add('active');
 			for(var j = 0; j < i;j++) {
-				wizard.children[j].classList.add('active');
+				steps.children[j].classList.add('checked');
 			}
-	  
 		  }
 		}
-
-		console.warn(document.getElementById(step));
 	}
 
-	calculateProgressBar(index, total) {
-		let tot = 100 / total;
-		let halfCircle = tot / 2;
-		let progressBarWifth = (tot * index) + halfCircle;
-		this.progressBar = progressBarWifth;
+	calculateProgressBar(index, childElementCount) {
+		this.progressBar = ((100 / childElementCount) * index) + ((100 / childElementCount) / 2);
 	}
 
-	nextStep() {
-		
+	setNextStep(index) {
+
 	}
 }
