@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
+import { ISubscription } from 'rxjs/Subscription';
 
 @Component({
 	selector: 'app-checkout',
@@ -10,39 +11,16 @@ import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 				<div class="wizard mb-5">
 					<div class="wizard-navigation h-100">
 						<div class="progress-with-circle">
-							<div class="progress-bar" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="4" [ngStyle]="{'width': progressBar+'%'}" ></div>
+							<div class="progress-bar" id="progressBar"></div>
+							
 						</div>
 						<ul class="nav nav-pills" id="steps">
-							<li class="w-25" id="cart">
-								<a routerLink="carrito" aria-expanded="true">
+							<li class="w-25" *ngFor="let step of steps" id="{{step.id}}">
+								<a routerLink="{{step.route}}" aria-expanded="true">
 									<div class="icon-circle">
-										<i class="material-icons">shopping_cart</i>
+										<i class="material-icons">{{ step.icon }}</i>
 									</div>
-									Carrito
-								</a>
-							</li>
-							<li class="w-25" id="shipping">
-								<a routerLink="envio">
-									<div class="icon-circle">
-										<i class="ti-direction-alt material-icons">local_shipping</i>
-									</div>
-									Envío
-								</a>
-							</li>
-							<li class="w-25" id="pay">
-								<a routerLink="pago">
-									<div class="icon-circle">
-										<i class="material-icons">payment</i>
-									</div>
-									Pago
-								</a>
-							</li>
-							<li class="w-25" id="check">
-								<a>
-									<div class="icon-circle">
-										<i class="material-icons">check</i>
-									</div>
-									Confirmar
+									{{ step.label }}
 								</a>
 							</li>
 						</ul>
@@ -52,8 +30,8 @@ import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 				<router-outlet></router-outlet>
 
 				<div class="d-flex justify-content-between pt-5">
-					<button mat-raised-button color="accent" class="text-white">Anterior</button>
-					<button mat-raised-button color="primary">Siguiente</button>
+					<button mat-raised-button color="accent" class="text-white" (click)="prev();">Anterior</button>
+					<button mat-raised-button color="primary" (click)="next();">Siguiente</button>
 				</div>
 			</div>
 		</div>
@@ -63,44 +41,96 @@ import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 })
 
 export class CheckoutComponent implements OnInit {
-	progressBar: number = 0;
+	steps = [
+		{
+			label: 'Carrito',
+			id: 'cart',
+			icon: 'shopping_cart',
+			route: 'carrito'
+		},
+		{
+			label: 'Envío',
+			id: 'shipping',
+			icon: 'local_shipping',
+			route: 'envio'
+		},
+		{
+			label: 'Pago',
+			id: 'pay',
+			icon: 'payment',
+			route: 'pago'
+		},
+		{
+			label: 'Confirmar',
+			id: 'confirm',
+			icon: 'check',
+			route: 'confirmar'
+		},
+	];
+	currentStep;
+	nextStepRoute;
+	prevStepRoute;
+	private subscriptionRouter: ISubscription;
 	constructor(private activatedRoute: ActivatedRoute, private router: Router) { 
-		this.router.events.subscribe((evt) => {
-			if (!(evt instanceof NavigationEnd)) {
-				return;
-			}
-			console.warn(evt);
-			this.wizard(this.activatedRoute.snapshot.firstChild.data.step)
+		this.subscriptionRouter = this.router.events.subscribe((evt) => {
+			if (!(evt instanceof NavigationEnd)) return;
+			this.currentStep = this.activatedRoute.snapshot.firstChild.data.step;
+			this.wizard();
 		});
 	}
 
 	ngOnInit() { }
 
-	wizard(step) {
+	ngAfterViewInit() {
+		this.wizard();
+	}
+
+	wizard() {
 		let steps = document.getElementById('steps');
 		let childElementCount = steps.childElementCount;
-		
-		for(var i = 0; i< steps.children.length;i++) {
-			let children = steps.children[i];
-			children.classList.remove('active');
-			children.classList.remove('checked');
+		if(steps && childElementCount) {
+			
+			for(var i = 0; i< steps.children.length;i++) {
+				let children = steps.children[i];
+				children.classList.remove('active');
+				children.classList.remove('checked');
 
-		  if(children.getAttribute('id') == step) {
-			this.calculateProgressBar(i, childElementCount);
-			this.setNextStep(i);
-			children.classList.add('active');
-			for(var j = 0; j < i;j++) {
-				steps.children[j].classList.add('checked');
+				if(children.getAttribute('id') == this.currentStep) {
+					this.calculateProgressBar(i, childElementCount);
+					this.setNextStep(i, childElementCount);
+					this.setPrevStep(i);
+					children.classList.add('active');
+					for(var j = 0; j < i;j++) {
+						steps.children[j].classList.add('checked');
+					}
+				}
 			}
-		  }
 		}
 	}
 
 	calculateProgressBar(index, childElementCount) {
-		this.progressBar = ((100 / childElementCount) * index) + ((100 / childElementCount) / 2);
+		let progressBarWidth = ((100 / childElementCount) * index) + ((100 / childElementCount) / 2);
+		let progressBar = document.getElementById('progressBar');
+		progressBar.style.width = progressBarWidth+'%';
 	}
 
-	setNextStep(index) {
+	setNextStep(index, childElementCount) {
+		this.nextStepRoute = index == childElementCount ? this.steps[index].route : this.steps[index + 1].route;
+	}
 
+	setPrevStep(index) {
+		this.prevStepRoute = index == 0 ? this.steps[index].route : this.steps[index - 1].route;
+	}
+
+	next() {
+		this.router.navigate(['checkout/' + this.nextStepRoute]);
+	}
+
+	prev() {
+		this.router.navigate(['checkout/' + this.prevStepRoute]);
+	}
+
+	ngOnDestroy() {
+		this.subscriptionRouter.unsubscribe();
 	}
 }
