@@ -42,7 +42,7 @@ export const ActionTypes = {
 
 export class GetHighlights implements Action {
   readonly type = ActionTypes.GET_HIGHLIGHTS;
-  constructor(public payload: any) { }
+  constructor(public payload?: any) { }
 }
 
 export class GetHighlightsFailure implements Action {
@@ -57,7 +57,7 @@ export class GetHighlightsSuccess implements Action {
 
 export class GetLatest implements Action {
   readonly type = ActionTypes.GET_LATEST;
-  constructor(public payload: any) { }
+  constructor(public payload?: any) { }
 }
 
 export class GetLatestFailure implements Action {

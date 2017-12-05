@@ -6,7 +6,7 @@ import { ProductCardLoaderComponent } from './product-card-loader.component';
   imports: [
     CommonModule
   ],
-  declarations: [ProductCardLoaderComponent],
-  exports: [ProductCardLoaderComponent]
+  declarations: [ ProductCardLoaderComponent ],
+  exports: [ ProductCardLoaderComponent ]
 })
-export class ProductCardLoaderModule { }
+export class ProductCardLoaderModule {}

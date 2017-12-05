@@ -28,7 +28,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 									sucursal
 								</div>
 
-								<div class="card p-3" *ngIf="userCheckout.shipping === 3">
+								<div *ngIf="userCheckout.shipping === 3">
 									domicilio
 								</div>
 							</div>
