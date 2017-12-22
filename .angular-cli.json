@@ -27,7 +27,9 @@
         "assets/styles/las-coloradas.scss",
         "styles.scss"
       ],
-      "scripts": [],
+      "scripts": [
+        "assets/js/card.js"
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",

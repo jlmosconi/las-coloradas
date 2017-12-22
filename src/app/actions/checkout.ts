@@ -3,31 +3,16 @@ import { type } from '../util';
 
 export const ActionTypes = {
     MOVE_TO_STEP: type('[Checkout] Move To Step'),
-    GET_SHIPPING: type('[Checkout] Get Shipping'),
-    GET_SHIPPING_FAILURE: type('[Checkout] Get Shipping Failure'),
-    GET_SHIPPING_SUCCESS: type('[Checkout] Get Shipping Success'),
     SAVE_SHIPPING: type('[Checkout] Save Shipping'),
     SAVE_SHIPPING_FAILURE: type('[Checkout] Save Shipping Failure'),
     SAVE_SHIPPING_SUCCESS: type('[Checkout] Save Shipping Success'),
+    SAVE_PAYMENT: type('[Checkout] Save Payment'),
+    SAVE_PAYMENT_FAILURE: type('[Checkout] Save Payment Failure'),
+    SAVE_PAYMENT_SUCCESS: type('[Checkout] Save Payment Success'),
 };
 
 export class MoveToStep implements Action {
     readonly type = ActionTypes.MOVE_TO_STEP;
-    constructor(public payload?: any) { }
-}
-
-export class GetShipping implements Action {
-    readonly type = ActionTypes.GET_SHIPPING;
-    constructor(public payload?: any) { }
-}
-
-export class GetShippingFailure implements Action {
-    readonly type = ActionTypes.GET_SHIPPING_FAILURE;
-    constructor(public payload?: any) { }
-}
-
-export class GetShippingSuccess implements Action {
-    readonly type = ActionTypes.GET_SHIPPING_SUCCESS;
     constructor(public payload?: any) { }
 }
 
@@ -46,7 +31,22 @@ export class SaveShippingSuccess implements Action {
     constructor(public payload?: any) { }
 }
 
+export class SavePayment implements Action {
+    readonly type = ActionTypes.SAVE_PAYMENT;
+    constructor(public payload: any) { }
+}
+
+export class SavePaymentFailure implements Action {
+    readonly type = ActionTypes.SAVE_PAYMENT_FAILURE;
+    constructor(public payload?: any) { }
+}
+
+export class SavePaymentSuccess implements Action {
+    readonly type = ActionTypes.SAVE_PAYMENT_SUCCESS;
+    constructor(public payload?: any) { }
+}
+
 export type Actions 
 = MoveToStep
-| GetShipping | GetShippingFailure | GetShippingSuccess
-| SaveShipping | SaveShippingFailure | SaveShippingSuccess;
+| SaveShipping | SaveShippingFailure | SaveShippingSuccess
+| SavePayment | SavePaymentFailure | SavePaymentSuccess;

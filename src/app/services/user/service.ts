@@ -115,7 +115,14 @@ export class UserService {
         });
     }
 
-    getUserShipping(uid) {
-        return uid ? this.db.object(`/users/${uid}/checkout/shipping`).valueChanges() : this.localStorageService.getCollection('cart/shipping');
+    savePayment(id) {
+        return new Promise((resolve, reject) => {
+            let uid = this.getCurrentUserId();
+            if (uid) {
+                firebase.database().ref(`/users/${uid}/checkout/payment`).set(id)
+                    .then( _ => resolve(true))
+                    .catch(err => reject())
+            }
+        });
     }
 }

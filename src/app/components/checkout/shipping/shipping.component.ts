@@ -5,10 +5,10 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 	template: 
 		`
 		<div class="row">
-			<div class="col-sm-8 offset-sm-2">
+			<div class="col-md-8 offset-md-2">
 				<div class="row">
 					<div class="col-sm-4" *ngFor="let shipping of shippings">
-						<div class="choice" data-toggle="wizard-checkbox" [ngClass]="{'active': userCheckout.shipping === shipping.id }" (click)="select(shipping.id)">
+						<div class="choice pb-3" data-toggle="wizard-checkbox" [ngClass]="{'active': userCheckout.shipping === shipping.id }" (click)="select(shipping.id)">
 							<div class="card card-checkboxes card-hover-effect">
 								<i class="ti-home material-icons">{{ shipping.icon }}</i>
 								<p>{{ shipping.title }}</p>
@@ -44,12 +44,11 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 export class ShippingComponent implements OnInit {
 	@Input() userCheckout;
-	@Input() shipping;
 	@Output() saveShipping: EventEmitter<any> = new EventEmitter();
 	shippings = [
 		{
 			id: 1,
-			title: 'Retiro en local',
+			title: 'Acuerdo con el vendedor',
 			icon: 'domain'
 		},
 		{

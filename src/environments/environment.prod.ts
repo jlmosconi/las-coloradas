@@ -13,5 +13,8 @@ export const environment = {
     apiKey: '904949feb9b4b49840f603e1a7bf01e5',
     indexName: 'products',
     urlSync: true
+  },
+  mercadopago: {
+    publishableKey: "TEST-5ebd6d3f-0584-4d76-8a7e-6f110b9fa5d4"
   }
 };
