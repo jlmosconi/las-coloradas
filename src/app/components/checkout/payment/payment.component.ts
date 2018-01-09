@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 declare var Card: any;
-declare var Mercadopago: any;
 
 @Component({
 	selector: 'app-payment',
@@ -33,56 +32,65 @@ declare var Mercadopago: any;
 									<div class="card-wrapper"></div>
 									<div class="form-container active pt-5">
 										<form novalidate [formGroup]="form" (ngSubmit)="submit();">
-											<mat-form-field class="w-100">
+											<!--<mat-form-field class="w-100">
 												<input type="email" matInput placeholder="Email" formControlName="email">
 												<mat-error *ngIf="form.controls.email.invalid">err</mat-error>
-											</mat-form-field>
+											</mat-form-field>-->
 											<mat-form-field class="w-100">
 												<input type="text" name="number" id="cardNumber" data-checkout="cardNumber" matInput placeholder="Número de tarjeta" formControlName="cardNumber" minlength="19" maxlength="19" onselectstart="return false" onpaste="return false" onCopy="return false" onCut="return false" onDrag="return false" onDrop="return false" autocomplete="off">
-												<mat-error *ngIf="form.controls.cardNumber.invalid">err</mat-error>
+												<mat-error *ngIf="form.controls.cardNumber.invalid">
+													<div *ngIf="form.controls.cardNumber.errors.required">Campo requerido</div>
+												</mat-error>
 											</mat-form-field>
 											<mat-form-field class="w-100">
 												<input type="text" name="name" id="cardholderName" data-checkout="cardholderName" matInput placeholder="Nombre y apellido impreso en la tarjeta" formControlName="cardholderName" autocomplete="off">
-												<mat-error *ngIf="form.controls.cardholderName.invalid">err</mat-error>
+												<mat-error *ngIf="form.controls.cardholderName.invalid">
+													<div *ngIf="form.controls.cardholderName.errors.required">Campo requerido</div>
+												</mat-error>
 											</mat-form-field>
 											<mat-form-field class="w-100">
 												<input type="text" name="expiry" id="cardExpirationDate" data-checkout="cardExpirationDate" matInput placeholder="Válida hasta" formControlName="cardExpirationDate" onselectstart="return false" onpaste="return false" onCopy="return false" onCut="return false" onDrag="return false" onDrop="return false" autocomplete="off">
-												<mat-error *ngIf="form.controls.cardExpirationDate.invalid">err</mat-error>
+												<mat-error *ngIf="form.controls.cardExpirationDate.invalid">
+													<div *ngIf="form.controls.cardExpirationDate.errors.required">Campo requerido</div>
+												</mat-error>
 											</mat-form-field>
 											<mat-form-field class="w-100">
 												<input type="text" name="cvc" id="securityCode" data-checkout="securityCode" matInput placeholder="Código de seguridad" formControlName="securityCode" minlength="3" maxlength="4" onselectstart="return false" onpaste="return false" onCopy="return false" onCut="return false" onDrag="return false" onDrop="return false" autocomplete="off">
-												<mat-error *ngIf="form.controls.securityCode.invalid">err</mat-error>
+												<mat-error *ngIf="form.controls.securityCode.invalid">
+													<div *ngIf="form.controls.securityCode.errors.required">Campo requerido</div>
+													<div *ngIf="form.controls.securityCode.errors.minlength || form.controls.securityCode.errors.maxlength">Fecha erronea</div>
+												</mat-error>
 											</mat-form-field>
 											<mat-form-field>
-												<mat-select id="docType" data-checkout="docType" placeholder="Tipo de documento">
+												<mat-select placeholder="Tipo de documento" formControlName="docType">
 													<mat-option *ngFor="let docType of docTypes" [value]="docType.value"> {{ docType.label }}</mat-option>
 												</mat-select>
+												<mat-error *ngIf="form.controls.docType.invalid">
+													<div *ngIf="form.controls.docType.errors.required">Campo requerido</div>
+												</mat-error>
 											</mat-form-field>
 											<mat-form-field class="w-100">
 												<input type="text" id="docNumber" data-checkout="docNumber" matInput placeholder="Documento del titular de esta tarjeta (Sólo números)" formControlName="docNumber" minlength="7" maxlength="9" pattern="^(0|[1-9][0-9]*)$">
-												<mat-error *ngIf="form.controls.docNumber.invalid">err</mat-error>
+												<mat-error *ngIf="form.controls.docNumber.invalid">
+													<div *ngIf="form.controls.docNumber.errors.required">Campo requerido</div>
+													<div *ngIf="form.controls.docNumber.errors.minlength || form.controls.docNumber.errors.maxlength">Debe introducir entre {{ form.controls.docNumber.errors.minlength.requiredLength }} y 9 dígitos</div>
+													<div *ngIf="form.controls.docNumber.errors.pattern">Error de formato</div>
+												</mat-error>
 											</mat-form-field>
-						
-											<button type="submit" [disabled]="form.invalid">
-												submit
-											</button>
+
+											<div class="text-center">
+												<button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Confirmar tarjeta</button>
+											</div>
 										</form>
 									</div>
 								</div>
 
 								<div *ngIf="user.checkout.payment === 3">
 									<div class="row">
-										<div class="col-md-3 col-sm-4 offset-md-3 offset-sm-2 text-center">
-											<div class="h-100 choice pb-3">
+										<div class="col-md-3 col-sm-4 text-center" [ngClass]="{'offset-md-3 offset-sm-2': i == 0}" *ngFor="let cashType of cashTypes; let i = index">
+											<div class="h-100 choice sub-choise pb-3" (click)="cash(cashType.id)" [ngClass]="{'active': user.checkout?.payment_data?.payment_method_id === cashType.id }">
 												<div class="d-flex align-items-center justify-content-center card card-checkboxes card-hover-effect h-100">
-													<img src="http://res.cloudinary.com/anterux/image/upload/v1513952276/rapipago_logo.svg">
-												</div>
-											</div>
-										</div>
-										<div class="col-md-3 col-sm-4 text-center">
-											<div class="h-100 choice pb-3">
-												<div class="d-flex align-items-center justify-content-center card card-checkboxes card-hover-effect h-100">
-													<img src="https://res.cloudinary.com/anterux/image/upload/v1513952276/pagofacil_logo.svg" width="80" height="150">
+													<img [src]="cashType.img">
 												</div>
 											</div>
 										</div>
@@ -122,6 +130,18 @@ export class PaymentComponent implements OnInit {
 		}
 	];
 
+	cashTypes = [
+		{
+			id: 'rapipago',
+			img: 'http://res.cloudinary.com/anterux/image/upload/v1513952276/rapipago_logo.svg'
+		},
+		{
+			id: 'pagofacil',
+			img: 'https://res.cloudinary.com/anterux/image/upload/v1513952276/pagofacil_logo.svg'
+		}
+
+	]
+
 	docTypes = [
 		{
 			value: 'DNI',
@@ -136,16 +156,13 @@ export class PaymentComponent implements OnInit {
 		
 	}
 
-	ngOnInit() { 
-		Mercadopago.setPublishableKey("TEST-5ebd6d3f-0584-4d76-8a7e-6f110b9fa5d4");
-	}
+	ngOnInit() { }
 
 	ngAfterViewInit() {
 		this.generateCard();
 	}
 
 	generateCard() {
-		console.warn('Generate Card');
 		var card = new Card({
 			form: '.active form',
 			container: '.card-wrapper',
@@ -176,35 +193,17 @@ export class PaymentComponent implements OnInit {
 	}
 
 	submit() {
-		let bin = this.form.controls.cardNumber.value;
-
-		Mercadopago.getPaymentMethod({
-			"bin": bin
-		}, this.setPaymentMethodInfo);
-
-		let payData = this.form.value;
-		let cardExpirationDate = payData.cardExpirationDate.split("/");
-		
-		payData.cardExpirationMonth = cardExpirationDate[0].trim()
-		payData.cardExpirationYear = cardExpirationDate[1].trim()
-
-		Mercadopago.createToken(payData, this.sdkResponseHandler)
+		this.onSubmit.emit({
+			type: 'card',
+			data: this.form.value
+		});
 	}
 
-
-	setPaymentMethodInfo = (status, response) => {
-		console.warn(status, response);
-		if(status == 200) {
-			this.form.controls.paymentMethodId.setValue(response[0].id);
-		}
-	}
-
-	sdkResponseHandler = (status, response) => {
-		if (status != 200 && status != 201) {
-			alert("verify filled data");
-		} else {
-			this.onSubmit.emit(response.id)
-		}
+	cash(method) {
+		this.onSubmit.emit({
+			type: 'cash',
+			data: method
+		});
 	}
 
 	select(id){

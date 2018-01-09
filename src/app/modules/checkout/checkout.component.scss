@@ -155,6 +155,14 @@
                     color: #FF5722;
                 }
             }
+
+            &.sub-choise {
+                &.active {
+                    .card-checkboxes {
+                        border: 1px solid #FF5722;
+                    }
+                }
+            }
         
             .icon {
                 text-align: center;

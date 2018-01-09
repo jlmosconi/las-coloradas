@@ -10,7 +10,7 @@ export const createPayment = (paymentData:any) => {
             "data": paymentData
         })
         .then (payment => {
-            console.log('payment service: ' + payment)
+            console.log('payment service: ' + payment.response);
             resolve(true)
         })
         .catch(err => {

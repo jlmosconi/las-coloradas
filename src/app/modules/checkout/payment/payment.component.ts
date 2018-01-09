@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
 import { onStateChangeObservable } from '../../../utils/store';
-import { SavePayment } from "../../../actions/checkout";
+import { SavePayment, ProcessPaymentData, ProcessCardData } from "../../../actions/checkout";
 
 @Component({
 	selector: 'app-payment-container',
@@ -24,13 +24,13 @@ export class PayContainerComponent implements OnInit {
 	user$: Observable<any>;
 	loadingUser$: Observable<any>;
 	payData = this.fb.group({
-			email: ['', [Validators.required, Validators.email]],
+			// email: ['', [Validators.required, Validators.email]],
 			cardNumber: ['4509 9535 6623 3704', [Validators.required, Validators.minLength, Validators.maxLength]],
-			securityCode: ['928', [Validators.required, Validators.minLength, Validators.maxLength]],
+			cardholderName: ['', [Validators.required]],
 			cardExpirationDate: ['03 / 19', [Validators.required]],
-			cardholderName: ['JOSE LUIS MOSCONI', [Validators.required]],
-			docType: ['DNI', [Validators.required]],
-			docNumber: ['36272545', [Validators.required, Validators.minLength, Validators.maxLength, Validators.pattern]],
+			securityCode: ['928', [Validators.required, Validators.minLength, Validators.maxLength]],
+			docType: ['', [Validators.required]],
+			docNumber: ['', [Validators.required, Validators.minLength, Validators.maxLength, Validators.pattern]],
 			paymentMethodId: ['']
 	});
 
@@ -41,8 +41,12 @@ export class PayContainerComponent implements OnInit {
 
 	ngOnInit() { }
 
-	onSubmit(token) {
-		console.warn(token);
+	onSubmit(payload) {
+		if(payload.type == 'cash') {
+			this.store.dispatch(new ProcessPaymentData(payload.data));
+		} else if(payload.type == 'card') {
+			this.store.dispatch(new ProcessCardData(payload.data));
+		}
 	}
 
 	savePayment(id) {

@@ -125,4 +125,15 @@ export class UserService {
             }
         });
     }
+
+    savePaymentData(paymentData) {
+        return new Promise((resolve, reject) => {
+            let uid = this.getCurrentUserId();
+            if (uid) {
+                firebase.database().ref(`/users/${uid}/checkout/payment_data`).set(paymentData)
+                    .then( _ => resolve(paymentData))
+                    .catch(err => reject())
+            }
+        });
+    }
 }

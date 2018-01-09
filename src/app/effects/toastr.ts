@@ -3,6 +3,7 @@ import { Action } from '@ngrx/store';
 import { Actions, Effect } from '@ngrx/effects';
 import { ActionTypes as contactActions } from '../actions/contact'
 import { ActionTypes as productsActions } from '../actions/products';
+import { ActionTypes as checkoutActions } from '../actions/checkout';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 
@@ -42,6 +43,26 @@ export class ToastrEffects {
                     // horizontalPosition: 'right',
                     // verticalPosition: 'top',
                     extraClasses: ['success']
+                });
+            })
+
+    @Effect({dispatch: false})
+        savePaymentDataSuccess: Observable<{}> = this.action$
+            .ofType(checkoutActions.PROCESS_CARD_DATA_SUCCESS)
+            .do(() => {
+                this.toastr.open('La tarjeta fue aceptada', null, {
+                    duration: 2000,
+                    extraClasses: ['success']
+                });
+            })
+
+    @Effect({dispatch: false})
+        savePaymentDataFailure: Observable<{}> = this.action$
+            .ofType(checkoutActions.PROCESS_CARD_DATA_FAILURE)
+            .do(() => {
+                this.toastr.open('La tarjeta fue rechazada', null, {
+                    duration: 2000,
+                    extraClasses: ['danger']
                 });
             })
        

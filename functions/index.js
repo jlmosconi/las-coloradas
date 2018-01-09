@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -77,13 +77,19 @@ module.exports = require("mercadopago");
 
 /***/ }),
 /* 2 */
+/***/ (function(module, exports) {
+
+module.exports = require("firebase-admin");
+
+/***/ }),
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const functions = __webpack_require__(0);
-const admin = __webpack_require__(3);
+const admin = __webpack_require__(2);
 admin.initializeApp(functions.config().firebase);
 const nodeEnv = "development";
 const products = __webpack_require__(4);
@@ -91,12 +97,6 @@ const checkout = __webpack_require__(6);
 exports.updateProducts = products.updateProducts;
 exports.doPayment = checkout.doPayment;
 
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports) {
-
-module.exports = require("firebase-admin");
 
 /***/ }),
 /* 4 */
@@ -178,9 +178,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const functions = __webpack_require__(0);
 const customers_1 = __webpack_require__(7);
 const payments_1 = __webpack_require__(8);
+const service_1 = __webpack_require__(9);
 var MP = __webpack_require__(1);
 var mp = new MP(functions.config().mercadopago.access_token);
-// const mp = new MP ("TEST-5689156392534944-120613-b9a025a324ea5f042f155bbca6c9d55b__LB_LA__-198376512");
 exports.doPayment = functions.database
     .ref('jobs/payments/{paymentId}')
     .onWrite((event) => __awaiter(this, void 0, void 0, function* () {
@@ -212,13 +212,13 @@ exports.doPayment = functions.database
     //     })
     // })
     var payment_data = {
-        transaction_amount: 134,
-        token: '6ff8544fe8d0125ef328cebeb925498a',
-        description: 'Gorgeous Copper Bag',
+        transaction_amount: data.transaction_amount,
+        token: data.token,
+        description: 'Compra en Las Coloradas.',
         installments: 1,
-        payment_method_id: 'visa',
+        payment_method_id: data.payment_method_id,
         payer: {
-            email: 'email@test.com'
+            "email": null,
         }
     };
     // mp.post ({
@@ -231,28 +231,43 @@ exports.doPayment = functions.database
     // .catch(err => {
     //     console.log('error payment: ' + err)
     // })
-    customers_1.getCustomerByID('128416941-naemCyzSUPQBcG')
-        .then(exist => {
-        if (exist) {
-            console.warn('exist');
-            // cobrar pabo
-            payments_1.createPayment(payment_data)
-                .then(payment => {
-                console.log('payment:' + payment);
-            });
-        }
-        else {
-            console.warn('not exist');
-            customers_1.createCustommer({ email: "jlmosconi@gmail.com" })
-                .then(create => {
-                if (create) {
-                    console.log("creado con éxito");
-                }
-                else {
-                    console.log("no creado");
-                }
-            });
-        }
+    service_1.getUserByID(data.userID)
+        .then((user) => {
+        console.log(user);
+        payment_data.payer.email = user.email;
+        customers_1.getCustomerByID(user.customerID)
+            .then(exist => {
+            if (exist) {
+                console.log('exist');
+                // Si existe el usuario, cobrar pago.
+                payments_1.createPayment(payment_data)
+                    .then(payment => {
+                    console.log('payment:' + payment);
+                    //mensaje de pago en algún lado, jijiji.
+                });
+            }
+            else {
+                console.log('not exist');
+                // El usuario no existe, lo creo.
+                customers_1.createCustommer(user.email)
+                    .then((customer) => {
+                    if (customer) {
+                        console.log("creado con éxito " + customer.response);
+                        //Usuario creado con éxito, updateo usuario con id de customer.
+                        service_1.setUserCustomerID(user.uid, customer.response.id);
+                        //cobro pago.
+                        payments_1.createPayment(payment_data)
+                            .then(payment => {
+                            console.log('payment:' + payment);
+                            //mensaje de pago en algún lado, jijiji.
+                        });
+                    }
+                    else {
+                        console.log("no creado");
+                    }
+                });
+            }
+        });
     });
 }));
 
@@ -283,19 +298,18 @@ exports.getCustomerByID = (id) => {
         });
     });
 };
-exports.createCustommer = (customerData) => {
+exports.createCustommer = (email) => {
     return new Promise((resolve, reject) => {
-        mp.get({
+        mp.post({
             "uri": "/v1/customers/",
             "data": {
-                "email": customerData.email
+                "email": email
             }
         })
             .then(customer => {
-            resolve(true);
+            resolve(customer);
         })
             .catch(err => {
-            /*customer not exist*/
             resolve(false);
         });
     });
@@ -319,12 +333,40 @@ exports.createPayment = (paymentData) => {
             "data": paymentData
         })
             .then(payment => {
-            console.log('payment service: ' + payment);
+            console.log('payment service: ' + payment.response);
             resolve(true);
         })
             .catch(err => {
             console.log('Error Payment: ' + err);
             resolve(false);
+        });
+    });
+};
+
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const admin = __webpack_require__(2);
+exports.getUserByID = (userID) => {
+    return new Promise((resolve, reject) => {
+        admin.database().ref('users/' + userID)
+            .once('value')
+            .then(snapshot => {
+            resolve(snapshot.val());
+        });
+    });
+};
+exports.setUserCustomerID = (userID, customerID) => {
+    return new Promise((resolve, reject) => {
+        console.log('customerID ' + customerID);
+        admin.database().ref('users/' + userID + '/customerID').set(customerID)
+            .then(snapshot => {
+            resolve(true);
         });
     });
 };
