@@ -2,7 +2,6 @@ import { Action } from '@ngrx/store';
 import { type } from '../util';
 
 export const ActionTypes = {
-    MOVE_TO_STEP: type('[Checkout] Move To Step'),
     SAVE_SHIPPING: type('[Checkout] Save Shipping'),
     SAVE_SHIPPING_FAILURE: type('[Checkout] Save Shipping Failure'),
     SAVE_SHIPPING_SUCCESS: type('[Checkout] Save Shipping Success'),
@@ -19,11 +18,6 @@ export const ActionTypes = {
     SAVE_PAYMENT_DATA_FAILURE: type('[Checkout] Save Payment Data Failure'),
     SAVE_PAYMENT_DATA_SUCCESS: type('[Checkout] Save Payment Data Success'),
 };
-
-export class MoveToStep implements Action {
-    readonly type = ActionTypes.MOVE_TO_STEP;
-    constructor(public payload?: any) { }
-}
 
 export class SaveShipping implements Action {
     readonly type = ActionTypes.SAVE_SHIPPING;
@@ -101,7 +95,7 @@ export class SavePaymentDataSuccess implements Action {
 }
 
 export type Actions 
-= MoveToStep
+=
 | SaveShipping | SaveShippingFailure | SaveShippingSuccess
 | SavePayment | SavePaymentFailure | SavePaymentSuccess
 | ProcessCardData | ProcessCardDataFailure | ProcessCardDataSuccess

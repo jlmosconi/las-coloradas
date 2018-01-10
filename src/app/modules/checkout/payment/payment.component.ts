@@ -10,7 +10,7 @@ import { SavePayment, ProcessPaymentData, ProcessCardData } from "../../../actio
 	selector: 'app-payment-container',
 	template:
 		`
-			<app-payment [form]="payData" (savePayment)="savePayment($event)" (onSubmit)="onSubmit($event);" [user]="user$ | async" *ngIf="!(loadingUser$ | async) && (user$ | async)"></app-payment>
+			<app-payment [form]="payData" (savePayment)="savePayment($event)" (onSubmit)="onSubmit($event);" [loadingCard]="loadingCard$ | async" [user]="user$ | async" *ngIf="!(loadingUser$ | async) && (user$ | async)"></app-payment>
 			<div *ngIf="!(user$ | async) && !(loadingUser$ | async)">
 					Es necesario estar registrado
 			</div>
@@ -23,6 +23,7 @@ import { SavePayment, ProcessPaymentData, ProcessCardData } from "../../../actio
 export class PayContainerComponent implements OnInit {
 	user$: Observable<any>;
 	loadingUser$: Observable<any>;
+	loadingCard$: Observable<any>;
 	payData = this.fb.group({
 			// email: ['', [Validators.required, Validators.email]],
 			cardNumber: ['4509 9535 6623 3704', [Validators.required, Validators.minLength, Validators.maxLength]],
@@ -37,6 +38,7 @@ export class PayContainerComponent implements OnInit {
 	constructor(private store: Store<any>, private fb: FormBuilder) {
 		this.user$ = onStateChangeObservable(store, 'user.userData');
 		this.loadingUser$ = onStateChangeObservable(store, 'user.loadingUser');
+		this.loadingCard$ = onStateChangeObservable(store, 'checkout.loadingCard');
 	}
 
 	ngOnInit() { }

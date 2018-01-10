@@ -1,12 +1,24 @@
 const reducers = {};
 import { ActionTypes, Actions } from '../actions/checkout';
 const initialState = {
-    currentStep: ''
+    loadingCard: false
 };
 
-reducers[ActionTypes.MOVE_TO_STEP] = (state, payload) => {
+reducers[ActionTypes.PROCESS_CARD_DATA] = (state, payload) => {
   return Object.assign({}, state, {
-    currentStep: payload.step,
+    loadingCard: true,
+  });
+};
+
+reducers[ActionTypes.PROCESS_CARD_DATA_FAILURE] = (state, payload) => {
+  return Object.assign({}, state, {
+    loadingCard: initialState.loadingCard,
+  });
+};
+
+reducers[ActionTypes.PROCESS_CARD_DATA_SUCCESS] = (state, payload) => {
+  return Object.assign({}, state, {
+    loadingCard: initialState.loadingCard,
   });
 };
 

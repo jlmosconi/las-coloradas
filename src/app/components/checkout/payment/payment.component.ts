@@ -79,7 +79,7 @@ declare var Card: any;
 											</mat-form-field>
 
 											<div class="text-center">
-												<button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Confirmar tarjeta</button>
+												<button mat-raised-button color="primary" type="submit" [disabled]="form.invalid || loadingCard">Confirmar tarjeta</button>
 											</div>
 										</form>
 									</div>
@@ -110,6 +110,7 @@ declare var Card: any;
 export class PaymentComponent implements OnInit {
 	@Input() user;
 	@Input() form;
+	@Input() loadingCard: boolean;
 	@Output() savePayment: EventEmitter<any> = new EventEmitter();
 	@Output() onSubmit: EventEmitter<any> = new EventEmitter();
 	payments = [
