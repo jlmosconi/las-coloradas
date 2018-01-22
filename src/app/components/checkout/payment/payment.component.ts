@@ -11,9 +11,9 @@ declare var Card: any;
 				<div class="col-md-8 offset-md-2">
 					<div class="row">
 						<div class="col-sm-4" *ngFor="let payment of payments">
-							<div class="choice pb-3" data-toggle="wizard-checkbox" [ngClass]="{'active': user.checkout.payment === payment.id }" (click)="select(payment.id)">
+							<div class="choice pb-3" [ngClass]="{'active': user.checkout.payment === payment.id }" (click)="select(payment.id)">
 								<div class="card card-checkboxes card-hover-effect">
-									<i class="ti-home material-icons">{{ payment.icon }}</i>
+									<i class="material-icons">{{ payment.icon }}</i>
 									<p>{{ payment.title }}</p>
 								</div>
 							</div>
@@ -37,9 +37,10 @@ declare var Card: any;
 												<mat-error *ngIf="form.controls.email.invalid">err</mat-error>
 											</mat-form-field>-->
 											<mat-form-field class="w-100">
-												<input type="text" name="number" id="cardNumber" data-checkout="cardNumber" matInput placeholder="Número de tarjeta" formControlName="cardNumber" minlength="19" maxlength="19" onselectstart="return false" onpaste="return false" onCopy="return false" onCut="return false" onDrag="return false" onDrop="return false" autocomplete="off">
+												<input type="text" name="number" id="cardNumber" data-checkout="cardNumber" matInput placeholder="Número de tarjeta" formControlName="cardNumber" minlength="17" maxlength="19" onselectstart="return false" onpaste="return false" onCopy="return false" onCut="return false" onDrag="return false" onDrop="return false" autocomplete="off">
 												<mat-error *ngIf="form.controls.cardNumber.invalid">
 													<div *ngIf="form.controls.cardNumber.errors.required">Campo requerido</div>
+													<div *ngIf="form.controls.cardNumber.errors.minlength || form.controls.cardNumber.errors.maxlength">Debe introducir entre {{ form.controls.cardNumber.errors.minlength.requiredLength }} y 19 dígitos</div>
 												</mat-error>
 											</mat-form-field>
 											<mat-form-field class="w-100">

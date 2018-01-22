@@ -28,9 +28,11 @@ export class CheckoutService {
 
             Mercadopago.createToken(data, 
                 (status, response) => {
+                    console.warn(response);
                     status != 200 && status != 201 ? resolve(null) : resolve({
                         token: response.id,
-                        payment_method_id: data.paymentMethodId
+                        payment_method_id: data.paymentMethodId,
+                        last_four_digits: response.last_four_digits
                     });
                 }
             )
@@ -39,7 +41,6 @@ export class CheckoutService {
 
     processPaymentData(payload) {
         return new Promise((resolve, reject) => {
-            console.warn('processPaymentData ' + payload, payload.token);
             payload.token ? resolve(payload) : resolve({payment_method_id: payload});
         });
 	}

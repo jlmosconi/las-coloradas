@@ -8,9 +8,9 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 			<div class="col-md-8 offset-md-2">
 				<div class="row">
 					<div class="col-sm-4" *ngFor="let shipping of shippings">
-						<div class="choice pb-3" data-toggle="wizard-checkbox" [ngClass]="{'active': userCheckout.shipping === shipping.id }" (click)="select(shipping.id)">
+						<div class="choice pb-3" [ngClass]="{'active': userCheckout.shipping === shipping.id }" (click)="select(shipping.id)">
 							<div class="card card-checkboxes card-hover-effect">
-								<i class="ti-home material-icons">{{ shipping.icon }}</i>
+								<i class="material-icons">{{ shipping.icon }}</i>
 								<p>{{ shipping.title }}</p>
 							</div>
 						</div>
