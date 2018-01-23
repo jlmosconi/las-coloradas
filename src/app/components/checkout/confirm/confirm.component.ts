@@ -55,7 +55,7 @@ import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
 
 			<div class="row py-3">
 				<div class="col-sm-4">
-					<div class="choice pb-3 active" *ngIf="shipping">
+					<div class="choice pb-3 active" *ngIf="shipping" [routerLink]="['/checkout/envio']">
 						<div class="card card-checkboxes">
 							<p class="title">Tipo de envío</p>
 							<i class="material-icons">{{ shipping.icon }}</i>
@@ -68,22 +68,30 @@ import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
 				</div>
 
 				<div class="col-sm-4">
-					<div class="choice pb-3 active" *ngIf="payment">
+					<div class="choice pb-3 active" *ngIf="payment" [routerLink]="['/checkout/pago']">
 						<div class="card card-checkboxes">
 							<p class="title">Tipo de pago</p>
 							<i class="material-icons">{{ payment.icon }}</i>
 							<p>{{ payment.title }}</p>
 						</div>
 					</div>
+
+					<div *ngIf="!payment">
+						No se eligió un tipo de Pago.
+					</div>
 				</div>
 
 				<div class="col-sm-4">
-					<div class="choice pb-3 active" *ngIf="payment">
+					<div class="choice pb-3 active" *ngIf="payment && user.checkout && user.checkout.payment_data" [routerLink]="['/checkout/pago']">
 						<div class="card card-checkboxes">
 							<p class="title">Método de pago</p>
 							<img [src]="paymentMethod.icon" width="70">
 							<p>{{ paymentMethod.title }} <span *ngIf="user.checkout && user.checkout.payment_data && user.checkout.payment_data.last_four_digits">{{ user.checkout.payment_data.last_four_digits }}</span></p>
 						</div>
+					</div>
+
+					<div *ngIf="!payment || !user.checkout || !user.checkout.payment_data">
+						No se eligió un método de Pago.
 					</div>
 				</div>
 			</div>
@@ -93,7 +101,7 @@ import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
 			</h1>
 
 			<div class="text-center">
-				<button mat-raised-button color="primary" type="submit" (click)="confirm();">Confirmar compra</button>
+				<button mat-raised-button color="primary" type="submit" (click)="confirm();" [disabled]="!cart || !user.checkout.shipping || !user.checkout.payment">Confirmar compra</button>
 			</div>
 
 		`
