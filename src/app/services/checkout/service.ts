@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from "../../../environments/environment";
+import * as firebase from 'firebase';
 
 declare var Mercadopago: any;
 Mercadopago.setPublishableKey(environment.mercadopago.publishableKey);
@@ -43,5 +44,12 @@ export class CheckoutService {
         return new Promise((resolve, reject) => {
             payload.token ? resolve(payload) : resolve({payment_method_id: payload});
         });
-	}
+    }
+    
+    confirmPayment(payload) {
+        return new Promise((resolve, reject) => {
+            firebase.database().ref(`/jobs/payments`).push(payload)
+                    .then( _ => resolve(true))
+        });
+    }
 }

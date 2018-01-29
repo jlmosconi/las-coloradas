@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ 	return __webpack_require__(__webpack_require__.s = 4);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -73,33 +73,16 @@ module.exports = require("firebase-functions");
 /* 1 */
 /***/ (function(module, exports) {
 
-module.exports = require("mercadopago");
+module.exports = require("firebase-admin");
 
 /***/ }),
 /* 2 */
 /***/ (function(module, exports) {
 
-module.exports = require("firebase-admin");
+module.exports = require("mercadopago");
 
 /***/ }),
 /* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const functions = __webpack_require__(0);
-const admin = __webpack_require__(2);
-admin.initializeApp(functions.config().firebase);
-const nodeEnv = "development";
-const products = __webpack_require__(4);
-const checkout = __webpack_require__(6);
-exports.updateProducts = products.updateProducts;
-exports.doPayment = checkout.doPayment;
-
-
-/***/ }),
-/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -152,6 +135,69 @@ function slugify(string) {
     string = string.replace(/ñ/gi, "n");
     return string;
 }
+exports.getDetail = (id) => {
+    return new Promise((resolve, reject) => {
+        index.getObject(id, (err, content) => {
+            if (err) {
+                console.error(err);
+                reject();
+            }
+            resolve(content);
+        });
+    });
+};
+exports.getProductsById = (ids) => {
+    return new Promise((resolve, reject) => {
+        let promises = [];
+        if (ids)
+            ids.map(id => promises.push(this.getDetail(id)));
+        if (promises.length) {
+            Promise.all(promises)
+                .then(results => resolve(results))
+                .catch(err => reject(err));
+        }
+        else {
+            resolve();
+        }
+    });
+};
+exports.calculateTotal = (cart) => {
+    return new Promise((resolve, reject) => {
+        let keys = cart ? Object.keys(cart) : null;
+        if (keys) {
+            let total = 0;
+            this.getProductsById(keys)
+                .then(products => {
+                keys.map((key, i) => {
+                    let product = products[i];
+                    if (product.id == key)
+                        total += cart[key] * product.price;
+                });
+                resolve(total);
+            });
+        }
+        else {
+            resolve();
+        }
+    });
+};
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const functions = __webpack_require__(0);
+const admin = __webpack_require__(1);
+admin.initializeApp(functions.config().firebase);
+const nodeEnv = "development";
+const products = __webpack_require__(3);
+const checkout = __webpack_require__(6);
+exports.updateProducts = products.updateProducts;
+exports.doPayment = checkout.doPayment;
 
 
 /***/ }),
@@ -179,15 +225,18 @@ const functions = __webpack_require__(0);
 const customers_1 = __webpack_require__(7);
 const payments_1 = __webpack_require__(8);
 const service_1 = __webpack_require__(9);
-var MP = __webpack_require__(1);
+const index_1 = __webpack_require__(3);
+const service_2 = __webpack_require__(10);
+const service_3 = __webpack_require__(11);
+var MP = __webpack_require__(2);
 var mp = new MP(functions.config().mercadopago.access_token);
 exports.doPayment = functions.database
     .ref('jobs/payments/{paymentId}')
-    .onWrite((event) => __awaiter(this, void 0, void 0, function* () {
+    .onCreate((event) => __awaiter(this, void 0, void 0, function* () {
     const paymentId = event.params.paymentId;
     const data = event.data.val();
-    console.log(data);
-    console.log(paymentId);
+    console.log('data: ' + data);
+    console.log('paymentId ' + paymentId);
     // console.log(event.data.ref.val();
     if (!data)
         return;
@@ -212,61 +261,68 @@ exports.doPayment = functions.database
     //     })
     // })
     var payment_data = {
-        transaction_amount: data.transaction_amount,
-        token: data.token,
+        transaction_amount: null,
+        token: data.checkout && data.checkout.payment_data ? data.checkout.payment_data.token : null,
         description: 'Compra en Las Coloradas.',
         installments: 1,
-        payment_method_id: data.payment_method_id,
+        payment_method_id: data.checkout && data.checkout.payment_data ? data.checkout.payment_data.payment_method_id : null,
         payer: {
             "email": null,
         }
     };
-    // mp.post ({
-    //     "uri": "/v1/payments",
-    //     "data": payment_data
-    // })
-    // .then (payment => {
-    //     console.log(payment)
-    // })
-    // .catch(err => {
-    //     console.log('error payment: ' + err)
-    // })
-    service_1.getUserByID(data.userID)
-        .then((user) => {
-        console.log(user);
-        payment_data.payer.email = user.email;
-        customers_1.getCustomerByID(user.customerID)
-            .then(exist => {
-            if (exist) {
-                console.log('exist');
-                // Si existe el usuario, cobrar pago.
-                payments_1.createPayment(payment_data)
-                    .then(payment => {
-                    console.log('payment:' + payment);
-                    //mensaje de pago en algún lado, jijiji.
-                });
-            }
-            else {
-                console.log('not exist');
-                // El usuario no existe, lo creo.
-                customers_1.createCustommer(user.email)
-                    .then((customer) => {
-                    if (customer) {
-                        console.log("creado con éxito " + customer.response);
-                        //Usuario creado con éxito, updateo usuario con id de customer.
-                        service_1.setUserCustomerID(user.uid, customer.response.id);
-                        //cobro pago.
-                        payments_1.createPayment(payment_data)
-                            .then(payment => {
-                            console.log('payment:' + payment);
-                            //mensaje de pago en algún lado, jijiji.
-                        });
-                    }
-                    else {
-                        console.log("no creado");
-                    }
-                });
-            }
+    console.log('ACAAA: ' + payment_data);
+    index_1.calculateTotal(data.checkout.cart)
+        .then((transaction_amount) => {
+        console.log('total: ' + transaction_amount);
+        payment_data.transaction_amount = transaction_amount;
+        service_1.getUserByID(data.userID)
+            .then((user) => {
+            console.log(user);
+            payment_data.payer.email = user.email;
+            console.log('payment_data: ' + payment_data);
+            customers_1.getCustomerByID(user.customerID)
+                .then(exist => {
+                if (exist) {
+                    console.log('exist');
+                    // Si existe el usuario, cobrar pago.
+                    payments_1.createPayment(payment_data)
+                        .then(payment => {
+                        console.log('payment:' + payment);
+                        // Mensaje de pago en algún lado, jijiji.
+                        // updateo usuario con id del pago y detalles del mismo.
+                        service_1.setUserPaymentID(user.uid, paymentId);
+                        service_2.savePayment(payment, user.uid, paymentId);
+                        //remove payment from jobs
+                        service_3.removePaymentFromJobs(paymentId);
+                    })
+                        .catch(err => {
+                        //mensaje de error
+                        service_3.removePaymentFromJobs(paymentId);
+                        service_1.setUserCheckoutStatus(user.uid, false, err.message);
+                    });
+                }
+                else {
+                    console.log('not exist');
+                    // El usuario no existe, lo creo.
+                    customers_1.createCustommer(user.email)
+                        .then((customer) => {
+                        if (customer) {
+                            console.log("creado con éxito " + customer.response);
+                            //Usuario creado con éxito, updateo usuario con id de customer.
+                            service_1.setUserCustomerID(user.uid, customer.response.id);
+                            //cobro pago.
+                            payments_1.createPayment(payment_data)
+                                .then(payment => {
+                                console.log('payment:' + payment);
+                                //mensaje de pago en algún lado, jijiji.
+                            });
+                        }
+                        else {
+                            console.log("no creado");
+                        }
+                    });
+                }
+            });
         });
     });
 }));
@@ -280,7 +336,7 @@ exports.doPayment = functions.database
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const functions = __webpack_require__(0);
-var MP = __webpack_require__(1);
+var MP = __webpack_require__(2);
 var mp = new MP(functions.config().mercadopago.access_token);
 exports.getCustomerByID = (id) => {
     return new Promise((resolve, reject) => {
@@ -324,7 +380,7 @@ exports.createCustommer = (email) => {
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const functions = __webpack_require__(0);
-var MP = __webpack_require__(1);
+var MP = __webpack_require__(2);
 var mp = new MP(functions.config().mercadopago.access_token);
 exports.createPayment = (paymentData) => {
     return new Promise((resolve, reject) => {
@@ -334,11 +390,11 @@ exports.createPayment = (paymentData) => {
         })
             .then(payment => {
             console.log('payment service: ' + payment.response);
-            resolve(true);
+            resolve(payment.response);
         })
             .catch(err => {
             console.log('Error Payment: ' + err);
-            resolve(false);
+            reject(err);
         });
     });
 };
@@ -351,7 +407,7 @@ exports.createPayment = (paymentData) => {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const admin = __webpack_require__(2);
+const admin = __webpack_require__(1);
 exports.getUserByID = (userID) => {
     return new Promise((resolve, reject) => {
         admin.database().ref('users/' + userID)
@@ -365,6 +421,61 @@ exports.setUserCustomerID = (userID, customerID) => {
     return new Promise((resolve, reject) => {
         console.log('customerID ' + customerID);
         admin.database().ref('users/' + userID + '/customerID').set(customerID)
+            .then(snapshot => {
+            resolve(true);
+        });
+    });
+};
+exports.setUserPaymentID = (userID, paymentID) => {
+    return new Promise((resolve, reject) => {
+        admin.database().ref('users/' + userID + '/payments/' + paymentID).set(true)
+            .then(snapshot => {
+            resolve(true);
+        });
+    });
+};
+exports.setUserCheckoutStatus = (userID, success, msj) => {
+    return new Promise((resolve, reject) => {
+        admin.database().ref('users/' + userID + '/checkout/status').set({
+            seccess: success,
+            msj: msj
+        })
+            .then(snapshot => {
+            resolve(true);
+        });
+    });
+};
+
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const admin = __webpack_require__(1);
+exports.savePayment = (payment, userID, paymentID) => {
+    return new Promise((resolve, reject) => {
+        admin.database().ref('payments/' + userID + '/' + paymentID).set(payment)
+            .then(snapshot => {
+            resolve(true);
+        });
+    });
+};
+
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const admin = __webpack_require__(1);
+exports.removePaymentFromJobs = (paymentID) => {
+    return new Promise((resolve, reject) => {
+        admin.database().ref('jobs/payments/' + paymentID).set(null)
             .then(snapshot => {
             resolve(true);
         });

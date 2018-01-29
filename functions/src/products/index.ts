@@ -46,3 +46,49 @@ function slugify(string){
     
     return string;
 }
+
+export const getDetail = (id) => {
+    return new Promise((resolve, reject) => {
+        index.getObject(id, (err, content) => {
+            if (err) {
+                console.error(err);
+                reject();
+            }
+
+            resolve(content);
+        })
+    });
+}
+
+export const getProductsById = (ids) => {
+    return new Promise((resolve, reject)=>{
+        let promises = [];
+        if(ids) ids.map(id=>promises.push(this.getDetail(id)));
+        if(promises.length) {
+            Promise.all(promises)
+                .then(results=>resolve(results))
+                .catch(err=>reject(err))
+        } else {
+            resolve();
+        }
+    });
+}
+
+export const calculateTotal = (cart) => {
+    return new Promise((resolve, reject) => {
+        let keys = cart ? Object.keys(cart) : null
+        if(keys) {
+            let total = 0;
+            this.getProductsById(keys)
+                .then(products => {
+                    keys.map((key, i) => {
+                        let product = products[i];
+                        if(product.id == key) total += cart[key] * product.price;
+                    })
+                    resolve(total);
+                })
+        } else {
+            resolve();
+        }
+    });
+}

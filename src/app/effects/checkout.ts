@@ -1,13 +1,28 @@
-import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
-import { Store } from '@ngrx/store';
 import { Actions, Effect, toPayload } from '@ngrx/effects';
-import { ActionTypes, SaveShippingSuccess, SaveShippingFailure, SavePaymentSuccess, SavePaymentFailure, SavePaymentData, SavePaymentDataSuccess, SavePaymentDataFailure, ProcessCardData, ProcessCardDataSuccess, ProcessCardDataFailure, ProcessPaymentData } from '../actions/checkout';
-import { UserService } from '../services/user/service';
+import {
+    ActionTypes,
+    ConfirmPaymentFailure,
+    ConfirmPaymentSuccess,
+    ProcessCardData,
+    ProcessCardDataFailure,
+    ProcessCardDataSuccess,
+    ProcessPaymentData,
+    SavePaymentData,
+    SavePaymentDataFailure,
+    SavePaymentDataSuccess,
+    SavePaymentFailure,
+    SavePaymentSuccess,
+    SaveShippingFailure,
+    SaveShippingSuccess
+    } from '../actions/checkout';
 import { CheckoutService } from '../services/checkout/service';
+import { Injectable } from '@angular/core';
+import { map, switchMap } from 'rxjs/operators';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
-import { map, switchMap } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import { UserService } from '../services/user/service';
 import 'rxjs/add/operator/catch';
 
 @Injectable()
@@ -96,5 +111,20 @@ export class CheckoutEffects {
                 })
                 .catch(err => {
                     return of(new SavePaymentDataFailure());
+                });
+
+    @Effect()
+        ConfirmPayment$: Observable<Action> = this.action$
+            .ofType(ActionTypes.CONFIRM_PAYMENT)
+                .map(toPayload)
+                .switchMap(payload => {
+                    console.warn(payload);
+                    return this.checkoutService.confirmPayment(payload);
+                })
+                .map(response => {
+                    return new ConfirmPaymentSuccess();
+                })
+                .catch(err => {
+                    return of(new ConfirmPaymentFailure());
                 });
 }

@@ -11,11 +11,11 @@ export const createPayment = (paymentData:any) => {
         })
         .then (payment => {
             console.log('payment service: ' + payment.response);
-            resolve(true)
+            resolve(payment.response)
         })
         .catch(err => {
             console.log('Error Payment: ' + err)
-            resolve(false)
+            reject(err)
         })
     });
 };

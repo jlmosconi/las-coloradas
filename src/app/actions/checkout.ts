@@ -17,6 +17,9 @@ export const ActionTypes = {
     SAVE_PAYMENT_DATA: type('[Checkout] Save Payment Data'),
     SAVE_PAYMENT_DATA_FAILURE: type('[Checkout] Save Payment Data Failure'),
     SAVE_PAYMENT_DATA_SUCCESS: type('[Checkout] Save Payment Data Success'),
+    CONFIRM_PAYMENT: type('[Checkout] Confirm Payment'),
+    CONFIRM_PAYMENT_FAILURE: type('[Checkout] Confirm Payment Failure'),
+    CONFIRM_PAYMENT_SUCCESS: type('[Checkout] Confirm Payment Success'),
 };
 
 export class SaveShipping implements Action {
@@ -94,10 +97,26 @@ export class SavePaymentDataSuccess implements Action {
     constructor(public payload?: any) { }
 }
 
+export class ConfirmPayment implements Action {
+    readonly type = ActionTypes.CONFIRM_PAYMENT;
+    constructor(public payload: any) { }
+}
+
+export class ConfirmPaymentFailure implements Action {
+    readonly type = ActionTypes.CONFIRM_PAYMENT_FAILURE;
+    constructor(public payload?: any) { }
+}
+
+export class ConfirmPaymentSuccess implements Action {
+    readonly type = ActionTypes.CONFIRM_PAYMENT_SUCCESS;
+    constructor(public payload?: any) { }
+}
+
 export type Actions 
 =
 | SaveShipping | SaveShippingFailure | SaveShippingSuccess
 | SavePayment | SavePaymentFailure | SavePaymentSuccess
 | ProcessCardData | ProcessCardDataFailure | ProcessCardDataSuccess
 | ProcessPaymentData | ProcessPaymentDataFailure | ProcessPaymentDataSuccess
-| SavePaymentData | SavePaymentDataFailure | SavePaymentDataSuccess;
+| SavePaymentData | SavePaymentDataFailure | SavePaymentDataSuccess
+| ConfirmPayment | ConfirmPaymentFailure | ConfirmPaymentSuccess;

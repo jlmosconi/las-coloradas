@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
 
 @Component({
 	selector: 'app-confirm',
@@ -101,7 +101,15 @@ import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
 			</h1>
 
 			<div class="text-center">
-				<button mat-raised-button color="primary" type="submit" (click)="confirm();" [disabled]="!cart || !user.checkout.shipping || !user.checkout.payment">Confirmar compra</button>
+				<div class="text-danger" *ngIf="user.checkout.status">
+					<div *ngIf="!user.checkout.status.seccess">
+						Error!
+					</div>
+				</div>
+				<button mat-raised-button color="primary" type="submit" (click)="confirm();" [disabled]="!cart || !user.checkout.shipping || !user.checkout.payment || loadingPayment">
+					<span *ngIf="!loadingPayment">Confirmar compra</span>
+					<mat-spinner *ngIf="loadingPayment"></mat-spinner>
+				</button>
 			</div>
 
 		`
@@ -112,6 +120,8 @@ import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
 export class ConfirmComponent implements OnInit {
 	@Input() user;
 	@Input() cart;
+	@Input() loadingPayment: boolean;
+	@Output() confirmPayment: EventEmitter<any> = new EventEmitter();
 	total: number = 0;
 	shipping;
 	payment;
@@ -203,7 +213,7 @@ export class ConfirmComponent implements OnInit {
 	}
 
 	confirm() {
-		console.warn('object');
+		this.confirmPayment.emit(this.user)
 	}
 
 	ngOnChanges(changes: SimpleChanges) {

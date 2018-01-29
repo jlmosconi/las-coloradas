@@ -1,7 +1,8 @@
 const reducers = {};
 import { ActionTypes, Actions } from '../actions/checkout';
 const initialState = {
-    loadingCard: false
+    loadingCard: false,
+    confirmPaymentLoading: false
 };
 
 reducers[ActionTypes.PROCESS_CARD_DATA] = (state, payload) => {
@@ -19,6 +20,12 @@ reducers[ActionTypes.PROCESS_CARD_DATA_FAILURE] = (state, payload) => {
 reducers[ActionTypes.PROCESS_CARD_DATA_SUCCESS] = (state, payload) => {
   return Object.assign({}, state, {
     loadingCard: initialState.loadingCard,
+  });
+};
+
+reducers[ActionTypes.CONFIRM_PAYMENT] = (state, payload) => {
+  return Object.assign({}, state, {
+    confirmPaymentLoading: !initialState.confirmPaymentLoading,
   });
 };
 
