@@ -5,6 +5,9 @@
 
 export const environment = {
   production: false,
+    server: {
+      url: 'https://us-central1-las-coloradas-development.cloudfunctions.net/app'  
+    },
     firebase: {
       apiKey: "AIzaSyBm0-rrjHY3_B1aFQzMvntBSmO15S9ebdw",
       authDomain: "las-coloradas-development.firebaseapp.com",

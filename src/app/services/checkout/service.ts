@@ -1,13 +1,18 @@
 import { Injectable } from '@angular/core';
 import { environment } from "../../../environments/environment";
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import * as firebase from 'firebase';
+
+const httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*',  'Access-Control-Allow-Methods': 'POST'})
+};
 
 declare var Mercadopago: any;
 Mercadopago.setPublishableKey(environment.mercadopago.publishableKey);
 
 @Injectable()
 export class CheckoutService {
-    constructor() { }
+    constructor(private http:HttpClient) { }
 
     processCardData(data) {
         return new Promise((resolve, reject) => {
@@ -48,8 +53,15 @@ export class CheckoutService {
     
     confirmPayment(payload) {
         return new Promise((resolve, reject) => {
-            firebase.database().ref(`/jobs/payments`).push(payload)
-                    .then( _ => resolve(true))
+            // firebase.database().ref(`/jobs/payments`).push(payload)
+            //         .then( _ => resolve(true))
+            this.http.post(environment.server.url + '/payment', payload, {
+                headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Access-Control-Allow-Methods': 'POST' })
+            })
+            .subscribe(
+                data => console.log('success', data),
+                error => console.log('oops', error)
+            );
         });
     }
 }

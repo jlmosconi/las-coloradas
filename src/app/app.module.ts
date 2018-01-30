@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreModule } from '@ngrx/store';
@@ -44,7 +44,7 @@ import 'hammerjs';
     BrowserAnimationsModule,
     FormsModule,
     AppRoutingModule,
-    HttpModule,
+    HttpClientModule,
     AngularFireModule.initializeApp(environment.firebase),
     NAVIGATION,
     StoreModule.forRoot({reducer}),

@@ -10,47 +10,16 @@ import { removePaymentFromJobs } from '../services/jobs/service';
 var MP = require ("mercadopago");
 var mp = new MP (functions.config().mercadopago.access_token);
 
-export const doPayment = functions.database
-    .ref('jobs/payments/{paymentId}')
-    .onCreate( async event => {
-        const paymentId = event.params.paymentId;
-        const data = event.data.val();
-        console.log('data: ' + data);
-        console.log('paymentId ' + paymentId);
-        // console.log(event.data.ref.val();
-
-        if (!data) return;
-
-
-        // return this.mpConfigGet.then(() => {
-            // let payment = mp.post ({
-            //     "uri": "/v1/payments",
-            //     "data": {
-            //             "transaction_amount": 100,
-            //             "token": "150080348dfd1af1aebd75bb689e6887",
-            //             "description": "Title of what you are paying for",
-            //             "installments": 1,
-            //             "payment_method_id": "visa",
-            //             "payer": {
-            //                 "email": "test_user_19653727@testuser.com"
-            //             }
-            //         }
-            // });
-    
-    
-        //     return payment.then(payment, (err) => {
-        //         console.log("payment: " + payment)
-        //         console.log("err: " + err)
-        //         return payment;
-        //     })
-        // })
-
+export const doPayment = (uid:any, checkout:any) => {
+    return new Promise((resolve, reject)=>{
+        // if (!data) return;
+        
         var payment_data:any = {
             transaction_amount: null,
-            token: data.checkout && data.checkout.payment_data ? data.checkout.payment_data.token : null,
+            token: checkout && payment_data ? checkout.payment_data.token : null,
             description: 'Compra en Las Coloradas.',
             installments: 1,
-            payment_method_id:  data.checkout && data.checkout.payment_data ? data.checkout.payment_data.payment_method_id : null,
+            payment_method_id: checkout && checkout.payment_data ? checkout.payment_data.payment_method_id : null,
             payer: {
                 "email": null,
             }
@@ -58,12 +27,12 @@ export const doPayment = functions.database
 
         console.log('ACAAA: ' + payment_data)
 
-        calculateTotal(data.checkout.cart)
+        calculateTotal(checkout.cart)
             .then((transaction_amount:any) => {
                 console.log('total: ' + transaction_amount);
                 payment_data.transaction_amount = transaction_amount;
 
-                getUserByID(data.userID)
+                getUserByID(uid)
                     .then((user:any) => {
                         console.log(user)
                         payment_data.payer.email = user.email;
@@ -78,15 +47,18 @@ export const doPayment = functions.database
                                             console.log('payment:' + payment);
                                                 // Mensaje de pago en algún lado, jijiji.
                                                 // updateo usuario con id del pago y detalles del mismo.
-                                                setUserPaymentID(user.uid, paymentId);
-                                                savePayment(payment, user.uid, paymentId);
+                                                //setUserPaymentID(user.uid, paymentId);
+                                                savePayment(payment, user.uid);
+
+                                                resolve(true);
                                                 //remove payment from jobs
-                                                removePaymentFromJobs(paymentId);
+                                                // removePaymentFromJobs(paymentId);
                                         })
                                         .catch(err => {
                                             //mensaje de error
-                                            removePaymentFromJobs(paymentId);
+                                            // removePaymentFromJobs(paymentId);
                                             setUserCheckoutStatus(user.uid, false, err.message);
+                                            reject(err);
                                         })
                                 } else {
                                     console.log('not exist');
@@ -114,3 +86,4 @@ export const doPayment = functions.database
                     })
             });
     });
+}

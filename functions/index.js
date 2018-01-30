@@ -97,7 +97,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const functions = __webpack_require__(0);
-const algoliasearch = __webpack_require__(5);
+const algoliasearch = __webpack_require__(7);
 const algolia = algoliasearch(functions.config().algolia.appid, functions.config().algolia.adminkey);
 const index = algolia.initIndex('products');
 exports.updateProducts = functions.database
@@ -192,144 +192,243 @@ exports.calculateTotal = (cart) => {
 Object.defineProperty(exports, "__esModule", { value: true });
 const functions = __webpack_require__(0);
 const admin = __webpack_require__(1);
-admin.initializeApp(functions.config().firebase);
+const express = __webpack_require__(5);
+const cors = __webpack_require__(6);
+const app = express();
 const nodeEnv = "development";
+admin.initializeApp(functions.config().firebase);
+const whitelists = {
+    development: [
+        'http://localhost:4200',
+        'https://las-coloradas-development.firebaseapp.com',
+    ],
+    production: [
+        'http://localhost:4200',
+        'https://las-coloradas-f30ce.firebaseapp.com',
+        'https://lascoloradas.com.ar'
+    ]
+};
+const corsOptions = {
+    origin: function (origin, callback) {
+        if (!origin) {
+            callback(null, true);
+        }
+        else {
+            var originIsWhitelisted = whitelists[nodeEnv].indexOf(origin) !== -1;
+            callback(originIsWhitelisted ? null : 'Bad Request', originIsWhitelisted);
+        }
+    },
+    methods: ['GET', 'POST']
+};
+app.use(cors(corsOptions));
 const products = __webpack_require__(3);
-const checkout = __webpack_require__(6);
+const checkout_1 = __webpack_require__(8);
 exports.updateProducts = products.updateProducts;
-exports.doPayment = checkout.doPayment;
+// export const doPayment = checkout.doPayment;
+app.get('/timestamp', (request, response) => {
+    response.send(`${Date.now()}`);
+});
+app.post('/payment', (request, response) => {
+    var uid = request.body.userID;
+    var checkout = request.body.checkout;
+    console.log('uid: ', uid);
+    checkout_1.doPayment(uid, checkout)
+        .then(resp => {
+        response.send(resp);
+    })
+        .catch(err => {
+        response.status(500).send(err);
+    });
+});
+exports.app = functions.https.onRequest(app);
 
 
 /***/ }),
 /* 5 */
 /***/ (function(module, exports) {
 
-module.exports = require("algoliasearch");
+module.exports = require("express");
 
 /***/ }),
 /* 6 */
+/***/ (function(module, exports) {
+
+module.exports = require("cors");
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports) {
+
+module.exports = require("algoliasearch");
+
+/***/ }),
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const functions = __webpack_require__(0);
-const customers_1 = __webpack_require__(7);
-const payments_1 = __webpack_require__(8);
-const service_1 = __webpack_require__(9);
+const customers_1 = __webpack_require__(9);
+const payments_1 = __webpack_require__(10);
+const service_1 = __webpack_require__(11);
 const index_1 = __webpack_require__(3);
-const service_2 = __webpack_require__(10);
-const service_3 = __webpack_require__(11);
+const service_2 = __webpack_require__(12);
 var MP = __webpack_require__(2);
 var mp = new MP(functions.config().mercadopago.access_token);
-exports.doPayment = functions.database
-    .ref('jobs/payments/{paymentId}')
-    .onCreate((event) => __awaiter(this, void 0, void 0, function* () {
-    const paymentId = event.params.paymentId;
-    const data = event.data.val();
-    console.log('data: ' + data);
-    console.log('paymentId ' + paymentId);
-    // console.log(event.data.ref.val();
-    if (!data)
-        return;
-    // return this.mpConfigGet.then(() => {
-    // let payment = mp.post ({
-    //     "uri": "/v1/payments",
-    //     "data": {
-    //             "transaction_amount": 100,
-    //             "token": "150080348dfd1af1aebd75bb689e6887",
-    //             "description": "Title of what you are paying for",
-    //             "installments": 1,
-    //             "payment_method_id": "visa",
-    //             "payer": {
-    //                 "email": "test_user_19653727@testuser.com"
-    //             }
-    //         }
-    // });
-    //     return payment.then(payment, (err) => {
-    //         console.log("payment: " + payment)
-    //         console.log("err: " + err)
-    //         return payment;
-    //     })
-    // })
-    var payment_data = {
-        transaction_amount: null,
-        token: data.checkout && data.checkout.payment_data ? data.checkout.payment_data.token : null,
-        description: 'Compra en Las Coloradas.',
-        installments: 1,
-        payment_method_id: data.checkout && data.checkout.payment_data ? data.checkout.payment_data.payment_method_id : null,
-        payer: {
-            "email": null,
-        }
-    };
-    console.log('ACAAA: ' + payment_data);
-    index_1.calculateTotal(data.checkout.cart)
-        .then((transaction_amount) => {
-        console.log('total: ' + transaction_amount);
-        payment_data.transaction_amount = transaction_amount;
-        service_1.getUserByID(data.userID)
-            .then((user) => {
-            console.log(user);
-            payment_data.payer.email = user.email;
-            console.log('payment_data: ' + payment_data);
-            customers_1.getCustomerByID(user.customerID)
-                .then(exist => {
-                if (exist) {
-                    console.log('exist');
-                    // Si existe el usuario, cobrar pago.
-                    payments_1.createPayment(payment_data)
-                        .then(payment => {
-                        console.log('payment:' + payment);
-                        // Mensaje de pago en algún lado, jijiji.
-                        // updateo usuario con id del pago y detalles del mismo.
-                        service_1.setUserPaymentID(user.uid, paymentId);
-                        service_2.savePayment(payment, user.uid, paymentId);
-                        //remove payment from jobs
-                        service_3.removePaymentFromJobs(paymentId);
-                    })
-                        .catch(err => {
-                        //mensaje de error
-                        service_3.removePaymentFromJobs(paymentId);
-                        service_1.setUserCheckoutStatus(user.uid, false, err.message);
-                    });
-                }
-                else {
-                    console.log('not exist');
-                    // El usuario no existe, lo creo.
-                    customers_1.createCustommer(user.email)
-                        .then((customer) => {
-                        if (customer) {
-                            console.log("creado con éxito " + customer.response);
-                            //Usuario creado con éxito, updateo usuario con id de customer.
-                            service_1.setUserCustomerID(user.uid, customer.response.id);
-                            //cobro pago.
-                            payments_1.createPayment(payment_data)
-                                .then(payment => {
-                                console.log('payment:' + payment);
-                                //mensaje de pago en algún lado, jijiji.
-                            });
-                        }
-                        else {
-                            console.log("no creado");
-                        }
-                    });
-                }
+exports.test = (uid, checkout) => {
+    return new Promise((resolve, reject) => {
+        resolve('test');
+    });
+};
+exports.doPayment = (uid, checkout) => {
+    return new Promise((resolve, reject) => {
+        // if (!data) return;
+        var payment_data = {
+            transaction_amount: null,
+            token: checkout && payment_data ? checkout.payment_data.token : null,
+            description: 'Compra en Las Coloradas.',
+            installments: 1,
+            payment_method_id: checkout && checkout.payment_data ? checkout.payment_data.payment_method_id : null,
+            payer: {
+                "email": null,
+            }
+        };
+        console.log('ACAAA: ' + payment_data);
+        index_1.calculateTotal(checkout.cart)
+            .then((transaction_amount) => {
+            console.log('total: ' + transaction_amount);
+            payment_data.transaction_amount = transaction_amount;
+            service_1.getUserByID(uid)
+                .then((user) => {
+                console.log(user);
+                payment_data.payer.email = user.email;
+                console.log('payment_data: ' + payment_data);
+                customers_1.getCustomerByID(user.customerID)
+                    .then(exist => {
+                    if (exist) {
+                        console.log('exist');
+                        // Si existe el usuario, cobrar pago.
+                        payments_1.createPayment(payment_data)
+                            .then(payment => {
+                            console.log('payment:' + payment);
+                            // Mensaje de pago en algún lado, jijiji.
+                            // updateo usuario con id del pago y detalles del mismo.
+                            //setUserPaymentID(user.uid, paymentId);
+                            service_2.savePayment(payment, user.uid);
+                            resolve(true);
+                            //remove payment from jobs
+                            // removePaymentFromJobs(paymentId);
+                        })
+                            .catch(err => {
+                            //mensaje de error
+                            // removePaymentFromJobs(paymentId);
+                            service_1.setUserCheckoutStatus(user.uid, false, err.message);
+                            reject(err);
+                        });
+                    }
+                    else {
+                        console.log('not exist');
+                        // El usuario no existe, lo creo.
+                        customers_1.createCustommer(user.email)
+                            .then((customer) => {
+                            if (customer) {
+                                console.log("creado con éxito " + customer.response);
+                                //Usuario creado con éxito, updateo usuario con id de customer.
+                                service_1.setUserCustomerID(user.uid, customer.response.id);
+                                //cobro pago.
+                                payments_1.createPayment(payment_data)
+                                    .then(payment => {
+                                    console.log('payment:' + payment);
+                                    //mensaje de pago en algún lado, jijiji.
+                                });
+                            }
+                            else {
+                                console.log("no creado");
+                            }
+                        });
+                    }
+                });
             });
         });
     });
-}));
+};
+// export const doPayment = functions.database
+//     .ref('jobs/payments/{paymentId}')
+//     .onCreate( async event => {
+//         const paymentId = event.params.paymentId;
+//         const data = event.data.val();
+//         console.log('data: ' + data);
+//         console.log('paymentId ' + paymentId);
+//         if (!data) return;
+//         var payment_data:any = {
+//             transaction_amount: null,
+//             token: data.checkout && data.checkout.payment_data ? data.checkout.payment_data.token : null,
+//             description: 'Compra en Las Coloradas.',
+//             installments: 1,
+//             payment_method_id:  data.checkout && data.checkout.payment_data ? data.checkout.payment_data.payment_method_id : null,
+//             payer: {
+//                 "email": null,
+//             }
+//         };
+//         console.log('ACAAA: ' + payment_data)
+//         calculateTotal(data.checkout.cart)
+//             .then((transaction_amount:any) => {
+//                 console.log('total: ' + transaction_amount);
+//                 payment_data.transaction_amount = transaction_amount;
+//                 getUserByID(data.userID)
+//                     .then((user:any) => {
+//                         console.log(user)
+//                         payment_data.payer.email = user.email;
+//                         console.log('payment_data: ' + payment_data)
+//                         getCustomerByID(user.customerID)
+//                             .then(exist => {
+//                                 if(exist) {
+//                                     console.log('exist');
+//                                     // Si existe el usuario, cobrar pago.
+//                                     createPayment(payment_data)
+//                                         .then(payment => {
+//                                             console.log('payment:' + payment);
+//                                                 // Mensaje de pago en algún lado, jijiji.
+//                                                 // updateo usuario con id del pago y detalles del mismo.
+//                                                 setUserPaymentID(user.uid, paymentId);
+//                                                 savePayment(payment, user.uid, paymentId);
+//                                                 //remove payment from jobs
+//                                                 removePaymentFromJobs(paymentId);
+//                                         })
+//                                         .catch(err => {
+//                                             //mensaje de error
+//                                             removePaymentFromJobs(paymentId);
+//                                             setUserCheckoutStatus(user.uid, false, err.message);
+//                                         })
+//                                 } else {
+//                                     console.log('not exist');
+//                                     // El usuario no existe, lo creo.
+//                                     createCustommer(user.email)
+//                                         .then((customer:any) => {
+//                                             if(customer) {
+//                                                 console.log("creado con éxito " + customer.response);
+//                                                 //Usuario creado con éxito, updateo usuario con id de customer.
+//                                                 setUserCustomerID(user.uid, customer.response.id);
+//                                                 //cobro pago.
+//                                                 createPayment(payment_data)
+//                                                     .then(payment => {
+//                                                         console.log('payment:' + payment);
+//                                                         //mensaje de pago en algún lado, jijiji.
+//                                                     })
+//                                             } else {
+//                                                 console.log("no creado");
+//                                             }
+//                                         })
+//                                 }
+//                             })
+//                     })
+//             });
+//     }); 
 
 
 /***/ }),
-/* 7 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -373,7 +472,7 @@ exports.createCustommer = (email) => {
 
 
 /***/ }),
-/* 8 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -401,7 +500,7 @@ exports.createPayment = (paymentData) => {
 
 
 /***/ }),
-/* 9 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -448,34 +547,16 @@ exports.setUserCheckoutStatus = (userID, success, msj) => {
 
 
 /***/ }),
-/* 10 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const admin = __webpack_require__(1);
-exports.savePayment = (payment, userID, paymentID) => {
+exports.savePayment = (payment, userID) => {
     return new Promise((resolve, reject) => {
-        admin.database().ref('payments/' + userID + '/' + paymentID).set(payment)
-            .then(snapshot => {
-            resolve(true);
-        });
-    });
-};
-
-
-/***/ }),
-/* 11 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const admin = __webpack_require__(1);
-exports.removePaymentFromJobs = (paymentID) => {
-    return new Promise((resolve, reject) => {
-        admin.database().ref('jobs/payments/' + paymentID).set(null)
+        admin.database().ref('payments/' + userID).push(payment)
             .then(snapshot => {
             resolve(true);
         });
