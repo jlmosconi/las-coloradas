@@ -29,9 +29,10 @@ import { ISubscription } from 'rxjs/Subscription';
 				<router-outlet></router-outlet>
 
 				<div class="d-flex justify-content-between pt-5">
-					<button mat-raised-button color="accent" class="text-white" (click)="goToPrevStep();">Anterior</button>
-					<button mat-raised-button color="primary" (click)="goToNextStep();">Siguiente</button>
+					<button mat-raised-button color="accent" class="text-white" (click)="goToPrevStep();" [disabled]="!prevStepRoute">Anterior</button>
+					<button mat-raised-button color="primary" (click)="goToNextStep();" [disabled]="!nextStepRoute">Siguiente</button>
 				</div>
+				
 			</div>
 		</div>
 		`
@@ -114,11 +115,11 @@ export class CheckoutComponent implements OnInit {
 	}
 
 	setNextStep(index, childElementCount) {
-		this.nextStepRoute = index + 1 == childElementCount ? this.steps[index].route : this.steps[index + 1].route;
+		this.nextStepRoute = index + 1 == childElementCount ? null : this.steps[index + 1].route;
 	}
 
 	setPrevStep(index) {
-		this.prevStepRoute = index == 0 ? this.steps[index].route : this.steps[index - 1].route;
+		this.prevStepRoute = index == 0 ? null : this.steps[index - 1].route;
 	}
 
 	goToPrevStep() {
