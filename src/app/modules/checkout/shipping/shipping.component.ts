@@ -29,7 +29,7 @@ export class ShippingContainerComponent implements OnInit {
 
 	ngOnInit() { }
 
-	saveShipping(id) {
-		this.store.dispatch(new SaveShipping(id));
+	saveShipping(shipment) {
+		this.store.dispatch(new SaveShipping(shipment));
 	}
 }

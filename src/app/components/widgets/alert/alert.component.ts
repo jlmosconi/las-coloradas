@@ -4,7 +4,7 @@ import { Component, OnInit, Input } from '@angular/core';
 	selector: 'app-alert',
 	template:
 	`
-		<div class="alert alert-warning" role="alert" [ngClass]="{'alert-warning': type == 'warning'}">
+		<div class="alert" role="alert" [ngClass]="{'alert-warning': type == 'warning', 'alert-info': type == 'info'}">
 			<div class="icon" *ngIf="icon">
 				<div class="svgCont">
 					<svg aria-hidden="true" data-prefix="far" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">

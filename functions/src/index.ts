@@ -17,7 +17,6 @@ const whitelists = {
         'https://las-coloradas-development.firebaseapp.com',
     ],
     production : [
-        'http://localhost:4200',
         'https://las-coloradas-f30ce.firebaseapp.com',
         'https://lascoloradas.com.ar'
     ]
@@ -29,6 +28,7 @@ const corsOptions = {
             callback(null, true);
         } else {
             var originIsWhitelisted = whitelists[nodeEnv].indexOf(origin) !== -1;
+            console.log(whitelists[nodeEnv], origin, whitelists[nodeEnv].indexOf(origin) !== -1);
             callback(originIsWhitelisted ? null : 'Bad Request', originIsWhitelisted)
         }
 
@@ -40,18 +40,13 @@ app.use(cors(corsOptions));
 
 export const updateProducts = products.updateProducts;
 
-
-app.get('/timestamp', (request:any, response:any) => {
-    response.send(`${Date.now()}`);
-})
-
 app.post('/payment', (request:any, response:any) => {
-    var uid = request.body.userID;
-    var checkout = request.body.checkout;
+    let uid = request.body.userID;
+    let checkout = request.body.checkout;
 
     doPayment(uid, checkout)
         .then(resp => {
-            response.send(resp);  
+            response.send(resp);
         })
         .catch(err => {
             response.status(500).send(err);

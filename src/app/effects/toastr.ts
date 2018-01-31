@@ -65,5 +65,25 @@ export class ToastrEffects {
                     extraClasses: ['danger']
                 });
             })
+
+    @Effect({dispatch: false})
+        confirmPaymentSuccess: Observable<{}> = this.action$
+            .ofType(checkoutActions.CONFIRM_PAYMENT_SUCCESS)
+            .do(() => {
+                this.toastr.open('Pago realizado con éxito', null, {
+                    duration: 2000,
+                    extraClasses: ['success']
+                });
+            })
+
+    @Effect({dispatch: false})
+        confirmPaymentFailure: Observable<{}> = this.action$
+            .ofType(checkoutActions.CONFIRM_PAYMENT_FAILURE)
+            .do(() => {
+                this.toastr.open('Error!', null, {
+                    duration: 2000,
+                    extraClasses: ['danger']
+                });
+            })
        
 }

@@ -28,15 +28,3 @@ export const setUserPaymentID = (userID:any, paymentID:any) => {
             });
     });
 };
-
-export const setUserCheckoutStatus = (userID:any, success:boolean, msj:any) => {
-    return new Promise((resolve, reject)=>{
-        admin.database().ref('users/' + userID + '/checkout/status').set({
-            seccess: success,
-            msj: msj
-        })
-            .then(snapshot => {
-                resolve(true);
-            });
-    });
-};

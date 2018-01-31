@@ -3,9 +3,9 @@ import { environment } from "../../../environments/environment";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import * as firebase from 'firebase';
 
-const httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*',  'Access-Control-Allow-Methods': 'POST'})
-};
+// const httpOptions = {
+//     headers: new HttpHeaders({ 'Content-Type': 'application/json'})
+// };
 
 declare var Mercadopago: any;
 Mercadopago.setPublishableKey(environment.mercadopago.publishableKey);
@@ -53,14 +53,10 @@ export class CheckoutService {
     
     confirmPayment(payload) {
         return new Promise((resolve, reject) => {
-            // firebase.database().ref(`/jobs/payments`).push(payload)
-            //         .then( _ => resolve(true))
-            this.http.post(environment.server.url + '/payment', payload, {
-                headers: new HttpHeaders({ 'Content-Type': 'application/json', 'Access-Control-Allow-Methods': 'POST' })
-            })
+            this.http.post(environment.server.url + '/payment', payload)
             .subscribe(
-                data => console.log('success', data),
-                error => console.log('oops', error)
+                data => resolve(true),
+                error => (console.warn(error), resolve(false))
             );
         });
     }

@@ -10,6 +10,13 @@ declare var Card: any;
 			<div class="row">
 				<div class="col-md-8 offset-md-2">
 					<div class="row">
+						<div class="pb-5 w-100">
+							<div class="col-md-12">
+								<div class="text-center hidden-sm-down"><img src="https://imgmp.mlstatic.com/org-img/banners/ar/medios/575X40.jpg" title="MercadoPago - Medios de pago" alt="MercadoPago - Medios de pago" width="575" height="40"/></div>
+								<div class="text-center hidden-md-up"><img src="https://imgmp.mlstatic.com/org-img/banners/ar/medios/468X60.jpg" title="MercadoPago - Medios de pago" alt="MercadoPago - Medios de pago" width="468" height="60"/></div>
+							</div>
+						</div>
+
 						<div class="col-sm-4" *ngFor="let payment of payments">
 							<div class="choice pb-3" [ngClass]="{'active': user.checkout.payment === payment.id }" (click)="select(payment.id)">
 								<div class="card card-checkboxes card-hover-effect">

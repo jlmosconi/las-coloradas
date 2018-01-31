@@ -29,6 +29,18 @@ reducers[ActionTypes.CONFIRM_PAYMENT] = (state, payload) => {
   });
 };
 
+reducers[ActionTypes.CONFIRM_PAYMENT_SUCCESS] = (state, payload) => {
+  return Object.assign({}, state, {
+    confirmPaymentLoading: initialState.confirmPaymentLoading,
+  });
+};
+
+reducers[ActionTypes.CONFIRM_PAYMENT_FAILURE] = (state, payload) => {
+  return Object.assign({}, state, {
+    confirmPaymentLoading: initialState.confirmPaymentLoading,
+  });
+};
+
 export default function reducer(state = initialState, action: Actions) {
   return reducers[action.type] && reducers[action.type](state, action.payload) || state;
 };

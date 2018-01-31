@@ -2,21 +2,19 @@ import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 import { getCustomerByID, createCustommer } from '../services/mercadopago/customers';
 import { createPayment } from '../services/mercadopago/payments';
-import { getUserByID, setUserCustomerID, setUserPaymentID, setUserCheckoutStatus } from '../services/users/service';
+import { getUserByID, setUserCustomerID, setUserPaymentID } from '../services/users/service';
 import { calculateTotal } from '../products/index';
 import { savePayment } from '../services/payments/service';
-import { removePaymentFromJobs } from '../services/jobs/service';
 
 var MP = require ("mercadopago");
 var mp = new MP (functions.config().mercadopago.access_token);
 
 export const doPayment = (uid:any, checkout:any) => {
     return new Promise((resolve, reject)=>{
-        // if (!data) return;
         
         var payment_data:any = {
             transaction_amount: null,
-            token: checkout && payment_data ? checkout.payment_data.token : null,
+            token: checkout && checkout.payment_data ? checkout.payment_data.token : null,
             description: 'Compra en Las Coloradas.',
             installments: 1,
             payment_method_id: checkout && checkout.payment_data ? checkout.payment_data.payment_method_id : null,
@@ -25,7 +23,11 @@ export const doPayment = (uid:any, checkout:any) => {
             }
         };
 
-        console.log('ACAAA: ' + payment_data)
+        if(checkout && checkout.shipments && checkout.shipments.mode) {
+            delete checkout.shipments.id;
+            payment_data.shipments = checkout.shipments;
+            payment_data.shipments.dimensions = "30x30x30,500"
+        };
 
         calculateTotal(checkout.cart)
             .then((transaction_amount:any) => {
@@ -34,56 +36,62 @@ export const doPayment = (uid:any, checkout:any) => {
 
                 getUserByID(uid)
                     .then((user:any) => {
-                        console.log(user)
+                        console.log('User:' + user)
                         payment_data.payer.email = user.email;
-                        console.log('payment_data: ' + payment_data)
+
                         getCustomerByID(user.customerID)
                             .then(exist => {
                                 if(exist) {
-                                    console.log('exist');
+                                    console.log('Customer Exist.');
                                     // Si existe el usuario, cobrar pago.
                                     createPayment(payment_data)
-                                        .then(payment => {
-                                            console.log('payment:' + payment);
-                                                // Mensaje de pago en algún lado, jijiji.
-                                                // updateo usuario con id del pago y detalles del mismo.
-                                                //setUserPaymentID(user.uid, paymentId);
-                                                savePayment(payment, user.uid);
-
-                                                resolve(true);
-                                                //remove payment from jobs
-                                                // removePaymentFromJobs(paymentId);
+                                        .then((payment:any) => {
+                                            console.log('Payment:' + payment);
+                                            savePayment(payment, user.uid)
+                                            setUserPaymentID(user.uid, payment.id)
+                                            resolve(true);
                                         })
                                         .catch(err => {
-                                            //mensaje de error
-                                            // removePaymentFromJobs(paymentId);
-                                            setUserCheckoutStatus(user.uid, false, err.message);
                                             reject(err);
                                         })
                                 } else {
-                                    console.log('not exist');
+                                    console.log('Customer not exist.');
                                     // El usuario no existe, lo creo.
                                     createCustommer(user.email)
                                         .then((customer:any) => {
                                             if(customer) {
-                                                console.log("creado con éxito " + customer.response);
+                                                console.log("Creado con éxito " + customer.response);
                                                 //Usuario creado con éxito, updateo usuario con id de customer.
                                                 setUserCustomerID(user.uid, customer.response.id);
 
                                                 //cobro pago.
                                                 createPayment(payment_data)
                                                     .then(payment => {
-                                                        console.log('payment:' + payment);
-                                                        //mensaje de pago en algún lado, jijiji.
+                                                        console.log('Payment:' + payment);
+                                                        resolve(true);
+                                                    })
+                                                    .catch(err => {
+                                                        reject(err);
                                                     })
 
                                             } else {
                                                 console.log("no creado");
+                                                reject();
                                             }
+                                        })
+                                        .catch(err => {
+                                            console.log("Error");
+                                            reject(err);
                                         })
                                 }
                             })
                     })
-            });
+                    .catch(err => {
+                        reject(err);
+                    })
+            })
+            .catch(err => {
+                reject(err);
+            })
     });
 }

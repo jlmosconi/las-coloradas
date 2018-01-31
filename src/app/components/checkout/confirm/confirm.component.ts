@@ -106,7 +106,7 @@ import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges } from '@
 						Error!
 					</div>
 				</div>
-				<button mat-raised-button color="primary" type="submit" (click)="confirm();" [disabled]="!cart || !user.checkout.shipping || !user.checkout.payment || loadingPayment">
+				<button mat-raised-button color="primary" type="submit" (click)="confirm();" [disabled]="!cart || !user.checkout.shipments || !user.checkout.payment || loadingPayment">
 					<span *ngIf="!loadingPayment">Confirmar compra</span>
 					<mat-spinner *ngIf="loadingPayment"></mat-spinner>
 				</button>
@@ -196,7 +196,7 @@ export class ConfirmComponent implements OnInit {
 	}
 
 	findShipping() {
-		this.user.checkout && this.user.checkout.shipping ? this.shipping = this.shippings.find(obj => { return obj.id === this.user.checkout.shipping; }) : null;
+		this.user.checkout && this.user.checkout.shipments ? this.shipping = this.shippings.find(obj => { return obj.id === this.user.checkout.shipments.id; }) : null;
 	}
 
 	findPaymentType() {

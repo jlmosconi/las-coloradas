@@ -104,11 +104,11 @@ export class UserService {
         return uid ? this.db.object(`/users/${uid}/checkout/cart`).valueChanges() : this.localStorageService.getCollection('cart');
     }
 
-    saveShipping(id) {
+    saveShipping(shipment) {
         return new Promise((resolve, reject) => {
             let uid = this.getCurrentUserId();
             if (uid) {
-                firebase.database().ref(`/users/${uid}/checkout/shipping`).set(id)
+                firebase.database().ref(`/users/${uid}/checkout/shipments`).set(shipment)
                     .then( _ => resolve(true))
                     .catch(err => reject())
             }
@@ -119,9 +119,11 @@ export class UserService {
         return new Promise((resolve, reject) => {
             let uid = this.getCurrentUserId();
             if (uid) {
+                this.savePaymentData(null);
                 firebase.database().ref(`/users/${uid}/checkout/payment`).set(id)
                     .then( _ => resolve(true))
                     .catch(err => reject())
+                    
             }
         });
     }

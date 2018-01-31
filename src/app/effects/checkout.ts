@@ -121,10 +121,10 @@ export class CheckoutEffects {
                     console.warn(payload);
                     return this.checkoutService.confirmPayment(payload);
                 })
-                .map(response => {
-                    return new ConfirmPaymentSuccess();
+                .map((response:any) => {
+                    return response ? new ConfirmPaymentSuccess() : new ConfirmPaymentFailure();
                 })
                 .catch(err => {
-                    return of(new ConfirmPaymentFailure());
+                    return of(new ConfirmPaymentFailure(err));
                 });
 }
