@@ -19,7 +19,8 @@
     "express": "^4.16.2",
     "firebase-admin": "~5.2.1",
     "firebase-functions": "^0.8.1",
-    "mercadopago": "^0.5.0"
+    "mercadopago": "^0.5.0",
+    "mandrill-api": "1.0.41"
   },
   "private": true,
   "devDependencies": {

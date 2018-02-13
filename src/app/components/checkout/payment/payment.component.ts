@@ -39,10 +39,6 @@ declare var Card: any;
 									<div class="card-wrapper"></div>
 									<div class="form-container active pt-5">
 										<form novalidate [formGroup]="form" (ngSubmit)="submit();">
-											<!--<mat-form-field class="w-100">
-												<input type="email" matInput placeholder="Email" formControlName="email">
-												<mat-error *ngIf="form.controls.email.invalid">err</mat-error>
-											</mat-form-field>-->
 											<mat-form-field class="w-100">
 												<input type="text" name="number" id="cardNumber" data-checkout="cardNumber" matInput placeholder="Número de tarjeta" formControlName="cardNumber" minlength="17" maxlength="19" onselectstart="return false" onpaste="return false" onCopy="return false" onCut="return false" onDrag="return false" onDrop="return false" autocomplete="off">
 												<mat-error *ngIf="form.controls.cardNumber.invalid">

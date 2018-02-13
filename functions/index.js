@@ -193,9 +193,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const functions = __webpack_require__(0);
 const admin = __webpack_require__(1);
 const products = __webpack_require__(3);
-const checkout_1 = __webpack_require__(6);
-const express = __webpack_require__(11);
-const cors = __webpack_require__(12);
+const contact = __webpack_require__(6);
+const checkout_1 = __webpack_require__(8);
+const express = __webpack_require__(13);
+const cors = __webpack_require__(14);
 const app = express();
 const nodeEnv = "development";
 admin.initializeApp(functions.config().firebase);
@@ -224,6 +225,7 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 exports.updateProducts = products.updateProducts;
+exports.sendMesaage = contact.sendMessage;
 app.post('/payment', (request, response) => {
     let uid = request.body.userID;
     let checkout = request.body.checkout;
@@ -250,13 +252,76 @@ module.exports = require("algoliasearch");
 
 "use strict";
 
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const functions = __webpack_require__(0);
-const customers_1 = __webpack_require__(7);
-const payments_1 = __webpack_require__(8);
-const service_1 = __webpack_require__(9);
+const admin = __webpack_require__(1);
+const mandrill = __webpack_require__(7);
+const emailClient = new mandrill.Mandrill(functions.config().mandrill.key);
+const email = functions.config().mandrill.email;
+exports.sendMessage = functions.database
+    .ref('contact/{messageId}')
+    .onWrite((event) => __awaiter(this, void 0, void 0, function* () {
+    const messageId = event.params.messageId;
+    const data = event.data.val();
+    console.log('messageId ' + messageId);
+    console.log('data ' + JSON.stringify(data));
+    if (!data)
+        return;
+    var email = {
+        to: [{
+                email: email
+            }],
+        merge_language: 'handlebars',
+        'global_merge_vars': [{
+                name: 'data',
+                content: data
+            }]
+    };
+    emailClient.messages.sendTemplate({
+        template_name: 'contactTemplete',
+        template_content: {},
+        message: email,
+        async: false
+    }, (result) => {
+        console.log(result[0]);
+        if (result[0].status === 'sent' || result[0].status === 'queued') {
+            admin.database().ref(`contact/${messageId}`).remove((error) => {
+                if (error)
+                    console.log(error);
+                return;
+            });
+        }
+    });
+}));
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports) {
+
+module.exports = require("mandrill-api/mandrill");
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const functions = __webpack_require__(0);
+const customers_1 = __webpack_require__(9);
+const payments_1 = __webpack_require__(10);
+const service_1 = __webpack_require__(11);
 const index_1 = __webpack_require__(3);
-const service_2 = __webpack_require__(10);
+const service_2 = __webpack_require__(12);
 var MP = __webpack_require__(2);
 var mp = new MP(functions.config().mercadopago.access_token);
 exports.doPayment = (uid, checkout) => {
@@ -295,6 +360,7 @@ exports.doPayment = (uid, checkout) => {
                             console.log('Payment:' + payment);
                             service_2.savePayment(payment, user.uid);
                             service_1.setUserPaymentID(user.uid, payment.id);
+                            service_1.cleanCheckout(user.uid);
                             resolve(true);
                         })
                             .catch(err => {
@@ -314,6 +380,7 @@ exports.doPayment = (uid, checkout) => {
                                 payments_1.createPayment(payment_data)
                                     .then(payment => {
                                     console.log('Payment:' + payment);
+                                    service_1.cleanCheckout(user.uid);
                                     resolve(true);
                                 })
                                     .catch(err => {
@@ -344,7 +411,7 @@ exports.doPayment = (uid, checkout) => {
 
 
 /***/ }),
-/* 7 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -388,7 +455,7 @@ exports.createCustommer = (email) => {
 
 
 /***/ }),
-/* 8 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -416,7 +483,7 @@ exports.createPayment = (paymentData) => {
 
 
 /***/ }),
-/* 9 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -449,10 +516,24 @@ exports.setUserPaymentID = (userID, paymentID) => {
         });
     });
 };
+exports.cleanCheckout = (userID) => {
+    return new Promise((resolve, reject) => {
+        admin.database().ref('users/' + userID + '/checkout').set({
+            cart: null,
+            payment: 1,
+            shipments: {
+                id: 1
+            }
+        })
+            .then(snapshot => {
+            resolve(true);
+        });
+    });
+};
 
 
 /***/ }),
-/* 10 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -471,13 +552,13 @@ exports.savePayment = (payment, userID) => {
 
 
 /***/ }),
-/* 11 */
+/* 13 */
 /***/ (function(module, exports) {
 
 module.exports = require("express");
 
 /***/ }),
-/* 12 */
+/* 14 */
 /***/ (function(module, exports) {
 
 module.exports = require("cors");

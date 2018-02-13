@@ -28,3 +28,18 @@ export const setUserPaymentID = (userID:any, paymentID:any) => {
             });
     });
 };
+
+export const cleanCheckout = (userID:any) => {
+    return new Promise((resolve, reject)=>{
+        admin.database().ref('users/' + userID + '/checkout').set({
+            cart: null,
+            payment: 1,
+            shipments: {
+                id: 1
+            }
+        })
+        .then(snapshot => {
+            resolve(true);
+        });
+    });
+};

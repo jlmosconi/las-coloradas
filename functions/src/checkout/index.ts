@@ -2,7 +2,7 @@ import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 import { getCustomerByID, createCustommer } from '../services/mercadopago/customers';
 import { createPayment } from '../services/mercadopago/payments';
-import { getUserByID, setUserCustomerID, setUserPaymentID } from '../services/users/service';
+import { getUserByID, setUserCustomerID, setUserPaymentID, cleanCheckout } from '../services/users/service';
 import { calculateTotal } from '../products/index';
 import { savePayment } from '../services/payments/service';
 
@@ -47,8 +47,9 @@ export const doPayment = (uid:any, checkout:any) => {
                                     createPayment(payment_data)
                                         .then((payment:any) => {
                                             console.log('Payment:' + payment);
-                                            savePayment(payment, user.uid)
-                                            setUserPaymentID(user.uid, payment.id)
+                                            savePayment(payment, user.uid);
+                                            setUserPaymentID(user.uid, payment.id);
+                                            cleanCheckout(user.uid);
                                             resolve(true);
                                         })
                                         .catch(err => {
@@ -68,6 +69,7 @@ export const doPayment = (uid:any, checkout:any) => {
                                                 createPayment(payment_data)
                                                     .then(payment => {
                                                         console.log('Payment:' + payment);
+                                                        cleanCheckout(user.uid);
                                                         resolve(true);
                                                     })
                                                     .catch(err => {

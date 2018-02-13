@@ -1,6 +1,7 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 import * as products from './products';
+import * as contact from './contact';
 import { doPayment } from './checkout';
 
 const express = require('express');
@@ -39,6 +40,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 export const updateProducts = products.updateProducts;
+export const sendMesaage = contact.sendMessage;
 
 app.post('/payment', (request:any, response:any) => {
     let uid = request.body.userID;
