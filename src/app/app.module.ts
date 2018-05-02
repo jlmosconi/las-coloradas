@@ -23,6 +23,7 @@ import { navigation as NAVIGATION } from "./components/navigation/";
 import { AboutEffects } from "./effects/about";
 import { AuthEffects } from "./effects/auth";
 import { BrandsEffects } from "./effects/brands";
+import { CategoriesEffects } from "./effects/categories";
 import { CheckoutEffects } from "./effects/checkout";
 import { ContactEffects } from "./effects/contact";
 import { LayoutEffects } from "./effects/layout";
@@ -55,6 +56,7 @@ import 'hammerjs';
       AboutEffects,
       AuthEffects,
       BrandsEffects,
+      CategoriesEffects,
       CheckoutEffects,
       ContactEffects,
       LayoutEffects,

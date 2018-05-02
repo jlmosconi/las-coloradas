@@ -49,8 +49,8 @@ import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
 						<mat-list>
 							<h3 mat-subheader class="text-uppercase">CATEGORÍAS</h3>
 							<mat-nav-list>
-								<mat-list-item *ngFor="let genre of genres" [routerLink]="['/genero', genre.id, genre.slug]" routerLinkActive="mat-list-item-focus">
-									<h4 mat-line>{{ genre.name }}</h4>
+								<mat-list-item *ngFor="let category of categories" [routerLink]="['/genero', category.id, category.slug]" routerLinkActive="mat-list-item-focus">
+									<h4 mat-line>{{ category.title }}</h4>
 								</mat-list-item>
 							</mat-nav-list>
 					  	</mat-list>
@@ -64,7 +64,7 @@ import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
 })
 
 export class SidenavComponent implements OnInit {
-	@Input() genres;
+	@Input() categories;
 	@Output() closeSidenav: EventEmitter<any> = new EventEmitter();
 	config: SwiperConfigInterface = {
 		scrollbar: '.swiper-scrollbar',

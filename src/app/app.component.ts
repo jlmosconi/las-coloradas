@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { MatSidenav } from '@angular/material';
 import { GetUser } from "./actions/user";
+import { GetCategories } from "./actions/categories";
 import { Logout } from "./actions/auth";
 import { Observable } from 'rxjs/Observable';
 import { onStateChangeObservable } from './utils/store';
@@ -13,7 +14,7 @@ import { Store } from '@ngrx/store';
     <app-toolbar (openSidenav)="openSidenav();" (logOut)="logOut();" [user]="user$ | async"></app-toolbar>
     <mat-sidenav-container>
       <mat-sidenav #sidenav mode="over">
-        <app-sidenav (closeSidenav)="closeSidenav();"></app-sidenav>
+        <app-sidenav (closeSidenav)="closeSidenav();" [categories]="categories$ | async"></app-sidenav>
       </mat-sidenav>
     </mat-sidenav-container>
     <div>
@@ -25,23 +26,24 @@ import { Store } from '@ngrx/store';
 export class AppComponent {
   @ViewChild('sidenav') sidenav: MatSidenav;
   user$: Observable<any>;
+  categories$: Observable<any>;
 
   constructor(
     private router: Router, 
     private store: Store<any>
   ) {
     this.router.events.subscribe((evt) => {
-      if (!(evt instanceof NavigationEnd)) {
-          return;
-      }
-
+      if (!(evt instanceof NavigationEnd)) return;
+      
       window.scrollTo(0, 0);
+
       if(this.sidenav.opened) this.closeSidenav();
-      // store.dispatch(new GetUser());
     });
 
     store.dispatch(new GetUser());
+    store.dispatch(new GetCategories());
     this.user$ = onStateChangeObservable(store, 'user.userData');
+    this.categories$ = onStateChangeObservable(store, 'categories.list');
   }
 
   openSidenav() {
@@ -58,12 +60,7 @@ export class AppComponent {
 
   ngOnInit() {
     let html = document.getElementsByTagName("html")[0];
-    this.sidenav.onOpen.subscribe(_ => {
-      document.body.classList.add("o-hidden");
-    })
-
-    this.sidenav.onClose.subscribe(_ => {
-      document.body.classList.remove("o-hidden");
-    })
+    this.sidenav.onOpen.subscribe(_ => document.body.classList.add("o-hidden"));
+    this.sidenav.onClose.subscribe(_ => document.body.classList.remove("o-hidden"))
   }
 }

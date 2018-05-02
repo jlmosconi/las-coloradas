@@ -21,6 +21,7 @@
                 <mat-icon>shopping_cart</mat-icon>
                 <span class="count d-flex align-items-center justify-content-center mat-elevation-z1">6</span>
             </button>-->
+            
             <app-shopping-cart-icon class="mr-2" [cart]="user ? user.checkout ? user.checkout.cart : null : cart"></app-shopping-cart-icon>
             <div *ngIf="user">
                 <button mat-icon-button [matMenuTriggerFor]="menu" class="user-avatar">

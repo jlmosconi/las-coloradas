@@ -1,6 +1,7 @@
 import { AboutService } from "./about/service";
 import { AuthService } from "./auth/service";
 import { BrandsService } from "./brands/service";
+import { CategoriesService } from "./categories/service";
 import { CheckoutService } from "./checkout/service";
 import { ContactService } from "./contact/service";
 import { ProductsService } from "./products/service";
@@ -11,6 +12,7 @@ export const services = [
     AboutService,
     AuthService,
     BrandsService,
+    CategoriesService,
     CheckoutService,
     ContactService,
     LocalStorageService,
